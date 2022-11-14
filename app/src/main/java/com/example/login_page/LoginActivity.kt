@@ -9,60 +9,56 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_register.*
-
-
+import kotlinx.android.synthetic.main.activity_login.*
 import org.json.JSONObject
 
-class RegisterActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-
+        setContentView(R.layout.activity_login)
         supportActionBar?.hide()
+        regButton.setOnClickListener{
+            val intent = Intent(this,RegisterActivity::class.java)
 
-        signin.setOnClickListener {
-            val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
         }
 
-        backbutton.setOnClickListener{
-            val intent = Intent(this,LoginActivity::class.java)
-            startActivity(intent)
-        }
+        loginButton.setOnClickListener {
 
-        signButton.setOnClickListener {
             val volleyQueue = Volley.newRequestQueue(this)
-            val url =
-                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+            val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
 
-            var username = username.text.toString()
-            var user_email = email.text.toString()
-            var password = password.text.toString()
-
+            val username = username.text.toString()
+            val password = password.text.toString()
 
             val info = """
                 {
-      "dataSource": "Cluster0",
-      "database": "Intermatch",
-      "collection": "User",
-      "document": {
-        "username":$username,
-        "email" : $user_email,
-        "password":$password
-      }
-  } """.trimIndent()
+                "dataSource": "Cluster0",
+                "database": "Intermatch",
+                "collection": "User",
+                "filter" : {"username" : $username, "password" : $password}
+                }
+            """.trimIndent()
+
             val jsonfile = JSONObject(info)
             val request: JsonObjectRequest = object : JsonObjectRequest(
                 Request.Method.POST,
                 url, jsonfile,
-                Response.Listener<JSONObject> { response ->
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                Response.Listener<JSONObject> {
+                    response ->
+                    if (!(response.get("document").equals(null))) {
+                        val intent = Intent(this,WelcomeActivity::class.java)
+                        intent.putExtra("username",username)
+                        startActivity(intent)
+                    }
+
+
                 },
-                Response.ErrorListener { error ->
+                        Response.ErrorListener { error ->
                     Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
 
-                }) {
+                }
+               ) {
 
 
 
@@ -80,9 +76,11 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
             }
+
+
+
             volleyQueue.add(request);
-
-
         }
+
     }
 }

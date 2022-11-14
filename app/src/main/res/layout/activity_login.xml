@@ -108,6 +108,7 @@
             android:textColor="@color/white"
             android:text="login"
             android:backgroundTint="#023430"
+            android:textSize="18sp"
 
             />
 
@@ -128,6 +129,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:text="REGISTER"
+            android:textSize="18sp"
             android:backgroundTint="#023430"
 
             />
