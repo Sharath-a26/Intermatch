@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -40,7 +41,16 @@ class LoginActivity : AppCompatActivity() {
                 }
             """.trimIndent()
 
-            val jsonfile = JSONObject(info)
+            val jsonfile = JSONObject().apply {
+                put("dataSource","Cluster0")
+                put("database","Intermatch")
+                put("collection","User")
+                put("filter",
+                JSONObject().apply {
+                    put("username",username)
+                    put("password",password)
+                })
+            }
             val request: JsonObjectRequest = object : JsonObjectRequest(
                 Request.Method.POST,
                 url, jsonfile,
@@ -76,6 +86,14 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             }
+            val MY_SOCKET_TIMEOUT_MS = 50000;
+            request.setRetryPolicy(
+                DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+            )
 
 
 
