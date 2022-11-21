@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -40,19 +41,30 @@ class RegisterActivity : AppCompatActivity() {
             var user_email = email.text.toString()
             var password = password.text.toString()
 
-
+            val doc = """
+                {
+        "username":$username,
+        "email" : $user_email,
+        "password":$password
+      }
+        
+            """.trimIndent()
+            val docfile = JSONObject(doc)
+            if ("students" in user_email) {
+                docfile.put("Type","Student")
+            }
+            else {
+                docfile.put("Type","Faculty")
+            }
             val info = """
                 {
       "dataSource": "Cluster0",
       "database": "Intermatch",
       "collection": "User",
-      "document": {
-        "username":$username,
-        "email" : $user_email,
-        "password":$password
-      }
+      "document": ${docfile.toString()}
   } """.trimIndent()
             val jsonfile = JSONObject(info)
+
             val request: JsonObjectRequest = object : JsonObjectRequest(
                 Request.Method.POST,
                 url, jsonfile,
@@ -80,6 +92,15 @@ class RegisterActivity : AppCompatActivity() {
                 }
 
             }
+            //changing the default timeout to be 50000ms in volley
+            val MY_SOCKET_TIMEOUT_MS = 50000;
+            request.setRetryPolicy(
+                DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+            )
             volleyQueue.add(request);
 
 
