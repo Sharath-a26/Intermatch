@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.login_page'
+    namespace 'com.example.intermatch'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.login_page"
+        applicationId "com.example.intermatch"
         minSdk 21
         targetSdk 32
         versionCode 1

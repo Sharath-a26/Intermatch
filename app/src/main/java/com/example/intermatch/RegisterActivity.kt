@@ -1,4 +1,4 @@
-package com.example.login_page
+package com.example.intermatch
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,65 +10,71 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_register.*
+
+
 import org.json.JSONObject
 
-class LoginActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        supportActionBar?.hide()
-        regButton.setOnClickListener{
-            val intent = Intent(this,RegisterActivity::class.java)
+        setContentView(R.layout.activity_register)
 
+        supportActionBar?.hide()
+
+        signin.setOnClickListener {
+            val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
         }
 
-        loginButton.setOnClickListener {
+        backbutton.setOnClickListener{
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+        }
 
+        signButton.setOnClickListener {
             val volleyQueue = Volley.newRequestQueue(this)
-            val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
+            val url =
+                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
-            val username = username.text.toString()
-            val password = password.text.toString()
+            var username = username.text.toString()
+            var user_email = email.text.toString()
+            var password = password.text.toString()
 
+            val doc = """
+                {
+        "username":$username,
+        "email" : $user_email,
+        "password":$password
+      }
+        
+            """.trimIndent()
+            val docfile = JSONObject(doc)
+            if ("students" in user_email) {
+                docfile.put("Type","Student")
+            }
+            else {
+                docfile.put("Type","Faculty")
+            }
             val info = """
                 {
-                "dataSource": "Cluster0",
-                "database": "Intermatch",
-                "collection": "User",
-                "filter" : {"username" : $username, "password" : $password}
-                }
-            """.trimIndent()
+      "dataSource": "Cluster0",
+      "database": "Intermatch",
+      "collection": "User",
+      "document": ${docfile.toString()}
+  } """.trimIndent()
+            val jsonfile = JSONObject(info)
 
-            val jsonfile = JSONObject().apply {
-                put("dataSource","Cluster0")
-                put("database","Intermatch")
-                put("collection","User")
-                put("filter",
-                JSONObject().apply {
-                    put("username",username)
-                    put("password",password)
-                })
-            }
             val request: JsonObjectRequest = object : JsonObjectRequest(
                 Request.Method.POST,
                 url, jsonfile,
-                Response.Listener<JSONObject> {
-                    response ->
-                    if (!(response.get("document").equals(null))) {
-                        val intent = Intent(this,WelcomeActivity::class.java)
-                        intent.putExtra("username",username)
-                        startActivity(intent)
-                    }
-
-
+                Response.Listener<JSONObject> { response ->
+                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
                 },
-                        Response.ErrorListener { error ->
+                Response.ErrorListener { error ->
                     Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
 
-                }
-               ) {
+                }) {
 
 
 
@@ -86,6 +92,7 @@ class LoginActivity : AppCompatActivity() {
                 }
 
             }
+            //changing the default timeout to be 50000ms in volley
             val MY_SOCKET_TIMEOUT_MS = 50000;
             request.setRetryPolicy(
                 DefaultRetryPolicy(
@@ -94,11 +101,9 @@ class LoginActivity : AppCompatActivity() {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
             )
-
-
-
             volleyQueue.add(request);
-        }
 
+
+        }
     }
 }
