@@ -1,4 +1,4 @@
-package com.example.login_page
+package com.example.intermatch
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
