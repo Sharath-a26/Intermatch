@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
@@ -46,6 +47,11 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         recommendation_layout.isVisible = false
         supportActionBar?.hide()
+
+        /**
+         * username obtained from login
+         */
+        val username = intent.getStringExtra("username")
         val volleyQueue = Volley.newRequestQueue(this)
 
         /**
@@ -323,11 +329,34 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         main_view.setOnItemSelectedListener(
             BottomNavigationView.OnNavigationItemSelectedListener {
                 when(it.itemId) {
-                    R.id.item1 -> startActivity(Intent(this,MainActivity::class.java))
-                    R.id.item2 -> startActivity(Intent(this,LikedActivity::class.java))
-                    R.id.item3 -> startActivity(Intent(this,ProfileActivity::class.java))
+                    R.id.item1 -> startActivity(Intent(this,RecommendationActivity::class.java)
+                        .putExtra("username",username))
+                    R.id.item2 -> startActivity(Intent(this,LikedActivity::class.java)
+                        .putExtra("username",username))
+                    R.id.item3 -> startActivity(Intent(this,ProfileActivity::class.java)
+                        .putExtra("username",username))
                 }
                 true
+            }
+        )
+
+        /**
+         * navigating to the search screen when the search item is entered
+         */
+        searchbtn.setOnQueryTextListener(
+            object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    val intent = Intent(this@RecommendationActivity,SearchActivity::class.java)
+                    intent.putExtra("keyword",searchbtn.query.toString())
+                    startActivity(intent)
+
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return false
+                }
+
             }
         )
     }
@@ -359,7 +388,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 y2 = event.y
                 if (x1 < x2) {
                     if (intent.getIntExtra("text",i) >0) {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", --i)
                         startActivity(intent)
                         overridePendingTransition(
@@ -368,7 +397,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         )
                     }
                     else {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", 0)
                         startActivity(intent)
                         overridePendingTransition(
@@ -379,13 +408,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 }
                 else if (x1 > x2) {
                     if (intent.getIntExtra("text",i) < k.length()-1) {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", ++i)
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     else {
-                        val intent = Intent(this, MainActivity::class.java)
+                        val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", k.length()-1)
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
