@@ -37,6 +37,9 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        /**
+         * adding new user to the Project Database when signed in
+         */
         signButton.setOnClickListener {
             val volleyQueue = Volley.newRequestQueue(this)
             val url =
@@ -54,12 +57,15 @@ class RegisterActivity : AppCompatActivity() {
       }
         
             """.trimIndent()
+            lateinit var user_type : String
             val docfile = JSONObject(doc)
             if ("students" in user_email) {
                 docfile.put("Type","Student")
+                user_type = "Student"
             }
             else {
                 docfile.put("Type","Faculty")
+                user_type = "Faculty"
             }
             val info = """
                 {
@@ -108,6 +114,15 @@ class RegisterActivity : AppCompatActivity() {
             )
             volleyQueue.add(request);
 
+            if(user_type == "Faculty") {
+                val intent : Intent = Intent(this@RegisterActivity,UploadProjectActivity::class.java)
+                intent.putExtra("faculty_email",user_email)
+                intent.putExtra("faculty_name",username) //faculty's username
+                startActivity(intent)
+            }
+            else {
+
+            }
 
         }
     }
