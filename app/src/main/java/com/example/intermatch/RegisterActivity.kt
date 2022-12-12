@@ -15,6 +15,11 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 import org.json.JSONObject
 
+/**
+ * register a new user page
+ * asks for email, username, password
+ * identifies user as Student or faculty from the mail
+ */
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

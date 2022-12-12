@@ -23,7 +23,11 @@ import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
-
+/*
+    recommendation page
+    1. User can navigate to liked projects and profile
+    2. Like projects and send email to faculty
+ */
 var k : JSONArray = JSONArray()
 var user_interest : JSONArray = JSONArray()
 var i:Int = 0
@@ -132,6 +136,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 Response.Listener<JSONObject> { response ->
                     k = response.getJSONArray("documents")
 
+
                     val prj = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
                         .get("name").toString()
 
@@ -142,6 +147,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         .get("faculty_name").toString()
                     domains = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
                         .getJSONArray("domains")
+
                     prj_name.text = prj
                     dept_name.text = dept
                     researcher_name.text = fac_name
@@ -207,6 +213,11 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             )
             volleyQueue.add(request)
         }
+
+        /**
+         * if the array of projects is already retrieved from database
+         * No need to retrieve again, retrieve from a local array to minimise response time
+         */
         else
         {
             val prj = k.getJSONObject(intent.getIntExtra("text",i))
@@ -219,6 +230,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 .get("faculty_name").toString()
             domains = k.getJSONObject(intent.getIntExtra("text",i))
                 .getJSONArray("domains")
+
+
             prj_name.text = prj
             dept_name.text = dept
             researcher_name.text = fac_name
@@ -270,6 +283,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     put("document", JSONObject().apply {
                         put("name",k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())
                         put("faculty_name",k.getJSONObject(intent.getIntExtra("text",i)).get("faculty_name").toString())
+                        put("username",username)
                     })
                 }
 
@@ -359,6 +373,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
             }
         )
+
+
+        /**
+         * sending an email to faculty if outlook button pressed
+         * 1. Takes user to send_email page
+         */
+
     }
 
     /**

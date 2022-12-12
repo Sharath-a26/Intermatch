@@ -5,7 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-
+/*
+    using a language adapter to render contents for the grid view
+    Grid View is used to display the domains of the particular project
+ */
 class LanguageAdapter(var context : Context, var arrayList : ArrayList<LanguageItem>) : BaseAdapter() {
 
     override fun getCount(): Int {

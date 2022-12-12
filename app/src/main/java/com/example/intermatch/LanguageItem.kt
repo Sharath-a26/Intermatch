@@ -1,5 +1,7 @@
 package com.example.intermatch
-
+/*
+    data class for each item in the grid view
+ */
 
 class LanguageItem {
 
