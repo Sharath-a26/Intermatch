@@ -18,12 +18,13 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_recommendation.*
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
-/*
+/**
     recommendation page
     1. User can navigate to liked projects and profile
     2. Like projects and send email to faculty
@@ -34,6 +35,7 @@ var i:Int = 0
 
 var domains : JSONArray = JSONArray()
 
+lateinit var temp : String
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -55,7 +57,14 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         /**
          * username obtained from login
          */
-        val username = intent.getStringExtra("username")
+        var username = intent.getStringExtra("username")
+        if (username != null) {
+            temp = username
+        }
+        else
+        {
+            username = temp
+        }
         val volleyQueue = Volley.newRequestQueue(this)
 
         /**
@@ -169,6 +178,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     Log.d(null,"count = " + count1.toString())
 
                     progressBar.progress = ((count1.toFloat()/domain_array.length())*100.0).roundToInt()
+                    match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString() + "%"
 
 
                     gridView = findViewById(R.id.my_grid_view)
@@ -253,6 +263,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             }
             Log.d(null,count1.toString())
             progressBar.progress = ((count1.toFloat()/domain_array.length())*100.0).roundToInt()
+            match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString()
 
             gridView = findViewById(R.id.my_grid_view)
             arrayList = ArrayList()
@@ -327,8 +338,65 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
                 volleyQueue.add(request2)
             }
+            /**
+             * if like button is pressed twice, remove the project from liked projects
+             */
             else {
+
                 like_btn.setImageResource(R.drawable.heart__1_)
+                if (like_count > 0) {
+                    val url2 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/delete"
+
+                    val jsonfile2 = JSONObject().apply {
+                        put("dataSource","Cluster0")
+                        put("database","Intermatch")
+                        put("collection","Liked_projects")
+                        put("document", JSONObject().apply {
+                            put("name",k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())
+                            put("faculty_name",k.getJSONObject(intent.getIntExtra("text",i)).get("faculty_name").toString())
+                            put("username",username)
+                        })
+                    }
+
+
+                    val request2 : JsonObjectRequest = object : JsonObjectRequest(
+                        Request.Method.POST,
+                        url2, jsonfile2,
+                        Response.Listener<JSONObject> { response2 ->
+
+                            Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
+                        },
+                        Response.ErrorListener { error2 ->
+                            Toast.makeText(this,error2.message, Toast.LENGTH_LONG).show()
+                        },
+
+                        ) {
+                        @Throws(AuthFailureError::class)
+                        override fun getHeaders(): Map<String, String> {
+                            val headers = HashMap<String, String>()
+                            headers.put("Content-Type", "application/json");
+                            headers.put(
+                                "api-key",
+                                "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                            );
+                            headers.put("Access-Control-Request-Headers","*");
+
+                            return headers
+                        }
+                    }
+
+
+                    val MY_SOCKET_TIMEOUT_MS = 50000;
+                    request2.setRetryPolicy(
+                        DefaultRetryPolicy(
+                            MY_SOCKET_TIMEOUT_MS,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                        )
+                    )
+
+                    volleyQueue.add(request2)
+                }
             }
 
         }
@@ -411,6 +479,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     if (intent.getIntExtra("text",i) >0) {
                         val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", --i)
+
                         startActivity(intent)
                         overridePendingTransition(
                             android.R.anim.slide_in_left,
@@ -420,6 +489,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     else {
                         val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", 0)
+
                         startActivity(intent)
                         overridePendingTransition(
                             android.R.anim.slide_in_left,
@@ -431,12 +501,14 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     if (intent.getIntExtra("text",i) < k.length()-1) {
                         val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", ++i)
+
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
                     else {
                         val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", k.length()-1)
+
                         startActivity(intent)
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
                     }
