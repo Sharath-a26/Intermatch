@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="data_list">
+        <item>DSA</item>
+        <item>Ui/Ux Design</item>
+        <item>Android App dev</item>
+        <item>Web Dev</item>
+        <item>OS</item>
+        <item>Deep Learning using Audio</item>
+        <item>Image Processing</item>
+        <item>Machine Learning</item>
+        <item>Data Analysis</item>
+        <item>Data Science</item>
+        <item>NLP</item>
+        <item>Game Dev</item>
+        <item>Software Testing</item>
+        <item>Database</item>
+
+    </string-array>
+</resources>
