@@ -34,7 +34,7 @@ var user_interest : JSONArray = JSONArray()
 var i:Int = 0
 
 var domains : JSONArray = JSONArray()
-
+lateinit var faculty_email : String
 lateinit var temp : String
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
@@ -54,6 +54,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         recommendation_layout.isVisible = false
         supportActionBar?.hide()
 
+        /**
+         * Make all the color of
+         */
         /**
          * username obtained from login
          */
@@ -154,9 +157,11 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         .get("dept").toString()
                     val fac_name = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
                         .get("faculty_name").toString()
+
                     domains = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
                         .getJSONArray("domains")
-
+                    faculty_email = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                        .get("faculty_email").toString()
                     prj_name.text = prj
                     dept_name.text = dept
                     researcher_name.text = fac_name
@@ -241,7 +246,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             domains = k.getJSONObject(intent.getIntExtra("text",i))
                 .getJSONArray("domains")
 
-
+            faculty_email = k.getJSONObject(intent.getIntExtra("text",i))
+                .get("faculty_email").toString()
             prj_name.text = prj
             dept_name.text = dept
             researcher_name.text = fac_name
@@ -345,16 +351,16 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
                 like_btn.setImageResource(R.drawable.heart__1_)
                 if (like_count > 0) {
-                    val url2 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/delete"
+                    val url2 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/deleteMany"
 
                     val jsonfile2 = JSONObject().apply {
                         put("dataSource","Cluster0")
                         put("database","Intermatch")
                         put("collection","Liked_projects")
-                        put("document", JSONObject().apply {
+                        put("filter", JSONObject().apply {
                             put("name",k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())
                             put("faculty_name",k.getJSONObject(intent.getIntExtra("text",i)).get("faculty_name").toString())
-                            put("username",username)
+
                         })
                     }
 
@@ -447,7 +453,11 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          * sending an email to faculty if outlook button pressed
          * 1. Takes user to send_email page
          */
-
+        outlook_btn.setOnClickListener {
+            val intent : Intent = Intent(this,SendEmailActivity::class.java)
+            intent.putExtra("faculty_email", faculty_email)
+            startActivity(intent)
+        }
     }
 
     /**
