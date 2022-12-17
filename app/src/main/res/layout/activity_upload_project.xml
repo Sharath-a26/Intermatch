@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_deisgn"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="3dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Upload your Project"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/prjname"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="67dp"
+        android:background="@color/white"
+        android:hint="name"
+        android:inputType="textPersonName"
+        android:padding="4dp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato_bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ImageView
+        android:id="@+id/upload_domain_btn"
+        android:layout_width="101dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="308dp"
+        android:src="@drawable/upload_outbox_svgrepo_com__1_"
+        app:layout_constraintBottom_toTopOf="@+id/addprj"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/prjname" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="246dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Project Name"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/prjname"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+    <TextView
+        android:id="@+id/addprj"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="37dp"
+        android:background="@color/white"
+        android:paddingLeft="2dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:text="Add Project"
+        android:textAlignment="center"
+        android:textColor="#023430"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upload_domain_btn" />
+
+    <EditText
+        android:id="@+id/input"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:layout_marginBottom="229dp"
+        android:background="@drawable/mail_bg"
+        android:fontFamily="@font/lato_bold"
+        android:maxLines="5"
+        android:padding="15dp"
+        android:scrollbars="vertical"
+        android:textColor="@color/white"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/addprj"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/upload_domain_btn" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

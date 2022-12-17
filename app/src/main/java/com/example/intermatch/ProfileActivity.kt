@@ -1,5 +1,6 @@
 package com.example.intermatch
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible
@@ -9,6 +10,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -19,7 +21,9 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        supportActionBar?.hide()
         profile_layout.isVisible = false
+        val username = intent.getStringExtra("username")
         val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
         val volleyQueue = Volley.newRequestQueue(this)
         val jsonfile = JSONObject().apply {
@@ -72,5 +76,24 @@ class ProfileActivity : AppCompatActivity() {
             )
         )
         volleyQueue.add(request)
+
+        /**
+         * Bottom nav view
+         */
+        val profile_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
+        profile_view.selectedItemId = R.id.item3
+        profile_view.setOnItemSelectedListener(
+            BottomNavigationView.OnNavigationItemSelectedListener {
+                when(it.itemId) {
+                    R.id.item1 -> startActivity(Intent(this,RecommendationActivity::class.java)
+                        .putExtra("username",username))
+                    R.id.item2 -> startActivity(Intent(this,LikedActivity::class.java)
+                        .putExtra("username",username))
+                    R.id.item3 -> startActivity(Intent(this,ProfileActivity::class.java)
+                        .putExtra("username",username))
+                }
+                true
+            }
+        )
     }
 }

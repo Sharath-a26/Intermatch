@@ -16,7 +16,8 @@ class WelcomeActivity : AppCompatActivity() {
         wel_name.text = intent.getStringExtra("username")
         Handler().postDelayed(
             {
-                startActivity(Intent(this, RecommendationActivity::class.java))
+                startActivity(Intent(this, RecommendationActivity::class.java)
+                    .putExtra("username",wel_name.text))
             },2000
         )
 

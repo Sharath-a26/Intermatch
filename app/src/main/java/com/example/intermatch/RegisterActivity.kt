@@ -15,6 +15,11 @@ import kotlinx.android.synthetic.main.activity_register.*
 
 import org.json.JSONObject
 
+/**
+ * register a new user page
+ * asks for email, username, password
+ * identifies user as Student or faculty from the mail
+ */
 class RegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +37,9 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        /**
+         * adding new user to the Project Database when signed in
+         */
         signButton.setOnClickListener {
             val volleyQueue = Volley.newRequestQueue(this)
             val url =
@@ -49,12 +57,15 @@ class RegisterActivity : AppCompatActivity() {
       }
         
             """.trimIndent()
+            lateinit var user_type : String
             val docfile = JSONObject(doc)
             if ("students" in user_email) {
                 docfile.put("Type","Student")
+                user_type = "Student"
             }
             else {
                 docfile.put("Type","Faculty")
+                user_type = "Faculty"
             }
             val info = """
                 {
@@ -103,6 +114,18 @@ class RegisterActivity : AppCompatActivity() {
             )
             volleyQueue.add(request);
 
+            if(user_type == "Faculty") {
+                val intent : Intent = Intent(this@RegisterActivity,UploadProjectActivity::class.java)
+                intent.putExtra("faculty_email",user_email)
+                intent.putExtra("faculty_name",username) //faculty's username
+                startActivity(intent)
+            }
+            else {
+                val intent : Intent = Intent(this@RegisterActivity,UploadInterestActivity::class.java)
+                intent.putExtra("username",username)
+
+                startActivity(intent)
+            }
 
         }
     }

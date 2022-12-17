@@ -2,18 +2,207 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recommendation_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".RecommendationActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/layout_deisgn"
+        android:elevation="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <SearchView
+            android:id="@+id/searchbtn"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="84dp"
+            android:background="@drawable/search_view_bg"
+
+            android:elevation="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.125" />
+
+        <TextView
+
+            android:id="@+id/prj_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.262" />
+
+        <TextView
+            android:id="@+id/dept_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/prj_name"
+            app:layout_constraintVertical_bias="0.673" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recomme"
-        android:textSize="30sp"
+        android:background="#D3D3D3"
+        android:elevation="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:menu="@menu/bottom_menu" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="54dp"
+        android:background="@drawable/like_background"
+        android:elevation="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:id="@+id/like_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/heart__1_"
+             />
+
+        <ImageButton
+
+            android:id="@+id/outlook_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
+
+            android:minHeight="48dp"
+            android:src="@drawable/outlook__1_" />
+
+        <ImageButton
+            android:id="@+id/info_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/info_svg__1_"/>
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="290dp"
+        android:layout_marginBottom="326dp"
+        android:fontFamily="sans-serif-black"
+        android:text="Researcher"
+        android:textColor="#023430"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <TextView
+        android:id="@+id/researcher_name"
+        android:layout_width="8dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="85dp"
+        android:layout_marginBottom="39dp"
+        android:text="fdngngh"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <GridView
+
+        android:background="@drawable/grid_bg"
+        android:id="@+id/my_grid_view"
+        android:layout_width="350dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="51dp"
+        android:layout_marginBottom="176dp"
+        android:columnWidth="160dp"
+        android:elevation="200dp"
+        android:horizontalSpacing="5dp"
+
+        android:numColumns="2"
+        android:verticalSpacing="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="428dp"
+
+        android:progressTint="#023430"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/match_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="93dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/lato_bold"
+        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
