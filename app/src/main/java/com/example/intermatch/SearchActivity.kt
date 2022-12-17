@@ -16,6 +16,8 @@ import org.json.JSONObject
 import java.util.*
 import kotlin.collections.HashMap
 
+
+
 class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +30,18 @@ class SearchActivity : AppCompatActivity() {
         val keyword = intent.getStringExtra("keyword")
         search_layout.isVisible = false
         val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
+
+
+
         val jsonfile = JSONObject().apply {
             put("dataSource","Cluster0")
             put("database","Intermatch")
             put("collection","Project")
             put("filter", JSONObject().apply {
-                put("name",keyword)
+                put("name",JSONObject().apply {
+                    put("$"+"regex",keyword)
+                    put("$"+"options","$"+"i")
+                })
             })
         }
 
