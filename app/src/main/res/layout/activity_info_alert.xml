@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="350dp"
+    android:orientation="vertical"
+    android:scrollbars="vertical"
+    >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="400dp" >
+
+        <LinearLayout
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="41dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/alert_info"
+                app:layout_constraintBottom_toTopOf="@+id/textView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="161dp"
+                android:layout_marginBottom="30dp"
+                android:fontFamily="@font/lato_bold"
+                android:text="Project Description"
+                android:textColor="#023430"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="320dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-10dp"
+                android:fontFamily="@font/lato_bold"
+                android:text="sdvsv ifahskjfd asjkbfjds jhjasibfdj saksfdsfb
+sajbfskjdbfkjds kjbadkjfbds kjbaskjdbf skjbjkadbf sdkjbkjbfdasjk bjkbfjkdsb kjb
+jklas fjkdsb kjbfkjdsb kjfbskj bdsh bfbdsk bjdsbfjkdsb jk ihabfisddn hbdashdash bjhb asjdcf
+ndiasnijsan ijnjiasnc iunuiasncij dinisdnfv ijnijnhsdnf jnjnsdjnds ijnijsdn ijsdns d
+fk0ijf isd  iujuisdncid sniuhsdiun isdn iuhfisdvi iuhidsb iidsv iusdiv nidnsdnvijsdn k
+ mdsnfijds niunijdsn ijisdnv nsdj bnisndbijvn infjisd nij nijsdnvjs ne bhibdsivn jhdnv ijnj
+d ijods jmdsnv ijsnijdsn iuiudn inds iniusdnfiuds nsdnsdin indsnjisd bisdni snj ni
+d ssdnjidsn jsdnvjsdnj nsdjvnsdjnv jsnsdijvn sjdn jinjidsnvij snjndsjvndsj nsdndsijvnjdsn nsdvjdsn j
+asufdsin iunfasin fijniuasnci naiusnhiudsn uhniadnc ihbicdn ijijdanc bhbcd nihbijasd
+micdjscnsjd nidsc ijnihasbnihjasd nihbhicdbn hbhbchds bhbhuadb hbhudsb bhsdb hbhds
+iodsnc n hubdshubc hbu sdbchu buhsdbchdsbh bahduanbsdv hubahsbd jbhusdb hsbnd
+dshb hsdb hbhjsx bnhbdshb hjsbhbsdh bhbsdhcbsdh  sdjndsj n
+jsanfijsdn mkdsmckjdsnc kjsd cdjndsjknj nijadsncjsdn njsdnjcnds kj
+csaoncijsd nkjasni ndijsn dsc nnjksdn vjkw wjndsjn vj nijjwe jndwj wndivjdwnjne j
+ mwICJNHWDI SHDNVDSIJN IFSDI NCDJNDHV JKVN SDJVN SU NSDIJ NVJIND
+ MDSVJ NDKJDFN KJNJNj nsdjnv jinjidghr nvijdsnv fkod9quwfhnsij fnwijngvisdnvj dnvsdjndvjidbh
+ nvijdsnv jfbdsvn ijnsvij ndsjvnsd njsdn vkjdfndkjf nsdjnv sjnjsnvin ud
+ fijdsn jsn ijnvisjdnvijds nijnijsdnvij snijsdnvsdn iedn iunisdjn isn snv idfndfn
+ smdvnjdfn jn hjdvhsdn  djdsnvdjdjejoisvdokc nsdfdsjn indajisn jincjidsn n
+ dcndsdjn ijndivn ijdnijdsnij nijndsijnvijsdn ijnvsdijn jdnijsndvj nsnvjdsnijdsnv ijnvijsdnijnvds
+ hadbchds ihbihdnj bhsdvh snsdnvjhsd jndsnv jsnjdsnvjsd nndjvn dsjvnds jsdnvj sd
+ adjsn kjjnvsjdndj nijndijvns jdnijdsnjv njinjndjv njdnvjds njndsjv dsnjsdn ds
+ ,dsonvjds nijndvij ndsijh njsdnv jndsijvnvsdjn idsnvinsdj njhsdnvsjdn j jds
+ ijsdvjds sjindvdsn ijnsdvjdsnj n
+"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                tools:layout_editor_absoluteX="31dp"
+                tools:layout_editor_absoluteY="165dp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>

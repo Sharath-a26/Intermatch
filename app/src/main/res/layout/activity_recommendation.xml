@@ -114,6 +114,14 @@
 
             android:minHeight="48dp"
             android:src="@drawable/outlook__1_" />
+
+        <ImageButton
+            android:id="@+id/info_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/info_svg__1_"/>
     </LinearLayout>
 
 

@@ -121,7 +121,10 @@ class RegisterActivity : AppCompatActivity() {
                 startActivity(intent)
             }
             else {
+                val intent : Intent = Intent(this@RegisterActivity,UploadInterestActivity::class.java)
+                intent.putExtra("username",username)
 
+                startActivity(intent)
             }
 
         }

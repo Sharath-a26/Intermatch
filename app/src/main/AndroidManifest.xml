@@ -16,6 +16,13 @@
         android:theme="@style/Theme.Intermatch"
         tools:targetApi="31">
         <activity
+            android:name=".UploadInterestActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".UploadProjectActivity"
             android:exported="false">
             <meta-data

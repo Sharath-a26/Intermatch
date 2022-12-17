@@ -1,5 +1,6 @@
 package com.example.intermatch
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -53,13 +54,14 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         recommendation_layout.isVisible = false
         supportActionBar?.hide()
-
+        val alertbuilder = AlertDialog.Builder(this)
         /**
          * Make all the color of
          */
         /**
          * username obtained from login
          */
+
         var username = intent.getStringExtra("username")
         if (username != null) {
             temp = username
@@ -457,6 +459,17 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             val intent : Intent = Intent(this,SendEmailActivity::class.java)
             intent.putExtra("faculty_email", faculty_email)
             startActivity(intent)
+        }
+
+
+        /**
+         * displaying an alert dialog which constains the info about the project
+         */
+
+        info_btn.setOnClickListener {
+           alertbuilder.setView(R.layout.activity_info_alert)
+
+            alertbuilder.create().show()
         }
     }
 

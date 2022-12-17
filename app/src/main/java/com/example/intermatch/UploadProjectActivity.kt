@@ -2,10 +2,12 @@ package com.example.intermatch
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
 import com.android.volley.Response
@@ -24,27 +26,48 @@ class UploadProjectActivity : AppCompatActivity() {
         val alertbuilder = AlertDialog.Builder(this)
         var checkedIndex = ArrayList<String>()
         val arr =resources.getStringArray(R.array.data_list)
-        floatingActionButton.setOnClickListener {
+        var isclicked = BooleanArray(arr.size)
+        for (i in 0 until arr.size) {
+            isclicked[i] = false
+        }
+        upload_domain_btn.setOnClickListener {
 
             alertbuilder.setTitle("Select an option")
-            alertbuilder.setMultiChoiceItems(R.array.data_list,null, DialogInterface.OnMultiChoiceClickListener{
+            alertbuilder.setMultiChoiceItems(R.array.data_list,isclicked, DialogInterface.OnMultiChoiceClickListener{
                     dialog,index,checked ->
                 if (checked) {
-                    input.text?.append("\n ${arr.get(index)}")
+
+                    //input.text?.append("\n ${arr.get(index)}")
                     checkedIndex.add(arr.get(index))
+                    isclicked[index] = checked
                 }
                 else if (checkedIndex.contains(arr.get(index))) {
+
                     checkedIndex.remove(arr.get(index))
+                    isclicked[index] = false
                 }
             })
             alertbuilder.setPositiveButton("OK", DialogInterface.OnClickListener{
                     dialog,id ->
+                for (i in 0 until checkedIndex.size) {
+                    if (i != checkedIndex.size-1) {
+                        input.text?.append("${checkedIndex.get(i)} \n")
+                    }
+                    else {
+                        input.text?.append(checkedIndex.get(i))
+                    }
+                }
+                input.isVisible = true
 
             })
             alertbuilder.create().show()
         }
 
+
+
         addprj.setOnClickListener {
+
+            addprj.text = "NEXT"
             val volleyQueue = Volley.newRequestQueue(this)
 
             val url =
@@ -111,6 +134,11 @@ class UploadProjectActivity : AppCompatActivity() {
                 }
             }
             volleyQueue.add(request)
+
+            addprj.setOnClickListener {
+                val intent = Intent(this@UploadProjectActivity,LoginActivity::class.java)
+                startActivity(intent)
+            }
 
         }
 
