@@ -69,9 +69,9 @@ class UploadProjectActivity : AppCompatActivity() {
 
             addprj.text = "NEXT"
             val volleyQueue = Volley.newRequestQueue(this)
-
+            val description = edit_desc.text
             val url =
-                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
             val project_name = prjname.text.toString()
 
             val info = """  
@@ -91,17 +91,24 @@ class UploadProjectActivity : AppCompatActivity() {
                 put("dataSource","Cluster0")
                 put("database","Intermatch")
                 put("collection","Project")
-                put("document", JSONObject().apply {
-                    put("faculty_name",faculty_name)
-                    put("name",project_name)
-                    put("faculty_email",faculty_email)
-                    put("domains", JSONArray().apply {
-                        for (i in 0..checkedIndex.size-1) {
-                            put(i,checkedIndex[i])
-                        }
-                    }
+                put("filter",JSONObject().apply {
+                    put("username",faculty_name)
 
-                    )
+                })
+                put("update",JSONObject().apply {
+                    put("$"+"set",JSONObject().apply {
+                        put("faculty_name",faculty_name)
+                        put("name",project_name)
+                        put("faculty_email",faculty_email)
+                        put("domains", JSONArray().apply {
+                            for (i in 0..checkedIndex.size-1) {
+                                put(i,checkedIndex[i])
+                            }
+                        }
+
+                        )
+                        put("desc",description)
+                    })
                 })
 
             }
@@ -136,7 +143,8 @@ class UploadProjectActivity : AppCompatActivity() {
             volleyQueue.add(request)
 
             addprj.setOnClickListener {
-                val intent = Intent(this@UploadProjectActivity,LoginActivity::class.java)
+                val intent = Intent(this@UploadProjectActivity,UploadInterestActivity::class.java)
+                intent.putExtra("username",faculty_name)
                 startActivity(intent)
             }
 

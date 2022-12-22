@@ -14,10 +14,15 @@ class WelcomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_welcome)
 
         wel_name.text = intent.getStringExtra("username")
+        val user_type = intent.getStringExtra("usertype")
+        var intent1 = Intent()
         Handler().postDelayed(
             {
-                startActivity(Intent(this, RecommendationActivity::class.java)
-                    .putExtra("username",wel_name.text))
+                intent1 = Intent(this, RecommendationActivity::class.java)
+                intent1.putExtra("username",wel_name.text)
+                intent1.putExtra("usertype",user_type)
+                startActivity(intent1)
+
             },2000
         )
 

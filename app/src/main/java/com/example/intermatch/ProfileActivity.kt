@@ -1,6 +1,7 @@
 package com.example.intermatch
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -27,6 +28,7 @@ class ProfileActivity : AppCompatActivity() {
         supportActionBar?.hide()
         profile_layout.isVisible = false
         val username = intent.getStringExtra("username")
+        val user_type = intent.getStringExtra("usertype")
         val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
         val volleyQueue = Volley.newRequestQueue(this)
         val jsonfile = JSONObject().apply {
@@ -47,6 +49,8 @@ class ProfileActivity : AppCompatActivity() {
 
                         profile_email.text = response.getJSONObject("document").get("email").toString()
                         profile_pass.text = response.getJSONObject("document").get("password").toString()
+                        profile_github.text = response.getJSONObject("document").get("github").toString()
+                        profile_linkedin.text = response.getJSONObject("document").get("linkedin").toString()
                         user_dept.text = response.getJSONObject("document").get("dept").toString()
                         val areas_of_inter = response.getJSONObject("document").getJSONArray("areas_of_interest")
                         for (i in 0 until areas_of_inter.length()) {
@@ -105,14 +109,22 @@ class ProfileActivity : AppCompatActivity() {
                 profile_user.isVisible = false
                 profile_email.isVisible = false
                 profile_pass.isVisible = false
+                profile_github.isVisible = false
+                profile_linkedin.isVisible = false
 
                 edit_username.setText("${profile_user.text}")
                 edit_email.setText("${profile_email.text}")
                 edit_pass.setText("${profile_pass.text}")
+                edit_github.setText("${profile_github.text}")
+                edit_linkedin.setText("${profile_linkedin.text}")
 
                 edit_username.isVisible = true
                 edit_email.isVisible = true
                 edit_pass.isVisible = true
+                edit_github.isVisible = true
+                edit_linkedin.isVisible = true
+
+
             }
             /**
              * after editing, if the user clicks save profile
@@ -121,14 +133,20 @@ class ProfileActivity : AppCompatActivity() {
                 edit_username.isVisible = false
                 edit_email.isVisible = false
                 edit_pass.isVisible = false
+                edit_github.isVisible = false
+                edit_linkedin.isVisible = false
 
                 profile_user.text = edit_username.text
                 profile_email.text = edit_email.text
                 profile_pass.text = edit_pass.text
+                profile_github.text = edit_github.text
+                profile_linkedin.text = edit_linkedin.text
 
                 profile_user.isVisible = true
                 profile_email.isVisible = true
                 profile_pass.isVisible = true
+                profile_github.isVisible = true
+                profile_linkedin.isVisible = true
 
 
                 update_btn.text = "update profile"
@@ -146,6 +164,8 @@ class ProfileActivity : AppCompatActivity() {
                             put("username",profile_user.text)
                             put("email",profile_email.text)
                             put("password",profile_pass.text)
+                            put("github",profile_github.text)
+                            put("linkedin",profile_linkedin.text)
                         })
                     })
 
@@ -225,24 +245,100 @@ class ProfileActivity : AppCompatActivity() {
 
         }
 
+        /**
+         * opening github accnt
+         */
+        profile_github.setOnClickListener {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(profile_github.text.toString())))
+        }
+
+        /**
+         * opening linkedin accnt
+         */
+        profile_linkedin.setOnClickListener{
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(profile_linkedin.text.toString())))
+        }
 
         /**
         * Bottom nav view
          */
         val profile_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
-        profile_view.selectedItemId = R.id.item3
-        profile_view.setOnItemSelectedListener(
-            BottomNavigationView.OnNavigationItemSelectedListener {
-                when(it.itemId) {
-                    R.id.item1 -> startActivity(Intent(this,RecommendationActivity::class.java)
-                        .putExtra("username",username))
-                    R.id.item2 -> startActivity(Intent(this,LikedActivity::class.java)
-                        .putExtra("username",username))
-                    R.id.item3 -> startActivity(Intent(this,ProfileActivity::class.java)
-                        .putExtra("username",username))
+
+        if (user_type == "Student") {
+            menuInflater.inflate(R.menu.bottom_menu_student,profile_view.menu)
+            var intent1 = Intent()
+            profile_view.selectedItemId = R.id.item3
+            profile_view.setOnItemSelectedListener(
+                BottomNavigationView.OnNavigationItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.item1 -> {
+                            intent1 = Intent(this, RecommendationActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+
+                        R.id.item2 -> {
+                            intent1 = Intent(this, LikedActivity::class.java)
+                                intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                        R.id.item3 -> {
+                            intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                    }
+                    true
                 }
-                true
-            }
-        )
+            )
+        }
+        else {
+            menuInflater.inflate(R.menu.bottom_menu_faculty,profile_view.menu)
+            var intent1 = Intent()
+            profile_view.selectedItemId = R.id.item_fac_5
+            profile_view.setOnItemSelectedListener(
+                BottomNavigationView.OnNavigationItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.item_fac_1 -> {
+                            intent1 = Intent(this, RecommendationActivity::class.java)
+                            intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+
+                        R.id.item_fac_2 -> {
+                            intent1 = Intent(this, LikedActivity::class.java)
+                            intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+
+                        R.id.item_fac_3 -> {
+                            intent1 = Intent(this,AddProjectActivity::class.java)
+                            intent1.putExtra("username",username)
+                            startActivity(intent1)
+                        }
+
+                        R.id.item_fac_4 -> {
+                            intent1 = Intent(this,StudentRequestActivity::class.java)
+                            intent1.putExtra("username",username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                        R.id.item_fac_5 -> {
+                            intent1 = Intent(this, ProfileActivity::class.java)
+                            intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                    }
+                    true
+                }
+            )
+        }
+
     }
 }

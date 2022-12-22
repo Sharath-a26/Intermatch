@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/layout_deisgn"
-    tools:context=".MainActivity">
+    tools:context=".AddProjectActivity">
 
     <TextView
         android:id="@+id/textView6"
@@ -24,7 +24,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/prjname"
+        android:id="@+id/prjname_add"
         android:layout_width="300dp"
         android:layout_height="40dp"
 
@@ -37,22 +37,22 @@
         android:inputType="textPersonName"
         android:padding="4dp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/upload_domain_btn"
+        app:layout_constraintBottom_toTopOf="@+id/upload_domain_btn_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ImageView
-        android:id="@+id/upload_domain_btn"
+        android:id="@+id/upload_domain_btn_add"
         android:layout_width="67dp"
         android:layout_height="95dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="40dp"
         android:src="@drawable/upload_outbox_svgrepo_com__1_"
-        app:layout_constraintBottom_toTopOf="@+id/input"
+        app:layout_constraintBottom_toTopOf="@+id/input_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/prjname" />
+        app:layout_constraintTop_toBottomOf="@+id/prjname_add" />
 
     <TextView
         android:id="@+id/textView"
@@ -65,13 +65,13 @@
         android:text="Project Name"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/prjname"
+        app:layout_constraintBottom_toTopOf="@+id/prjname_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
-        android:id="@+id/addprj"
+        android:id="@+id/addprj_add"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
 
@@ -88,10 +88,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_desc" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_desc_add" />
 
     <EditText
-        android:id="@+id/input"
+        android:id="@+id/input_add"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
         android:background="@drawable/mail_bg"
@@ -104,7 +104,7 @@
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upload_domain_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/upload_domain_btn_add" />
 
     <TextView
         android:id="@+id/textView7"
@@ -118,15 +118,15 @@
         android:text="Description about the project"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/edit_desc"
+        app:layout_constraintBottom_toTopOf="@+id/edit_desc_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input"
+        app:layout_constraintTop_toBottomOf="@+id/input_add"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/edit_desc"
+        android:id="@+id/edit_desc_add"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="161dp"
@@ -134,11 +134,11 @@
         android:background="@color/white"
         android:gravity="start"
         android:lines="5"
-        app:layout_constraintBottom_toTopOf="@+id/addprj"
+        app:layout_constraintBottom_toTopOf="@+id/addprj_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/input"
+        app:layout_constraintTop_toBottomOf="@+id/input_add"
         app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

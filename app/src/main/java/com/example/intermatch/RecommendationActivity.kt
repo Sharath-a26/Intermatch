@@ -5,12 +5,16 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
+import android.widget.ScrollView
 import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -19,12 +23,19 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_info_alert.*
+import kotlinx.android.synthetic.main.activity_info_alert.view.*
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_recommendation.*
 import org.json.JSONArray
 import org.json.JSONObject
+import org.w3c.dom.Text
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
+
 /**
     recommendation page
     1. User can navigate to liked projects and profile
@@ -50,6 +61,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommendation)
+
         supportActionBar?.hide()
 
         recommendation_layout.isVisible = false
@@ -63,6 +75,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          */
 
         var username = intent.getStringExtra("username")
+        val user_type = intent.getStringExtra("usertype")
+
+
         if (username != null) {
             temp = username
         }
@@ -151,25 +166,39 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     k = response.getJSONArray("documents")
 
 
-                    val prj = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                    for (r in k.length()-1 downTo 0) {
+                        var j = Random.nextInt(r+1)
+                        var temp = k.getJSONObject(j)
+                        k.put(j,k.getJSONObject(r))
+                        k.put(r,temp)
+
+                    }
+
+                    Log.d(null,k.toString())
+
+
+                    val prj = k.getJSONObject(intent.getIntExtra("text",i))
                         .get("name").toString()
 
 
-                    val dept = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                    val dept = k.getJSONObject(intent.getIntExtra("text",i))
                         .get("dept").toString()
-                    val fac_name = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                    val facname = k.getJSONObject(intent.getIntExtra("text",i))
                         .get("faculty_name").toString()
 
-                    domains = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                    domains = k.getJSONObject(intent.getIntExtra("text",i))
                         .getJSONArray("domains")
-                    faculty_email = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                    faculty_email = k.getJSONObject(intent.getIntExtra("text",i))
                         .get("faculty_email").toString()
                     prj_name.text = prj
                     dept_name.text = dept
-                    researcher_name.text = fac_name
 
-                    val domain_array = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+
+                    val domain_array = k.getJSONObject(intent.getIntExtra("text",i))
                         .getJSONArray("domains")
+
+                    //prj_desc.text = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                        //.get("desc").toString()
 
                     val temp : ArrayList<String> = ArrayList<String>()
                     var count1 = 0
@@ -183,7 +212,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         }
                     }
                     Log.d(null,"count = " + count1.toString())
-
+                    researcher_name.text = facname
                     progressBar.progress = ((count1.toFloat()/domain_array.length())*100.0).roundToInt()
                     match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString() + "%"
 
@@ -243,7 +272,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
             val dept = k.getJSONObject(intent.getIntExtra("text",i))
                 .get("dept").toString()
-            val fac_name = k.getJSONObject(intent.getIntExtra("text",i))
+            val facname = k.getJSONObject(intent.getIntExtra("text",i))
                 .get("faculty_name").toString()
             domains = k.getJSONObject(intent.getIntExtra("text",i))
                 .getJSONArray("domains")
@@ -252,7 +281,10 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 .get("faculty_email").toString()
             prj_name.text = prj
             dept_name.text = dept
-            researcher_name.text = fac_name
+            researcher_name.text = facname
+
+            //prj_desc.text = k.getJSONObject(intent.getIntExtra("text",i))
+                //.get("desc").toString()
 
 
             val domain_array = k.getJSONObject(intent.getIntExtra("text",i))
@@ -271,7 +303,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             }
             Log.d(null,count1.toString())
             progressBar.progress = ((count1.toFloat()/domain_array.length())*100.0).roundToInt()
-            match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString()
+            match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString() + "%"
 
             gridView = findViewById(R.id.my_grid_view)
             arrayList = ArrayList()
@@ -413,22 +445,89 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         /**
          * navigating to different screens with bottom nav View
          */
+        Log.d(null,"user type = " + user_type.toString())
 
         val main_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
-        main_view.selectedItemId = R.id.item1
-        main_view.setOnItemSelectedListener(
-            BottomNavigationView.OnNavigationItemSelectedListener {
-                when(it.itemId) {
-                    R.id.item1 -> startActivity(Intent(this,RecommendationActivity::class.java)
-                        .putExtra("username",username))
-                    R.id.item2 -> startActivity(Intent(this,LikedActivity::class.java)
-                        .putExtra("username",username))
-                    R.id.item3 -> startActivity(Intent(this,ProfileActivity::class.java)
-                        .putExtra("username",username))
+
+
+        if (user_type == "Student") {
+            menuInflater.inflate(R.menu.bottom_menu_student, main_view.menu)
+            var intent1 = Intent()
+            main_view.selectedItemId = R.id.item1
+            main_view.setOnItemSelectedListener(
+                BottomNavigationView.OnNavigationItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.item1 -> {
+                            intent1 = Intent(this, RecommendationActivity::class.java)
+                                intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                        R.id.item2 -> {
+                            intent1 = Intent(this, LikedActivity::class.java)
+                                intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                        R.id.item3 -> {
+                            intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                    }
+                    true
                 }
-                true
-            }
-        )
+            )
+        }
+        else {
+            menuInflater.inflate(R.menu.bottom_menu_faculty, main_view.menu)
+
+            var intent1 = Intent()
+            main_view.selectedItemId = R.id.item_fac_1
+            main_view.setOnItemSelectedListener(
+                BottomNavigationView.OnNavigationItemSelectedListener {
+                    when (it.itemId) {
+                        R.id.item_fac_1 -> {
+                            intent1 = Intent(this, RecommendationActivity::class.java)
+                            intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                        R.id.item_fac_2 -> {
+                            intent1 = Intent(this, LikedActivity::class.java)
+                            intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+
+                        R.id.item_fac_3 -> {
+                            intent1 = Intent(this,AddProjectActivity::class.java)
+                            intent1.putExtra("username",username)
+                            startActivity(intent1)
+                        }
+
+                        R.id.item_fac_4 -> {
+                            intent1 = Intent(this,StudentRequestActivity::class.java)
+                            intent1.putExtra("username",username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1,null)
+                        }
+                        R.id.item_fac_5 -> {
+                            intent1 = Intent(this, ProfileActivity::class.java)
+                            intent1.putExtra("username", username)
+                            intent1.putExtra("usertype",user_type)
+                            startActivity(intent1)
+                        }
+                    }
+                    true
+                }
+            )
+
+        }
+
+
+
 
         /**
          * navigating to the search screen when the search item is entered
@@ -458,6 +557,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         outlook_btn.setOnClickListener {
             val intent : Intent = Intent(this,SendEmailActivity::class.java)
             intent.putExtra("faculty_email", faculty_email)
+            intent.putExtra("project_name",prj_name.text)
+            intent.putExtra("faculty_name",researcher_name.text)
+            intent.putExtra("username",username)
             startActivity(intent)
         }
 
@@ -467,9 +569,18 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          */
 
         info_btn.setOnClickListener {
+
            alertbuilder.setView(R.layout.activity_info_alert)
 
+
             alertbuilder.create().show()
+        }
+
+        /**
+         * showing profile if the researcher name is clicked
+         */
+        researcher_name.setOnClickListener{
+            startActivity(Intent(this,ShowProfileActivity::class.java).putExtra("shown_user",researcher_name.text))
         }
     }
 

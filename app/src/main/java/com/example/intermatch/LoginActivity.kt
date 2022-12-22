@@ -3,6 +3,7 @@ package com.example.intermatch
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -58,8 +59,17 @@ class LoginActivity : AppCompatActivity() {
                     response ->
                     if (!(response.get("document").equals(null))) {
                         val intent = Intent(this,WelcomeActivity::class.java)
+                        val user_type = response.getJSONObject("document").get("Type").toString()
+                        Log.d(null,user_type)
                         intent.putExtra("username",username)
+                        intent.putExtra("usertype",user_type)
                         startActivity(intent)
+                    }
+
+                    else {
+                        val toast = Toast(this)
+
+                        Toast.makeText(this,"Invalid Username or password",Toast.LENGTH_LONG).show()
                     }
 
 

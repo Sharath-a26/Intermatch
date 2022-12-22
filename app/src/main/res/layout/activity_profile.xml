@@ -129,6 +129,34 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+        <TextView
+            android:id="@+id/profile_github"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="33dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="92dp"
+            android:drawableStart="@drawable/github_svgrepo_com__1_"
+
+            app:layout_constraintBottom_toTopOf="@+id/update_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_interests" />
+
+        <TextView
+            android:id="@+id/profile_linkedin"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="36dp"
+            android:drawableStart="@drawable/linkedin_svgrepo_com__1_"
+            app:layout_constraintBottom_toTopOf="@+id/update_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_github" />
 
         <EditText
             android:id="@+id/edit_username"
@@ -180,6 +208,36 @@
             app:layout_constraintTop_toBottomOf="@+id/edit_email"
             />
 
+        <EditText
+            android:id="@+id/edit_github"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="22dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="27dp"
+            android:textSize="15sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/profile_linkedin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_interests" />
+
+        <EditText
+            android:id="@+id/edit_linkedin"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="24dp"
+            android:textSize="15sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/update_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_github" />
+
         <Button
             android:id="@+id/update_btn"
             android:layout_width="match_parent"
@@ -209,5 +267,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

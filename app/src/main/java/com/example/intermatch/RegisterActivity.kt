@@ -112,20 +112,16 @@ class RegisterActivity : AppCompatActivity() {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
                 )
             )
-            volleyQueue.add(request);
+            volleyQueue.add(request)
 
-            if(user_type == "Faculty") {
-                val intent : Intent = Intent(this@RegisterActivity,UploadProjectActivity::class.java)
-                intent.putExtra("faculty_email",user_email)
-                intent.putExtra("faculty_name",username) //faculty's username
-                startActivity(intent)
-            }
-            else {
-                val intent : Intent = Intent(this@RegisterActivity,UploadInterestActivity::class.java)
-                intent.putExtra("username",username)
 
-                startActivity(intent)
-            }
+            val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
+            intent1.putExtra("username",username)
+            intent1.putExtra("user_email",user_email)
+            intent1.putExtra("usertype",user_type)
+            startActivity(intent1)
+
+
 
         }
     }
