@@ -24,7 +24,7 @@
             android:id="@+id/searchbtn"
 
             android:layout_width="220dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="50dp"
             android:layout_marginTop="11dp"
             android:layout_marginEnd="195dp"
@@ -39,18 +39,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginEnd="134dp"
-            android:layout_marginBottom="126dp"
-            android:src="@drawable/filter_svgrepo_com__2_"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/searchbtn"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
 
@@ -59,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text=""
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -82,6 +72,23 @@
             app:layout_constraintTop_toBottomOf="@+id/prj_name"
             app:layout_constraintVertical_bias="0.673" />
 
+        <ImageButton
+            android:id="@+id/filter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="29dp"
+
+            android:padding="10dp"
+            android:src="@drawable/slider_filter_svgrepo_com__1_"
+            app:layout_constraintBottom_toTopOf="@+id/prj_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toEndOf="@+id/searchbtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.421" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

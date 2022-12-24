@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
 
                 },
                         Response.ErrorListener { error ->
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
 
                 }
                ) {

@@ -1,20 +1,17 @@
 package com.example.intermatch
 
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
-import android.widget.ScrollView
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.get
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -28,13 +25,14 @@ import kotlinx.android.synthetic.main.activity_info_alert.view.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_recommendation.*
+import kotlinx.android.synthetic.main.filter_layout.*
+import kotlinx.android.synthetic.main.filter_layout.view.*
 import org.json.JSONArray
 import org.json.JSONObject
-import org.w3c.dom.Text
 import kotlin.math.roundToInt
 import kotlin.properties.Delegates
 import kotlin.random.Random
-import kotlin.random.Random.Default.nextInt
+
 
 /**
     recommendation page
@@ -44,7 +42,7 @@ import kotlin.random.Random.Default.nextInt
 var k : JSONArray = JSONArray()
 var user_interest : JSONArray = JSONArray()
 var i:Int = 0
-
+var recom_type = "dept"
 var domains : JSONArray = JSONArray()
 lateinit var faculty_email : String
 lateinit var temp : String
@@ -548,6 +546,42 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
             }
         )
+
+
+        /**
+         * selecting recom type when filter is pressed
+         */
+        var view1 = layoutInflater.inflate(R.layout.filter_layout,null)
+        filter_btn.setOnClickListener {
+
+
+
+
+            alertbuilder.setView(view1)
+            alertbuilder.setPositiveButton("OK",
+                DialogInterface.OnClickListener { dialog, which ->
+                    if (view1.switch_inter.isChecked == true) {
+                        recom_type = "inter"
+                    }
+                    else if (view1.switch_dept.isChecked == true){
+                        recom_type = "dept"
+                    }
+                    else if (view1.switch_allprjs.isChecked == true) {
+                        recom_type = "all"
+                    }
+                    Toast.makeText(this, recom_type,Toast.LENGTH_LONG).show()
+                })
+            alertbuilder.create().show()
+
+
+
+        }
+
+
+
+
+
+
 
 
         /**
