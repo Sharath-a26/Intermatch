@@ -45,7 +45,9 @@ var i:Int = 0
 var recom_type = "dept"
 var domains : JSONArray = JSONArray()
 lateinit var faculty_email : String
-lateinit var temp : String
+var temp : String = ""
+var temp2 : String = ""
+
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -73,7 +75,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          */
 
         var username = intent.getStringExtra("username")
-        val user_type = intent.getStringExtra("usertype")
+        var user_type = intent.getStringExtra("usertype")
 
 
         if (username != null) {
@@ -83,6 +85,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         {
             username = temp
         }
+
+        if (user_type != null) {
+            temp2 = user_type
+        }
+        else {
+            user_type = temp2
+        }
         val volleyQueue = Volley.newRequestQueue(this)
 
         /**
@@ -91,7 +100,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
 
         val url_user = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
-        val jsonfile_user = JSONObject().apply {
+
+         val jsonfile_user = JSONObject().apply {
             put("dataSource","Cluster0")
             put("database","Intermatch")
             put("collection","User")
@@ -140,6 +150,89 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         volleyQueue.add(request_user_details)
 
+
+        /**
+         * navigating to different screens with bottom nav View
+         */
+        Log.d(null,"user type = " + user_type.toString())
+        val main_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
+
+
+        if (user_type == "Student") {
+                menuInflater.inflate(R.menu.bottom_menu_student, main_view.menu)
+                var intent1 = Intent()
+                main_view.selectedItemId = R.id.item1
+                main_view.setOnItemSelectedListener(
+                    BottomNavigationView.OnNavigationItemSelectedListener {
+                        when (it.itemId) {
+                            R.id.item1 -> {
+                                intent1 = Intent(this, RecommendationActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                            R.id.item2 -> {
+                                intent1 = Intent(this, LikedActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                            R.id.item3 -> {
+                                intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                        }
+                        true
+                    }
+                )
+            } else {
+                menuInflater.inflate(R.menu.bottom_menu_faculty, main_view.menu)
+
+                var intent1 = Intent()
+                main_view.selectedItemId = R.id.item_fac_1
+                main_view.setOnItemSelectedListener(
+                    BottomNavigationView.OnNavigationItemSelectedListener {
+                        when (it.itemId) {
+                            R.id.item_fac_1 -> {
+                                intent1 = Intent(this, RecommendationActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                            R.id.item_fac_2 -> {
+                                intent1 = Intent(this, LikedActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item_fac_3 -> {
+                                intent1 = Intent(this, AddProjectActivity::class.java)
+                                intent1.putExtra("username", username)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item_fac_4 -> {
+                                intent1 = Intent(this, StudentRequestActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1, null)
+                            }
+                            R.id.item_fac_5 -> {
+                                intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                        }
+                        true
+                    }
+                )
+
+            }
+
         /**
          * recommendation for the user
          */
@@ -148,13 +241,38 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
             val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/find"
 
-            val jsonfile = JSONObject().apply {
-                put("dataSource","Cluster0")
-                put("database","Intermatch")
-                put("collection","Project")
-                put("filter", JSONObject().apply {
-                    put("dept","CSE")
-                })
+            lateinit var jsonfile : JSONObject
+            if (recom_type == "dept") {
+                jsonfile = JSONObject().apply {
+                    put("dataSource", "Cluster0")
+                    put("database", "Intermatch")
+                    put("collection", "Project")
+                    put("filter", JSONObject().apply {
+                        put("dept", "CSE")
+                    })
+                }
+            }
+            else if (recom_type == "all") {
+                jsonfile = JSONObject().apply {
+                    put("dataSource","Cluster0")
+                    put("database","Intermatch")
+                    put("collection","Project")
+                    put("filter",JSONObject().apply {
+
+                    })
+                }
+
+            }
+
+            else {
+                jsonfile = JSONObject().apply {
+                    put("dataSource","Cluster0")
+                    put("database","Intermatch")
+                    put("collection","Project")
+                    put("filter",JSONObject().apply {
+
+                    })
+                }
             }
 
             val request : JsonObjectRequest = object : JsonObjectRequest(
@@ -162,7 +280,35 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 url, jsonfile,
                 Response.Listener<JSONObject> { response ->
                     k = response.getJSONArray("documents")
+                    var indices : ArrayList<Int> = ArrayList<Int>()
+                    if (recom_type == "inter") {
+                        for (x in 0 until k.length()) {
+                            var count1  = 0
+                            var tempor = ArrayList<String>()
+                            for (y in 0 until k.getJSONObject(x).getJSONArray("domains").length()) {
+                                tempor.add(k.getJSONObject(x).getJSONArray("domains").getString(y))
+                            }
+                            for (y in 0 until user_interest.length()) {
+                                if (user_interest.getString(y) in tempor) {
+                                    count1++
+                                }
+                            }
+                            if (count1 == 0) {
+                                indices.add(x)
+                            }
 
+                        }
+
+                        for (x in 0 until indices.size) {
+                            k.remove(indices.get(x))
+                        }
+
+                        Log.d(null,"Length = " + k.length())
+                    }
+
+                    if (recom_type == "all") {
+                        Log.d(null,"Length = " + k.length())
+                    }
 
                     for (r in k.length()-1 downTo 0) {
                         var j = Random.nextInt(r+1)
@@ -440,89 +586,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         }
 
 
-        /**
-         * navigating to different screens with bottom nav View
-         */
-        Log.d(null,"user type = " + user_type.toString())
-
-        val main_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
 
 
-        if (user_type == "Student") {
-            menuInflater.inflate(R.menu.bottom_menu_student, main_view.menu)
-            var intent1 = Intent()
-            main_view.selectedItemId = R.id.item1
-            main_view.setOnItemSelectedListener(
-                BottomNavigationView.OnNavigationItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.item1 -> {
-                            intent1 = Intent(this, RecommendationActivity::class.java)
-                                intent1.putExtra("username", username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
-                        }
-                        R.id.item2 -> {
-                            intent1 = Intent(this, LikedActivity::class.java)
-                                intent1.putExtra("username", username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
-                        }
-                        R.id.item3 -> {
-                            intent1 = Intent(this, ProfileActivity::class.java)
-                                intent1.putExtra("username", username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
-                        }
-                    }
-                    true
-                }
-            )
-        }
-        else {
-            menuInflater.inflate(R.menu.bottom_menu_faculty, main_view.menu)
 
-            var intent1 = Intent()
-            main_view.selectedItemId = R.id.item_fac_1
-            main_view.setOnItemSelectedListener(
-                BottomNavigationView.OnNavigationItemSelectedListener {
-                    when (it.itemId) {
-                        R.id.item_fac_1 -> {
-                            intent1 = Intent(this, RecommendationActivity::class.java)
-                            intent1.putExtra("username", username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
-                        }
-                        R.id.item_fac_2 -> {
-                            intent1 = Intent(this, LikedActivity::class.java)
-                            intent1.putExtra("username", username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
-                        }
-
-                        R.id.item_fac_3 -> {
-                            intent1 = Intent(this,AddProjectActivity::class.java)
-                            intent1.putExtra("username",username)
-                            startActivity(intent1)
-                        }
-
-                        R.id.item_fac_4 -> {
-                            intent1 = Intent(this,StudentRequestActivity::class.java)
-                            intent1.putExtra("username",username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1,null)
-                        }
-                        R.id.item_fac_5 -> {
-                            intent1 = Intent(this, ProfileActivity::class.java)
-                            intent1.putExtra("username", username)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
-                        }
-                    }
-                    true
-                }
-            )
-
-        }
 
 
 
@@ -562,12 +628,34 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 DialogInterface.OnClickListener { dialog, which ->
                     if (view1.switch_inter.isChecked == true) {
                         recom_type = "inter"
+                        val intent1 = Intent(this,RecommendationActivity::class.java)
+                        i = 0
+                        while (k.length() > 0) {
+                            k.remove(0)
+                        }
+                        intent1.putExtra("text",i)
+                        startActivity(intent1)
+
                     }
                     else if (view1.switch_dept.isChecked == true){
                         recom_type = "dept"
+                        val intent1 = Intent(this,RecommendationActivity::class.java)
+                        i = 0
+                        while (k.length() > 0) {
+                            k.remove(0)
+                        }
+                        intent1.putExtra("text",i)
+                        startActivity(intent1)
                     }
                     else if (view1.switch_allprjs.isChecked == true) {
                         recom_type = "all"
+                        val intent1 = Intent(this,RecommendationActivity::class.java)
+                        i = 0
+                        while (k.length() > 0) {
+                            k.remove(0)
+                        }
+                        intent1.putExtra("text",i)
+                        startActivity(intent1)
                     }
                     Toast.makeText(this, recom_type,Toast.LENGTH_LONG).show()
                 })
@@ -647,6 +735,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     if (intent.getIntExtra("text",i) >0) {
                         val intent = Intent(this, RecommendationActivity::class.java)
                         intent.putExtra("text", --i)
+
 
                         startActivity(intent)
                         overridePendingTransition(
