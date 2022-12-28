@@ -4,13 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.ListView
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -19,6 +16,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.android.synthetic.main.activity_custom_list_view.view.*
 import kotlinx.android.synthetic.main.activity_liked.*
 import kotlinx.android.synthetic.main.activity_student_request.*
 import org.json.JSONObject
@@ -125,10 +123,18 @@ class StudentRequestActivity : AppCompatActivity() {
 
                 Log.d(null,prjList.toString())
 
-                customBaseAdapter =  CustomBaseAdapter(this.baseContext, prjList)
+                var arrayAdapter = ArrayAdapter(applicationContext,R.layout.activity_custom_list_view,R.id.list_text,prjList)
                 Log.d(null,"sdbdfbg")
-                listview.adapter = customBaseAdapter
+                listview.adapter = arrayAdapter
 
+                listview.setOnItemClickListener { parent, view, position, id ->
+
+                        val intent2 = Intent(this,AboutProjectActivity::class.java)
+                        intent2.putExtra("prjname", req_projects.get(position))
+                        intent2.putExtra("faculty_name",username)
+                        startActivity(intent2)
+
+                }
             },
             Response.ErrorListener { error ->
 

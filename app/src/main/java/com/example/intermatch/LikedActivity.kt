@@ -29,7 +29,7 @@ class LikedActivity : AppCompatActivity() {
         /**
          * Bottom Navigation with from the liked page
          */
-        val username = intent.getStringExtra("username")
+        var username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
         val like_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
 
@@ -154,7 +154,11 @@ class LikedActivity : AppCompatActivity() {
 
                 Log.d(null,likeList.toString())
 
-                customBaseAdapter =  CustomBaseAdapter(this.baseContext, likeList)
+                customBaseAdapter = username?.let {
+                    CustomBaseAdapter(this.baseContext, likeList,
+                        it
+                    )
+                }!!
                 Log.d(null,"sdbdfbg")
                 listview.adapter = customBaseAdapter
 

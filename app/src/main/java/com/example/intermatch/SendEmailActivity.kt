@@ -26,6 +26,9 @@ class SendEmailActivity : AppCompatActivity() {
         val project_name = intent.getStringExtra("project_name")
         val f_name = intent.getStringExtra("faculty_name")
         val user = intent.getStringExtra("username")
+        val percent = intent.getStringExtra("match")
+        val user_github = intent.getStringExtra("github")
+        val user_linkedin = intent.getStringExtra("linkedin")
         edittext_email.text = recipient
         send_btn.setOnClickListener {
             if (recipient != null) {
@@ -43,6 +46,9 @@ class SendEmailActivity : AppCompatActivity() {
                     put("project_name",project_name)
                     put("faculty_name",f_name)
                     put("username",user)
+                    put("match_percent",percent)
+                    put("req_github",user_github)
+                    put("req_linkedin", user_linkedin)
                 })
             }
 

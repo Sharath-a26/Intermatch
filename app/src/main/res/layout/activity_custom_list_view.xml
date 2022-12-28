@@ -26,7 +26,7 @@
         >
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/list_text"
             android:layout_width="300dp"
 
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
             android:src="@drawable/ic_baseline_delete_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/text"
+            app:layout_constraintStart_toEndOf="@+id/list_text"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

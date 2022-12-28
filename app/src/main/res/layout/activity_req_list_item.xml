@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp">
+
+    <LinearLayout
+        android:id="@+id/req_item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:padding="10dp"
+        android:background="@drawable/req_item_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <TextView
+            android:id="@+id/req_username"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="25sp" />
+        <TextView
+            android:id="@+id/user_git"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/github_2"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/user_linkedin"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/linkedin_svgrepo_com__1_"
+            android:layout_marginTop="20dp"/>
+
+        <ProgressBar
+            android:id="@+id/match"
+            style="?android:attr/progressBarStyleHorizontal"
+
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:progressTint="@color/white"
+            android:background="@drawable/mail_bg"
+            android:layout_width="300dp"
+            android:layout_gravity="center"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:id="@+id/percent_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_bold"
+            android:layout_marginTop="10dp"/>
+
+        <LinearLayout
+            android:id="@+id/horizontal_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+            <Button
+                android:id="@+id/accept_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Accept"
+                android:layout_marginLeft="30dp"/>
+            <Button
+                android:id="@+id/reject_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="reject"
+                android:layout_marginLeft="100dp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

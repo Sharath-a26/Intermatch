@@ -1,16 +1,14 @@
 package com.example.intermatch
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.widget.AdapterView
-import android.widget.GridView
-import android.widget.SearchView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
@@ -48,6 +46,9 @@ lateinit var faculty_email : String
 var temp : String = ""
 var temp2 : String = ""
 
+var user_github = ""
+var user_linkedin = ""
+
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -65,7 +66,11 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         supportActionBar?.hide()
 
         recommendation_layout.isVisible = false
-        supportActionBar?.hide()
+        val dialog = ProgressDialog(this)
+        dialog.setMessage("Finding best projects")
+        dialog.setCancelable(false)
+        dialog.setInverseBackgroundForced(false)
+        dialog.show()
         val alertbuilder = AlertDialog.Builder(this)
         /**
          * Make all the color of
@@ -106,7 +111,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             put("database","Intermatch")
             put("collection","User")
             put("filter", JSONObject().apply {
-                put("username","sharathsr")
+                put("username",username)
             })
         }
 
@@ -116,7 +121,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             Response.Listener<JSONObject> { response ->
 
                 user_interest = response.getJSONObject("document").getJSONArray("areas_of_interest")
-                Log.d(null,"user_interest = " + user_interest.toString())
+                user_github = response.getJSONObject("document").get("github").toString()
+                user_linkedin = response.getJSONObject("document").get("linkedin").toString()
 
             },
             Response.ErrorListener { error ->
@@ -367,7 +373,11 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
                     gridView?.adapter = languageAdapter
                     gridView?.onItemClickListener = this
+
+
                     recommendation_layout.isVisible = true
+
+                    dialog.hide()
 
 
 
@@ -456,6 +466,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             gridView?.adapter = languageAdapter
             gridView?.onItemClickListener = this
             recommendation_layout.isVisible = true
+            dialog.hide()
         }
 
 
@@ -614,6 +625,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         )
 
 
+
         /**
          * selecting recom type when filter is pressed
          */
@@ -665,10 +677,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         }
 
-
-
-
-
+        /**
+         * drop down
+         */
 
 
 
@@ -682,6 +693,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             intent.putExtra("project_name",prj_name.text)
             intent.putExtra("faculty_name",researcher_name.text)
             intent.putExtra("username",username)
+            intent.putExtra("match",match_percentage.text)
+            intent.putExtra("github", user_github)
+            intent.putExtra("linkedin", user_linkedin)
             startActivity(intent)
         }
 

@@ -58,7 +58,7 @@ class SearchActivity : AppCompatActivity() {
                 search_prj_name.text = response.getJSONObject("document").get("name").toString()
                 search_dept_name.text = response.getJSONObject("document").get("dept").toString()
                 search_researcher_name.text = response.getJSONObject("document").get("faculty_name").toString()
-                search_domain.text = response.getJSONObject("document").getJSONArray("domains").toString()
+               // search_domain.text = response.getJSONObject("document").getJSONArray("domains").toString()
 
                 search_layout.isVisible = true
 
@@ -92,6 +92,14 @@ class SearchActivity : AppCompatActivity() {
             )
         )
         volleyQueue.add(request)
+
+        /**
+         * outlook btn in search activity
+         */
+
+        search_outlook_btn.setOnClickListener {
+
+        }
 
     }
 
