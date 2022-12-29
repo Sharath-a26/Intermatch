@@ -39,14 +39,18 @@ class RequestAdapter : BaseAdapter {
     lateinit var match_users : ArrayList<Int>
     lateinit var gits : ArrayList<String>
     lateinit var linkedin_list: ArrayList<String>
+    lateinit var prj_name : String
+    lateinit var fac_name : String
     lateinit var inflater: LayoutInflater
     constructor(ct: Context, requested_List : ArrayList<String>,match_users : ArrayList<Int>,
-                gits : ArrayList<String>,linkedin_list : ArrayList<String>) {
+                gits : ArrayList<String>,linkedin_list : ArrayList<String>,prj_name : String,fac_name : String) {
         this.mcontext = ct
         this.listrequested = requested_List
         this.match_users = match_users
         this.gits = gits
         this.linkedin_list = linkedin_list
+        this.prj_name = prj_name
+        this.fac_name = fac_name
         inflater = LayoutInflater.from(ct)
     }
     override fun getCount(): Int {
@@ -83,7 +87,7 @@ class RequestAdapter : BaseAdapter {
 
         val stud_github = convertView.findViewById<TextView>(R.id.user_git)
         val stud_linkedin = convertView.findViewById<TextView>(R.id.user_linkedin)
-
+        val volleyQueue = Volley.newRequestQueue(mcontext)
         stud_github.setOnClickListener {
             var intent1 = Intent(Intent.ACTION_VIEW,Uri.parse(stud_github.text.toString()))
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -97,11 +101,121 @@ class RequestAdapter : BaseAdapter {
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(mcontext,intent1,null)
         }
+        val url_update = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
+        lateinit var jsonfile_update : JSONObject
 
         accept.setOnClickListener {
-            Log.d(null,"delete pressed")
+                jsonfile_update = JSONObject().apply {
+                put("dataSource","Cluster0")
+                put("database","Intermatch")
+                put("collection","Interested")
+                put("filter", JSONObject().apply {
+                    put("username",listrequested[position])
+                    put("faculty_name",fac_name)
+                    put("project_name",prj_name)
+
+                })
+                put("update",JSONObject().apply {
+                    put("$"+"set",JSONObject().apply {
+                        put("status","Accepted")
+                    })
+                })
+            }
+
+            val request_update : JsonObjectRequest = object : JsonObjectRequest(
+                Request.Method.POST,
+                url_update, jsonfile_update,
+                Response.Listener<JSONObject> { response ->
+
+
+                },
+                Response.ErrorListener { error ->
+
+                },
+
+                ) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers.put("Content-Type", "application/json");
+                    headers.put(
+                        "api-key",
+                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                    );
+                    headers.put("Access-Control-Request-Headers","*");
+
+                    return headers
+                }
+            }
+
+
+            val MY_SOCKET_TIMEOUT_MS = 50000;
+            request_update.setRetryPolicy(
+                DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+            )
+
+            volleyQueue.add(request_update)
+
         }
         reject.setOnClickListener {
+            jsonfile_update = JSONObject().apply {
+                put("dataSource","Cluster0")
+                put("database","Intermatch")
+                put("collection","Interested")
+                put("filter", JSONObject().apply {
+                    put("username",listrequested[position])
+                    put("faculty_name",fac_name)
+                    put("project_name",prj_name)
+
+                })
+                put("update",JSONObject().apply {
+                    put("$"+"set",JSONObject().apply {
+                        put("status","Rejected")
+                    })
+                })
+            }
+
+            val request_update : JsonObjectRequest = object : JsonObjectRequest(
+                Request.Method.POST,
+                url_update, jsonfile_update,
+                Response.Listener<JSONObject> { response ->
+
+
+                },
+                Response.ErrorListener { error ->
+
+                },
+
+                ) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers.put("Content-Type", "application/json");
+                    headers.put(
+                        "api-key",
+                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                    );
+                    headers.put("Access-Control-Request-Headers","*");
+
+                    return headers
+                }
+            }
+
+
+            val MY_SOCKET_TIMEOUT_MS = 50000;
+            request_update.setRetryPolicy(
+                DefaultRetryPolicy(
+                    MY_SOCKET_TIMEOUT_MS,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                )
+            )
+
+            volleyQueue.add(request_update)
 
         }
         return convertView

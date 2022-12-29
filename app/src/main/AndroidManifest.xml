@@ -16,16 +16,22 @@
         android:theme="@style/Theme.Intermatch"
         tools:targetApi="31">
         <activity
-            android:name=".UploadUserDetails"
-            android:windowSoftInputMode="adjustPan"
+            android:name=".MyInteraction"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
+            android:name=".UploadUserDetails"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ShowProfileActivity"
-
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -47,7 +53,6 @@
         </activity>
         <activity
             android:name=".AddProjectActivity"
-
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -55,7 +60,6 @@
         </activity>
         <activity
             android:name=".UploadInterestActivity"
-
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -63,7 +67,6 @@
         </activity>
         <activity
             android:name=".UploadProjectActivity"
-
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

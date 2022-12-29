@@ -16,7 +16,6 @@
         android:layout_gravity="center"
 
         android:layout_marginTop="43dp"
-        android:layout_marginBottom="32dp"
         android:background="@drawable/sign_up_design"
         android:elevation="20dp"
         android:orientation="vertical"
@@ -160,12 +159,12 @@
 
         <EditText
             android:id="@+id/edit_username"
-            android:visibility="invisible"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-
             android:textAlignment="center"
+
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/edit_email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -173,40 +172,38 @@
 
         <EditText
             android:id="@+id/edit_email"
-            android:visibility="invisible"
-            android:textSize="15sp"
-            android:drawableStart="@drawable/outlook__1_"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="78dp"
             android:layout_marginEnd="34dp"
             android:layout_marginBottom="13dp"
+            android:drawableStart="@drawable/outlook__1_"
+            android:textSize="15sp"
+            android:visibility="invisible"
 
             app:layout_constraintBottom_toTopOf="@+id/edit_pass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.067"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-             />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/edit_pass"
             android:layout_width="300dp"
-            android:visibility="invisible"
-            android:textSize="15sp"
             android:layout_height="40dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="34dp"
             android:layout_marginBottom="3dp"
-            android:layout_marginTop="20dp"
             android:drawableStart="@drawable/password_icon"
+            android:textSize="15sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.043"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/edit_email"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
         <EditText
             android:id="@+id/edit_github"
@@ -255,8 +252,21 @@
             app:layout_constraintTop_toBottomOf="@+id/user_interests" />
 
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/interaction_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="357dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+
+        android:src="@drawable/communication_between_users_svgrepo_com__1___1_"
+        app:layout_constraintBottom_toTopOf="@+id/layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navView"

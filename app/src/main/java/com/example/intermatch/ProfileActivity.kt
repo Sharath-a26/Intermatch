@@ -340,5 +340,16 @@ class ProfileActivity : AppCompatActivity() {
             )
         }
 
+
+        /**
+         * goto interactions page if right top btn is clicked
+         */
+
+        interaction_btn.setOnClickListener {
+            val intent_inter = Intent(this,MyInteraction::class.java)
+            intent_inter.putExtra("username",username)
+            startActivity(intent_inter)
+        }
+
     }
 }

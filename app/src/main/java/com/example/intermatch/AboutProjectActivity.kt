@@ -50,9 +50,13 @@ class AboutProjectActivity : AppCompatActivity() {
                     linkedin_list.add(response.getJSONArray("documents").getJSONObject(i).get("req_linkedin").toString())
                 }
 
-                reqadapter = RequestAdapter(this.baseContext, requested_users, match_users,gits,
-                    linkedin_list)
-                req_listview.adapter = reqadapter
+                if (this_prj != null && faculty_name != null) {
+                    reqadapter = RequestAdapter(
+                        this.baseContext, requested_users, match_users, gits,
+                        linkedin_list, this_prj, faculty_name
+                    )
+                    req_listview.adapter = reqadapter
+                }
 
             },
             Response.ErrorListener { error ->

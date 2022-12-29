@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_info_alert.view.*
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_recommendation.*
+import kotlinx.android.synthetic.main.activity_upload_user_details.*
 import kotlinx.android.synthetic.main.filter_layout.*
 import kotlinx.android.synthetic.main.filter_layout.view.*
 import org.json.JSONArray
@@ -42,10 +44,10 @@ var user_interest : JSONArray = JSONArray()
 var i:Int = 0
 var recom_type = "dept"
 var domains : JSONArray = JSONArray()
-lateinit var faculty_email : String
+var faculty_email : String = ""
 var temp : String = ""
 var temp2 : String = ""
-
+var desc = ""
 var user_github = ""
 var user_linkedin = ""
 
@@ -343,6 +345,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     prj_name.text = prj
                     dept_name.text = dept
 
+                    desc = k.getJSONObject(intent.getIntExtra("text",i)).get("desc").toString()
 
                     val domain_array = k.getJSONObject(intent.getIntExtra("text",i))
                         .getJSONArray("domains")
@@ -436,6 +439,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             prj_name.text = prj
             dept_name.text = dept
             researcher_name.text = facname
+
+
+            desc = k.getJSONObject(intent.getIntExtra("text",i)).get("desc").toString()
 
             //prj_desc.text = k.getJSONObject(intent.getIntExtra("text",i))
                 //.get("desc").toString()
@@ -612,6 +618,14 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     val intent = Intent(this@RecommendationActivity,SearchActivity::class.java)
                     intent.putExtra("keyword",searchbtn.query.toString())
+                    var interests = ArrayList<String>()
+                    for (x in 0 until user_interest.length()) {
+                        interests.add(user_interest.getString(x))
+                    }
+                    intent.putExtra("user_interest", interests)
+                    intent.putExtra("github", user_github)
+                    intent.putExtra("linkedin", user_linkedin)
+                    intent.putExtra("username",username)
                     startActivity(intent)
 
                     return false
@@ -684,7 +698,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
 
         /**
-         * sending an email to faculty if outlook button pressed
+         * sending an email to faculty if setdatak button pressed
          * 1. Takes user to send_email page
          */
         outlook_btn.setOnClickListener {
@@ -703,13 +717,15 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         /**
          * displaying an alert dialog which constains the info about the project
          */
-
+        val inflater: LayoutInflater = LayoutInflater.from(this)
         info_btn.setOnClickListener {
+            alertbuilder.create()
+            val desc_layout = inflater.inflate(R.layout.activity_info_alert,null)
+            desc_layout.prj_desc.text = desc
+            Log.d(null,"Description = " + desc_layout.prj_desc.text)
 
-           alertbuilder.setView(R.layout.activity_info_alert)
-
-
-            alertbuilder.create().show()
+            alertbuilder.setView(R.layout.activity_info_alert)
+            alertbuilder.show()
         }
 
         /**

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    >
+
+    <LinearLayout
+        android:id="@+id/my_status_item"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="21dp"
+        android:background="@drawable/req_item_bg"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_prj_name"
+            android:textSize="25sp"
+            android:textColor="@color/white"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/lato_bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/status_fac_name"
+            android:textColor="@color/white"
+            android:fontFamily="@font/lato_bold"
+            android:textSize="20sp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="10dp"
+            />
+
+       <LinearLayout
+           android:layout_width="300dp"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:layout_marginTop="40dp"
+           android:layout_marginLeft="10dp"
+           >
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Status : "
+               android:textColor="@color/white"
+               android:textSize="25sp"
+               android:fontFamily="@font/lato_bold"/>
+
+           <TextView
+               android:id="@+id/req_status"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/white"
+               android:textSize="25sp"
+               android:fontFamily="@font/lato_bold"/>
+
+       </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
