@@ -2,7 +2,6 @@ package com.example.intermatch
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -14,27 +13,30 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import kotlinx.android.synthetic.main.activity_add_idea.*
 import kotlinx.android.synthetic.main.activity_add_project.*
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_upload_project.*
-import kotlinx.android.synthetic.main.activity_upload_project.input
 import org.json.JSONArray
 import org.json.JSONObject
-var fac_email : String = ""
-var tags = emptyArray<String>()
-var isclicked = BooleanArray(10000)
-class AddProjectActivity : AppCompatActivity() {
+var stud_email : String = ""
+var tag_idea = emptyArray<String>()
+var isclicked_idea = BooleanArray(10000)
+class AddIdea : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_project)
+        setContentView(R.layout.activity_add_idea)
         supportActionBar?.hide()
-        val faculty_name = intent.getStringExtra("username")
+        val username = intent.getStringExtra("username")
+        val volleyQueue = Volley.newRequestQueue(this)
         val alertbuilder = AlertDialog.Builder(this)
         var checkedIndex = ArrayList<String>()
 
 
-        val volleyQueue = Volley.newRequestQueue(this)
+        /**
+         * get tags from database
+         */
+
         val url_tags = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/find"
         val jsonfile_tags = JSONObject().apply {
             put("dataSource","Cluster0")
@@ -50,16 +52,16 @@ class AddProjectActivity : AppCompatActivity() {
             url_tags, jsonfile_tags,
             Response.Listener<JSONObject> {
                     response ->
-                Log.d(null,"chumma")
+
                 val temp_array = ArrayList<String>()
                 val temp_array2 = ArrayList<Boolean>()
                 for (i in 0 until response.getJSONArray("documents").length()) {
                     temp_array.add(response.getJSONArray("documents").getJSONObject(i).get("tag").toString())
                     temp_array2.add(false)
                 }
-                tags = temp_array.toTypedArray()
-                isclicked = temp_array2.toBooleanArray()
-
+                tag_idea = temp_array.toTypedArray()
+                isclicked_idea = temp_array2.toBooleanArray()
+                Log.d(null,tag_idea[0])
             },
             Response.ErrorListener { error ->
                 Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
@@ -97,54 +99,42 @@ class AddProjectActivity : AppCompatActivity() {
         volleyQueue.add(request_tag);
 
 
-        Log.d(null, "Tag size = " + tags.size)
-        Log.d(null,"Tags = " + tags.toString())
 
 
 
-            upload_domain_btn_add.setOnClickListener {
-                if (tags.size != 0) {
-                    Log.d(null,tags[1])
+
+            upload_idea_domain.setOnClickListener {
+                if (tag_idea.size != 0) {
                 Log.d(null, "upload_btn clicked")
                 alertbuilder.setTitle("Select an option")
                 alertbuilder.setMultiChoiceItems(
-                    tags,
-                    isclicked,
+                    tag_idea,
+                    isclicked_idea,
                     DialogInterface.OnMultiChoiceClickListener { dialog, index, checked ->
                         if (checked) {
 
                             //input.text?.append("\n ${arr.get(index)}")
-                            checkedIndex.add(tags.get(index))
-                            isclicked[index] = checked
-                        } else if (checkedIndex.contains(tags.get(index))) {
+                            checkedIndex.add(tag_idea.get(index))
+                            isclicked_idea[index] = checked
+                        } else if (checkedIndex.contains(tag_idea.get(index))) {
 
-                            checkedIndex.remove(tags.get(index))
-                            isclicked[index] = false
+                            checkedIndex.remove(tag_idea.get(index))
+                            isclicked_idea[index] = false
                         }
                     })
                 alertbuilder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
-                    for (i in 0 until checkedIndex.size) {
-                        if (i != checkedIndex.size - 1) {
-                            input_add.text?.append("${checkedIndex.get(i)} \n")
-                        } else {
-                            input_add.text?.append(checkedIndex.get(i))
-                        }
-                    }
-                    input_add.isVisible = true
+
 
                 })
                 alertbuilder.create().show()
             }
-                else{
-                    Log.d(null,"tag size 0 ")
-                }
         }
 
-        addprj_add.setOnClickListener {
+        add_idea_btn.setOnClickListener {
 
             Log.d(null,"adbfdfndng")
 
-            val description = edit_desc_add.text
+            val description = idea_desc.text
 
 
             val url1 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
@@ -152,7 +142,7 @@ class AddProjectActivity : AppCompatActivity() {
                 put("dataSource", "Cluster0")
                 put("database", "Intermatch")
                 put("collection", "User")
-                put("filter",JSONObject().apply {
+                put("filter", JSONObject().apply {
                     put("username",username)
                 })
 
@@ -162,23 +152,23 @@ class AddProjectActivity : AppCompatActivity() {
                 Request.Method.POST,
                 url1, jsonfile1,
                 Response.Listener<JSONObject> { response ->
-                    fac_email = response.getJSONObject("document").get("email").toString()
+                    stud_email = response.getJSONObject("document").get("email").toString()
 
                     val url2 =
                         "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
-                    val project_name = prjname_add.text.toString()
+                    val idea_name = idea_name.text.toString()
 
-                    Log.d(null, "faculty_name = " + fac_email)
+                    Log.d(null, "faculty_name = " + stud_email)
 
                     val a = JSONObject().apply {
                         put("dataSource", "Cluster0")
                         put("database", "Intermatch")
                         put("collection", "Project")
                         put("document", JSONObject().apply {
-                            put("faculty_name", faculty_name)
-                            put("name", project_name)
-                            put("faculty_email", fac_email)
+                            put("faculty_name", username)
+                            put("name", idea_name)
+                            put("faculty_email", stud_email)
                             put("domains", JSONArray().apply {
                                 for (i in 0..checkedIndex.size - 1) {
                                     put(i, checkedIndex[i])
@@ -242,20 +232,7 @@ class AddProjectActivity : AppCompatActivity() {
             }
             volleyQueue.add(request1)
 
-
-            Log.d(null,"faculty_email = " + fac_email)
-            /**
-             * navigating to the recommendation screen after the project is uploaded
-             */
-
-            val intent1 = Intent(this@AddProjectActivity,RecommendationActivity::class.java)
-            intent1.putExtra("username",faculty_name)
-            intent1.putExtra("usertype","Faculty")
-            startActivity(intent1)
-
         }
-
-
 
     }
 }

@@ -191,6 +191,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                                 intent1.putExtra("usertype", user_type)
                                 startActivity(intent1)
                             }
+
+                            R.id.item4 -> {
+                                intent1 = Intent(this, AddIdea::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
                         }
                         true
                     }

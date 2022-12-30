@@ -1,5 +1,6 @@
 package com.example.intermatch
 
+import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,6 +28,11 @@ class LoginActivity : AppCompatActivity() {
 
         loginButton.setOnClickListener {
 
+            val dialog = ProgressDialog(this)
+            dialog.setMessage("Logging In...")
+            dialog.setCancelable(false)
+            dialog.setInverseBackgroundForced(false)
+            dialog.show()
             val volleyQueue = Volley.newRequestQueue(this)
             val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
 
@@ -64,12 +70,14 @@ class LoginActivity : AppCompatActivity() {
                         intent.putExtra("username",username)
                         intent.putExtra("usertype",user_type)
                         startActivity(intent)
+                        dialog.hide()
                     }
 
                     else {
                         val toast = Toast(this)
-
+                        dialog.hide()
                         Toast.makeText(this,"Invalid Username or password",Toast.LENGTH_LONG).show()
+
                     }
 
 
