@@ -183,6 +183,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                                 intent1 = Intent(this, LikedActivity::class.java)
                                 intent1.putExtra("username", username)
                                 intent1.putExtra("usertype", user_type)
+                                var interests = ArrayList<String>()
+                                for (x in 0 until user_interest.length()){
+                                    interests.add(user_interest.getString(x))
+                                }
+                                intent1.putExtra("user_inter",interests)
+                                intent1.putExtra("github", user_github)
+                                intent1.putExtra("linkedin", user_linkedin)
                                 startActivity(intent1)
                             }
                             R.id.item3 -> {
@@ -220,6 +227,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                                 intent1 = Intent(this, LikedActivity::class.java)
                                 intent1.putExtra("username", username)
                                 intent1.putExtra("usertype", user_type)
+                                var interests = ArrayList<String>()
+                                for (x in 0 until user_interest.length()){
+                                    interests.add(user_interest.getString(x))
+                                }
+                                intent1.putExtra("user_inter",interests)
+                                intent1.putExtra("github", user_github)
+                                intent1.putExtra("linkedin", user_linkedin)
                                 startActivity(intent1)
                             }
 

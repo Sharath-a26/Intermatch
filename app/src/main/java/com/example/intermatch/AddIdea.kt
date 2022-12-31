@@ -2,6 +2,7 @@ package com.example.intermatch
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_add_idea.*
 import kotlinx.android.synthetic.main.activity_add_project.*
 import kotlinx.android.synthetic.main.activity_login.*
@@ -28,6 +30,7 @@ class AddIdea : AppCompatActivity() {
         setContentView(R.layout.activity_add_idea)
         supportActionBar?.hide()
         val username = intent.getStringExtra("username")
+        var user_type = intent.getStringExtra("usertype")
         val volleyQueue = Volley.newRequestQueue(this)
         val alertbuilder = AlertDialog.Builder(this)
         var checkedIndex = ArrayList<String>()
@@ -233,6 +236,45 @@ class AddIdea : AppCompatActivity() {
             volleyQueue.add(request1)
 
         }
+
+        /**
+         * navigating to different screens
+         */
+        lateinit var intent1 : Intent
+
+        ideaView.selectedItemId = R.id.item4
+        ideaView.setOnItemSelectedListener(
+            BottomNavigationView.OnNavigationItemSelectedListener {
+                when (it.itemId) {
+                    R.id.item1 -> {
+                        intent1 = Intent(this, RecommendationActivity::class.java)
+                        intent1.putExtra("username", username)
+                        intent1.putExtra("usertype",user_type)
+                        startActivity(intent1)
+                    }
+
+                    R.id.item2 -> {
+                        intent1 = Intent(this, LikedActivity::class.java)
+                        intent1.putExtra("username", username)
+                        intent1.putExtra("usertype",user_type)
+                        startActivity(intent1)
+                    }
+                    R.id.item3 -> {
+                        intent1 = Intent(this, ProfileActivity::class.java)
+                        intent1.putExtra("username", username)
+                        intent1.putExtra("usertype",user_type)
+                        startActivity(intent1)
+                    }
+                    R.id.item4 -> {
+                        intent1 = Intent(this, AddIdea::class.java)
+                        intent1.putExtra("username", username)
+                        intent1.putExtra("usertype", user_type)
+                        startActivity(intent1)
+                    }
+                }
+                true
+            }
+        )
 
     }
 }

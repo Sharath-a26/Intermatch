@@ -31,6 +31,11 @@ class LikedActivity : AppCompatActivity() {
          */
         var username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
+        var user_inter = intent.getCharSequenceArrayListExtra("user_inter")
+        var github_user = intent.getStringExtra("github")
+        var linkedin_user = intent.getStringExtra("linkedin")
+
+        val position = intent.getIntExtra("position",-1)
         val like_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
 
 
@@ -58,6 +63,12 @@ class LikedActivity : AppCompatActivity() {
 
                             R.id.item3 -> {
                                 intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                            R.id.item4 -> {
+                                intent1 = Intent(this, AddIdea::class.java)
                                 intent1.putExtra("username", username)
                                 intent1.putExtra("usertype", user_type)
                                 startActivity(intent1)
@@ -151,16 +162,24 @@ class LikedActivity : AppCompatActivity() {
                         likeList.add(liked_projects.get(i))
                     }
                 }
+                if (position != -1) {
+                    likeList.removeAt(position)
+                }
 
                 Log.d(null,likeList.toString())
 
-                customBaseAdapter = username?.let {
-                    CustomBaseAdapter(this.baseContext, likeList,
-                        it
-                    )
-                }!!
-                Log.d(null,"sdbdfbg")
+
+                    customBaseAdapter = username?.let {
+                        CustomBaseAdapter(
+                            this.baseContext, likeList,
+                            it, user_inter, user_github, user_linkedin
+                        )
+                    }!!
+
+
                 listview.adapter = customBaseAdapter
+                Log.d(null,"sdbdfbg")
+
 
             },
             Response.ErrorListener { error ->

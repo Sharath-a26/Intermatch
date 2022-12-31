@@ -3,7 +3,9 @@ package com.example.intermatch
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Layout
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -30,7 +32,7 @@ class StudentRequestActivity : AppCompatActivity() {
         supportActionBar?.hide()
         val username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
-
+        val position = intent.getIntExtra("position",-1)
         val requested_view = findViewById<BottomNavigationView>(R.id.navView)
 
         /**
@@ -123,18 +125,24 @@ class StudentRequestActivity : AppCompatActivity() {
 
                 Log.d(null,prjList.toString())
 
-                var arrayAdapter = ArrayAdapter(applicationContext,R.layout.activity_custom_list_view,R.id.list_text,prjList)
+                /*var arrayAdapter = ArrayAdapter(applicationContext,R.layout.activity_custom_list_view,R.id.list_text,prjList)
                 Log.d(null,"sdbdfbg")
                 listview.adapter = arrayAdapter
 
                 listview.setOnItemClickListener { parent, view, position, id ->
+
 
                         val intent2 = Intent(this,AboutProjectActivity::class.java)
                         intent2.putExtra("prjname", req_projects.get(position))
                         intent2.putExtra("faculty_name",username)
                         startActivity(intent2)
 
+                }*/
+                if (position != -1) {
+                    prjList.removeAt(position)
                 }
+                var prjAdapter = username?.let { ProjectAdapter(applicationContext,prjList, it) }
+                listview.adapter = prjAdapter
             },
             Response.ErrorListener { error ->
 
