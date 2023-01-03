@@ -1,6 +1,7 @@
 package com.example.intermatch
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -245,6 +246,14 @@ class ProfileActivity : AppCompatActivity() {
 
         }
 
+        logout_btn.setOnClickListener {
+            val preferences : SharedPreferences = getSharedPreferences("checkbox", MODE_PRIVATE)
+            val editor : SharedPreferences.Editor = preferences.edit()
+            editor.putString("remember","false")
+            editor.apply()
+            startActivity(Intent(this,LoginActivity::class.java))
+        }
+
         /**
          * opening github accnt
          */
@@ -356,6 +365,12 @@ class ProfileActivity : AppCompatActivity() {
             intent_inter.putExtra("username",username)
             startActivity(intent_inter)
         }
+
+        /**
+         * logging out
+         */
+
+
 
     }
 }

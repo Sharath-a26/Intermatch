@@ -2,9 +2,11 @@ package com.example.intermatch
 
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.CompoundButton
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -20,12 +22,45 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         supportActionBar?.hide()
+
         regButton.setOnClickListener{
             val intent = Intent(this,RegisterActivity::class.java)
 
             startActivity(intent)
         }
+        val preferences : SharedPreferences = getSharedPreferences("checkbox", MODE_PRIVATE)
+        var checkbox : String? = preferences.getString("remember","")
+        var rem_user : String? = preferences.getString("username","")
+        var rem_type : String? = preferences.getString("usertype","")
+        if (checkbox.equals("true")) {
+            val intent = Intent(this,WelcomeActivity::class.java)
 
+            intent.putExtra("username",rem_user)
+            intent.putExtra("usertype",rem_type)
+
+            startActivity(intent)
+
+        }
+
+
+        val editor : SharedPreferences.Editor = preferences.edit()
+        remember_me.setOnCheckedChangeListener(object : CompoundButton.OnCheckedChangeListener{
+            override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+                if (buttonView != null) {
+                    if (buttonView.isChecked) {
+
+                        editor.putString("remember","true")
+
+                    }
+                    else if (!buttonView.isChecked) {
+
+                        editor.putString("remember","false")
+
+                    }
+                }
+            }
+
+        })
         loginButton.setOnClickListener {
 
             val dialog = ProgressDialog(this)
@@ -64,13 +99,37 @@ class LoginActivity : AppCompatActivity() {
                 Response.Listener<JSONObject> {
                     response ->
                     if (!(response.get("document").equals(null))) {
-                        val intent = Intent(this,WelcomeActivity::class.java)
-                        val user_type = response.getJSONObject("document").get("Type").toString()
+
+
+                        /**
+                         * remember me
+                         */
+
+
+
+                            val intent = Intent(this,WelcomeActivity::class.java)
+                            val user_type = response.getJSONObject("document").get("Type").toString()
+
+
+                            editor.putString("username",username)
+                            editor.putString("usertype",user_type)
+                            editor.apply()
+
+
+
+
+
+
+
+
+
                         Log.d(null,user_type)
-                        intent.putExtra("username",username)
-                        intent.putExtra("usertype",user_type)
-                        startActivity(intent)
-                        dialog.hide()
+                            intent.putExtra("username",username)
+                            intent.putExtra("usertype",user_type)
+                            startActivity(intent)
+                            dialog.hide()
+
+
                     }
 
                     else {
