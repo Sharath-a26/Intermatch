@@ -107,9 +107,15 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="22dp"
             android:background="@drawable/search_dropdown"
-            tools:layout_editor_absoluteX="245dp"
-            tools:layout_editor_absoluteY="15dp">
+            app:layout_constraintBottom_toTopOf="@+id/prj_name"
+            app:layout_constraintEnd_toStartOf="@+id/filter_btn"
+            app:layout_constraintStart_toEndOf="@+id/searchbtn"
+            app:layout_constraintTop_toTopOf="parent">
 
             <Spinner
                 android:id="@+id/search_filter"
