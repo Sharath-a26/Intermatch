@@ -66,7 +66,7 @@ class LoginActivity : AppCompatActivity() {
             val dialog = ProgressDialog(this)
             dialog.setMessage("Logging In...")
             dialog.setCancelable(false)
-            dialog.setInverseBackgroundForced(false)
+           /* dialog.setInverseBackgroundForced(false)*/
             dialog.show()
             val volleyQueue = Volley.newRequestQueue(this)
             val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
@@ -74,6 +74,7 @@ class LoginActivity : AppCompatActivity() {
             val username = username.text.toString()
             val password = password.text.toString()
 
+            Log.d(null,"Loggin in")
             val info = """
                 {
                 "dataSource": "Cluster0",
@@ -105,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
                          * remember me
                          */
 
-
+                            Log.d(null,"hello user")
 
                             val intent = Intent(this,WelcomeActivity::class.java)
                             val user_type = response.getJSONObject("document").get("Type").toString()
@@ -143,7 +144,7 @@ class LoginActivity : AppCompatActivity() {
                 },
                         Response.ErrorListener { error ->
                     Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
-
+                    dialog.hide()
                 }
                ) {
 
