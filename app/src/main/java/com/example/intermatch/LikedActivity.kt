@@ -29,23 +29,101 @@ class LikedActivity : AppCompatActivity() {
         /**
          * Bottom Navigation with from the liked page
          */
-        val username = intent.getStringExtra("username")
-        val like_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
-        like_view.selectedItemId = R.id.item2
-        like_view.setOnItemSelectedListener(
-            BottomNavigationView.OnNavigationItemSelectedListener {
-                when(it.itemId) {
-                    R.id.item1 -> startActivity(Intent(this,RecommendationActivity::class.java)
-                        .putExtra("username",username))
-                    R.id.item2 -> startActivity(Intent(this,LikedActivity::class.java)
-                        .putExtra("username",username))
+        var username = intent.getStringExtra("username")
+        val user_type = intent.getStringExtra("usertype")
+        var user_inter = intent.getCharSequenceArrayListExtra("user_inter")
+        var github_user = intent.getStringExtra("github")
+        var linkedin_user = intent.getStringExtra("linkedin")
 
-                    R.id.item3 -> startActivity(Intent(this,ProfileActivity::class.java)
-                        .putExtra("username",username))
-                }
-                true
+        val position = intent.getIntExtra("position",-1)
+        val like_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
+
+
+
+        if (user_type == "Student") {
+                menuInflater.inflate(R.menu.bottom_menu_student, like_view.menu)
+                var intent1 = Intent()
+                like_view.selectedItemId = R.id.item2
+                like_view.setOnItemSelectedListener(
+                    BottomNavigationView.OnNavigationItemSelectedListener {
+                        when (it.itemId) {
+                            R.id.item1 -> {
+                                intent1 = Intent(this, RecommendationActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item2 -> {
+                                intent1 = Intent(this, LikedActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item3 -> {
+                                intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                            R.id.item4 -> {
+                                intent1 = Intent(this, AddIdea::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype", user_type)
+                                startActivity(intent1)
+                            }
+                        }
+                        true
+                    }
+                )
             }
-        )
+        else {
+                menuInflater.inflate(R.menu.bottom_menu_faculty, like_view.menu)
+                var intent1 = Intent()
+                like_view.selectedItemId = R.id.item_fac_2
+                like_view.setOnItemSelectedListener(
+                    BottomNavigationView.OnNavigationItemSelectedListener {
+                        when (it.itemId) {
+                            R.id.item_fac_1 -> {
+                                intent1 = Intent(this, RecommendationActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype",user_type)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item_fac_2 -> {
+                                intent1 = Intent(this, LikedActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype",user_type)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item_fac_3 -> {
+                                intent1 = Intent(this,AddProjectActivity::class.java)
+                                intent1.putExtra("username",username)
+                                startActivity(intent1)
+                            }
+
+                            R.id.item_fac_4 -> {
+                                intent1 = Intent(this,StudentRequestActivity::class.java)
+                                intent1.putExtra("username",username)
+                                intent1.putExtra("usertype",user_type)
+                                startActivity(intent1)
+                            }
+                            R.id.item_fac_5 -> {
+                                intent1 = Intent(this, ProfileActivity::class.java)
+                                intent1.putExtra("username", username)
+                                intent1.putExtra("usertype",user_type)
+                                startActivity(intent1)
+                            }
+                        }
+                        true
+                    }
+                )
+            }
+
+
 
 
         /**
@@ -84,12 +162,24 @@ class LikedActivity : AppCompatActivity() {
                         likeList.add(liked_projects.get(i))
                     }
                 }
+                if (position != -1) {
+                    likeList.removeAt(position)
+                }
 
                 Log.d(null,likeList.toString())
 
-                customBaseAdapter =  CustomBaseAdapter(this.baseContext, likeList)
-                Log.d(null,"sdbdfbg")
+
+                    customBaseAdapter = username?.let {
+                        CustomBaseAdapter(
+                            this.baseContext, likeList,
+                            it, user_inter, user_github, user_linkedin
+                        )
+                    }!!
+
+
                 listview.adapter = customBaseAdapter
+                Log.d(null,"sdbdfbg")
+
 
             },
             Response.ErrorListener { error ->

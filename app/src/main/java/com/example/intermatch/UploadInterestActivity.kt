@@ -74,18 +74,23 @@ class UploadInterestActivity : AppCompatActivity() {
 
                     add_inter_btn.text = "NEXT"
                     val volleyQueue = Volley.newRequestQueue(this)
-                    val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                    val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
 
                     val a = JSONObject().apply {
                         put("dataSource","Cluster0")
                         put("database","Intermatch")
                         put("collection","User")
-                        put("document", JSONObject().apply {
+                        put("filter",JSONObject().apply {
                             put("username",user_name)
-                            put("areas_of_interest",JSONArray().apply {
-                                for (i in 0 until checkedIndex.size) {
-                                    put(i,checkedIndex[i])
-                                }
+                        })
+                        put("update",JSONObject().apply {
+                            put("$"+"set",JSONObject().apply {
+                                put("username",user_name)
+                                put("areas_of_interest",JSONArray().apply {
+                                    for (i in 0 until checkedIndex.size) {
+                                        put(i,checkedIndex[i])
+                                    }
+                                })
                             })
                         })
                     }
@@ -118,6 +123,7 @@ class UploadInterestActivity : AppCompatActivity() {
                     volleyQueue.add(request)
 
                     add_inter_btn.setOnClickListener {
+
                         val intent = Intent(this@UploadInterestActivity,LoginActivity::class.java)
                         startActivity(intent)
                     }

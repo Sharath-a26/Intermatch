@@ -2,31 +2,55 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
 
-    android:id="@+id/search_layout">
+    tools:context=".SearchActivity">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@drawable/layout_deisgn">
+        android:layout_height="180dp"
+        android:layout_marginStart="-2dp"
+        android:background="@drawable/layout_deisgn"
+        android:elevation="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/search_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="367dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/android_back"
+            app:layout_constraintBottom_toTopOf="@+id/search_prj_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
 
             android:id="@+id/search_prj_name"
-            android:layout_width="wrap_content"
+            android:layout_width="390dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
             android:text=""
+            android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="30sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.695"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.336" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/search_dept_name"
@@ -34,63 +58,167 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_prj_name"
-            app:layout_constraintVertical_bias="0.23" />
+            app:layout_constraintVertical_bias="0.673" />
 
 
 
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="54dp"
+        android:background="@drawable/like_background"
+        android:elevation="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:id="@+id/search_like_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/heart__1_" />
+
+        <ImageButton
+
+            android:id="@+id/search_outlook_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="1dp"
+
+            android:minHeight="48dp"
+            android:src="@drawable/outlook__1_" />
+
+        <ImageButton
+            android:id="@+id/search_info_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/info_svg__1_" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/search_progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="428dp"
+        android:background="@color/white"
+
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:progressTint="#023430"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <TextView
+        android:id="@+id/search_match_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="93dp"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_progressBar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/box_layout"
+        android:layout_width="380dp"
+        android:layout_height="310dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/box_layout_bg"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_progressBar"
+
+        >
+
+        <GridView
+
+            android:id="@+id/search_grid_view"
+            android:layout_width="350dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="124dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="66dp"
+
+            android:background="@drawable/grid_bg"
+            android:columnWidth="160dp"
+            android:elevation="200dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/search_researcher_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+
+            android:layout_marginBottom="49dp"
+            android:text=""
+            android:textSize="20sp"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="#001E2B"
+            app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="43dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="183dp"
-        android:layout_marginBottom="502dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="290dp"
+        android:layout_marginBottom="326dp"
         android:fontFamily="sans-serif-black"
         android:text="Researcher"
         android:textColor="#023430"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="18sp"
+
+        app:layout_constraintBottom_toTopOf="@+id/navView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/search_progressBar" />
 
-    <TextView
-        android:id="@+id/search_researcher_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="58dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="286dp"
-        android:layout_marginBottom="464dp"
-        android:text=""
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-
-    <TextView
-        android:id="@+id/search_domain"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:layout_marginBottom="366dp"
-
-        android:text=""
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

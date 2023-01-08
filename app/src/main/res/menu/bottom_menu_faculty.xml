@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item android:title="Home" android:id="@+id/item_fac_1" android:icon="@drawable/ic_home"
+        />
+    <item android:title="Liked Projects" android:id="@+id/item_fac_2" android:icon="@drawable/like_svgrepo_com__1_"
+        />
+    <item android:title="Add Project" android:id="@+id/item_fac_3" android:icon="@drawable/add_svgrepo_com__1_"/>
+
+    <item android:title="Student Requests" android:id="@+id/item_fac_4" android:icon="@drawable/swarm_request_svgrepo_com__1_"/>
+    <item android:title="Profile" android:id="@+id/item_fac_5" android:icon="@drawable/ic_person"
+
+        />
+</menu>
+

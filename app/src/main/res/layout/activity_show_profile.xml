@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/show_profile_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/layout_deisgn"
+    tools:context=".ShowProfileActivity">
+
+    <ImageView
+        android:id="@+id/pro_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="362dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/android_back"
+        app:layout_constraintBottom_toTopOf="@+id/layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
+        android:layout_width="350dp"
+        android:layout_height="600dp"
+
+        android:layout_gravity="center"
+
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="32dp"
+        android:background="@drawable/sign_up_design"
+        android:elevation="20dp"
+        android:orientation="vertical"
+
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/pro_back_btn">
+
+
+        <TextView
+            android:id="@+id/show_profile_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="550dp"
+            android:fontFamily="@font/lato_bold"
+            android:text=""
+            android:textColor="#023430"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/show_user_dept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="533dp"
+            android:fontFamily="@font/lato_bold"
+            android:text=""
+            android:textAllCaps="true"
+            android:textColor="#023430"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/show_profile_email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="87dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="7dp"
+            android:drawableStart="@drawable/outlook__1_"
+            android:maxLines="3"
+            android:text=""
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/profile_pass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/show_profile_github"
+            android:layout_width="300dp"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="20dp"
+            android:drawableStart="@drawable/github_svgrepo_com__1_"
+            app:layout_constraintBottom_toTopOf="@+id/show_profile_linkedin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_profile_email" />
+
+        <TextView
+            android:id="@+id/show_profile_linkedin"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="34dp"
+            android:maxLines="3"
+            android:textColor="@color/black"
+            android:drawableStart="@drawable/linkedin_svgrepo_com__1_"
+            app:layout_constraintBottom_toTopOf="@+id/textView13"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_profile_github" />
+
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="239dp"
+            android:fontFamily="@font/lato_bold"
+            android:text="About Me:"
+            android:textColor="#023430"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/show_aboutme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_profile_linkedin" />
+
+        <TextView
+            android:id="@+id/show_aboutme"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="29dp"
+            android:layout_marginBottom="21dp"
+            android:background="#D3D3D3"
+            android:elevation="10dp"
+            android:padding="5dp"
+            android:scrollbars="vertical"
+            android:textSize="15sp"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginEnd="168dp"
+            android:fontFamily="@font/lato_bold"
+            android:text="Areas of Interests:"
+            android:textColor="#023430"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/show_user_interests"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/show_aboutme" />
+
+        <TextView
+            android:id="@+id/show_user_interests"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="30dp"
+            android:background="#D3D3D3"
+            android:elevation="10dp"
+            android:fontFamily="@font/lato_bold"
+            android:maxLines="5"
+            android:padding="5dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

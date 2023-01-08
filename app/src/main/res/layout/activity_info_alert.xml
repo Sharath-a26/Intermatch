@@ -6,13 +6,17 @@
     android:layout_height="350dp"
     android:orientation="vertical"
     android:scrollbars="vertical"
+    tools:context=".RecommendationActivity"
+    android:id="@+id/alert_layout"
     >
 
     <ScrollView
+        android:id="@+id/scroll_layout"
         android:layout_width="fill_parent"
         android:layout_height="400dp" >
 
         <LinearLayout
+            android:id="@+id/alert_linear"
             android:paddingBottom="10dp"
             android:layout_width="match_parent"
             android:layout_height="350dp"
@@ -50,37 +54,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/prj_desc"
                 android:layout_width="320dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="-10dp"
                 android:fontFamily="@font/lato_bold"
-                android:text="sdvsv ifahskjfd asjkbfjds jhjasibfdj saksfdsfb
-sajbfskjdbfkjds kjbadkjfbds kjbaskjdbf skjbjkadbf sdkjbkjbfdasjk bjkbfjkdsb kjb
-jklas fjkdsb kjbfkjdsb kjfbskj bdsh bfbdsk bjdsbfjkdsb jk ihabfisddn hbdashdash bjhb asjdcf
-ndiasnijsan ijnjiasnc iunuiasncij dinisdnfv ijnijnhsdnf jnjnsdjnds ijnijsdn ijsdns d
-fk0ijf isd  iujuisdncid sniuhsdiun isdn iuhfisdvi iuhidsb iidsv iusdiv nidnsdnvijsdn k
- mdsnfijds niunijdsn ijisdnv nsdj bnisndbijvn infjisd nij nijsdnvjs ne bhibdsivn jhdnv ijnj
-d ijods jmdsnv ijsnijdsn iuiudn inds iniusdnfiuds nsdnsdin indsnjisd bisdni snj ni
-d ssdnjidsn jsdnvjsdnj nsdjvnsdjnv jsnsdijvn sjdn jinjidsnvij snjndsjvndsj nsdndsijvnjdsn nsdvjdsn j
-asufdsin iunfasin fijniuasnci naiusnhiudsn uhniadnc ihbicdn ijijdanc bhbcd nihbijasd
-micdjscnsjd nidsc ijnihasbnihjasd nihbhicdbn hbhbchds bhbhuadb hbhudsb bhsdb hbhds
-iodsnc n hubdshubc hbu sdbchu buhsdbchdsbh bahduanbsdv hubahsbd jbhusdb hsbnd
-dshb hsdb hbhjsx bnhbdshb hjsbhbsdh bhbsdhcbsdh  sdjndsj n
-jsanfijsdn mkdsmckjdsnc kjsd cdjndsjknj nijadsncjsdn njsdnjcnds kj
-csaoncijsd nkjasni ndijsn dsc nnjksdn vjkw wjndsjn vj nijjwe jndwj wndivjdwnjne j
- mwICJNHWDI SHDNVDSIJN IFSDI NCDJNDHV JKVN SDJVN SU NSDIJ NVJIND
- MDSVJ NDKJDFN KJNJNj nsdjnv jinjidghr nvijdsnv fkod9quwfhnsij fnwijngvisdnvj dnvsdjndvjidbh
- nvijdsnv jfbdsvn ijnsvij ndsjvnsd njsdn vkjdfndkjf nsdjnv sjnjsnvin ud
- fijdsn jsn ijnvisjdnvijds nijnijsdnvij snijsdnvsdn iedn iunisdjn isn snv idfndfn
- smdvnjdfn jn hjdvhsdn  djdsnvdjdjejoisvdokc nsdfdsjn indajisn jincjidsn n
- dcndsdjn ijndivn ijdnijdsnij nijndsijnvijsdn ijnvsdijn jdnijsndvj nsnvjdsnijdsnv ijnvijsdnijnvds
- hadbchds ihbihdnj bhsdvh snsdnvjhsd jndsnv jsnjdsnvjsd nndjvn dsjvnds jsdnvj sd
- adjsn kjjnvsjdndj nijndijvns jdnijdsnjv njinjndjv njdnvjds njndsjv dsnjsdn ds
- ,dsonvjds nijndvij ndsijh njsdnv jndsijvnvsdjn idsnvinsdj njhsdnvsjdn j jds
- ijsdvjds sjindvdsn ijnsdvjdsnj n
-"
+                android:text="hello"
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 tools:layout_editor_absoluteX="31dp"

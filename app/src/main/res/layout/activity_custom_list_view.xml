@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:padding="30dp"
-    tools:context=".CustomListView"
-    >
 
-    <LinearLayout
+     >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+
+        android:id="@+id/list_item_layout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/list_item_bg"
+        android:elevation="10dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:elevation="20dp"
-        android:background= "@drawable/liked_projects_bg"
+        tools:context=".CustomListView"
         >
 
         <TextView
-            android:padding="30dp"
-            android:elevation="40dp"
+            android:id="@+id/list_text"
+            android:layout_width="300dp"
 
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="51dp"
+            android:elevation="40dp"
             android:fontFamily="@font/lato_bold"
+            android:gravity="start"
+            android:padding="30dp"
             android:text="My Text"
             android:textColor="@color/black"
             android:textSize="20sp"
@@ -35,6 +43,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="43dp"
+            android:src="@drawable/ic_baseline_delete_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/list_text"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

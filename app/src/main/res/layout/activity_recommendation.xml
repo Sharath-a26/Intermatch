@@ -13,7 +13,7 @@
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginStart="-2dp"
         android:background="@drawable/layout_deisgn"
         android:elevation="60dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,26 +24,44 @@
         <SearchView
             android:id="@+id/searchbtn"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="84dp"
+            android:layout_width="220dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginEnd="195dp"
+            android:layout_marginBottom="121dp"
             android:background="@drawable/search_view_bg"
-
             android:elevation="10dp"
+
+            android:iconifiedByDefault="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/search_dropdown"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filter_btn"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/searchbtn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.125" />
+            app:layout_constraintVertical_bias="0.6">
+
+        </RelativeLayout>
+
 
         <TextView
 
             android:id="@+id/prj_name"
-            android:layout_width="wrap_content"
+            android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:text=""
+            android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,6 +85,46 @@
             app:layout_constraintTop_toBottomOf="@+id/prj_name"
             app:layout_constraintVertical_bias="0.673" />
 
+        <ImageButton
+            android:id="@+id/filter_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="120dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="29dp"
+
+            android:padding="10dp"
+            android:src="@drawable/slider_filter_svgrepo_com__1_"
+            app:layout_constraintBottom_toTopOf="@+id/prj_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toEndOf="@+id/searchbtn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.421" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="61dp"
+            android:layout_marginBottom="125dp"
+            android:background="@drawable/search_dropdown"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filter_btn"
+            app:layout_constraintStart_toEndOf="@+id/searchbtn"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Spinner
+                android:id="@+id/search_filter"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+
+
+                />
+        </RelativeLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -79,7 +137,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+
+        />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -101,8 +160,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:src="@drawable/heart__1_"
-             />
+            android:src="@drawable/heart__1_" />
 
         <ImageButton
 
@@ -121,9 +179,95 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:layout_marginTop="4dp"
-            android:src="@drawable/info_svg__1_"/>
+            android:src="@drawable/info_svg__1_" />
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginBottom="428dp"
+        android:background="@color/white"
+
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:progressTint="#023430"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.576" />
+
+    <TextView
+        android:id="@+id/match_percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:layout_marginBottom="93dp"
+        android:fontFamily="@font/lato_bold"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/box_layout"
+        android:layout_width="380dp"
+        android:layout_height="310dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/box_layout_bg"
+        app:layout_constraintBottom_toTopOf="@+id/navView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+
+        >
+
+        <GridView
+
+            android:id="@+id/my_grid_view"
+            android:layout_width="350dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="124dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="66dp"
+
+            android:background="@drawable/grid_bg"
+            android:columnWidth="160dp"
+            android:elevation="200dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/researcher_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+
+            android:layout_marginBottom="49dp"
+            android:text=""
+            android:textSize="20sp"
+            android:fontFamily="@font/lato_bold"
+            android:textColor="#001E2B"
+            app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -137,71 +281,12 @@
         android:text="Researcher"
         android:textColor="#023430"
         android:textSize="18sp"
+
         app:layout_constraintBottom_toTopOf="@+id/navView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
-    <TextView
-        android:id="@+id/researcher_name"
-        android:layout_width="8dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginBottom="39dp"
-        android:text="fdngngh"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
-
-    <GridView
-
-        android:background="@drawable/grid_bg"
-        android:id="@+id/my_grid_view"
-        android:layout_width="350dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="51dp"
-        android:layout_marginBottom="176dp"
-        android:columnWidth="160dp"
-        android:elevation="200dp"
-        android:horizontalSpacing="5dp"
-
-        android:numColumns="2"
-        android:verticalSpacing="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/navView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="81dp"
-        android:layout_marginBottom="428dp"
-
-        android:progressTint="#023430"
-        app:layout_constraintBottom_toTopOf="@+id/navView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <TextView
-        android:id="@+id/match_percentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:layout_marginBottom="93dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/lato_bold"
-        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

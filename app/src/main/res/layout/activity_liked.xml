@@ -11,14 +11,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/like_layout"
+
         android:background="@drawable/layout_deisgn">
 
 
         <ListView
+            android:layout_marginTop="40dp"
             android:id="@+id/customListView"
             android:layout_width="409dp"
             android:layout_height="729dp"
             android:elevation="30dp"
+            android:scrollbars="vertical"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -36,7 +40,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_menu" />
+         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
