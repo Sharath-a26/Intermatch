@@ -49,7 +49,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/searchbtn"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.6" >
+            app:layout_constraintVertical_bias="0.6">
 
         </RelativeLayout>
 
@@ -107,12 +107,11 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
             android:layout_marginTop="15dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginBottom="22dp"
+            android:layout_marginEnd="61dp"
+            android:layout_marginBottom="125dp"
             android:background="@drawable/search_dropdown"
-            app:layout_constraintBottom_toTopOf="@+id/prj_name"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/filter_btn"
             app:layout_constraintStart_toEndOf="@+id/searchbtn"
             app:layout_constraintTop_toTopOf="parent">

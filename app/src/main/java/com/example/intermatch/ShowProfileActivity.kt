@@ -108,5 +108,13 @@ class ShowProfileActivity : AppCompatActivity() {
         show_profile_linkedin.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(show_profile_linkedin.text.toString())))
         }
+
+        /**
+         * goto recom page when back btn pressed
+         */
+
+        pro_back_btn.setOnClickListener {
+            startActivity(Intent(this,RecommendationActivity::class.java))
+        }
     }
 }

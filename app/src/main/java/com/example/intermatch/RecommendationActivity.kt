@@ -50,7 +50,7 @@ var temp2 : String = ""
 var desc = ""
 var user_github = ""
 var user_linkedin = ""
-
+var stype = "Projects"
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -60,14 +60,19 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
     var y1 by Delegates.notNull<Float>()
     var y2 by Delegates.notNull<Float>()
     var like_count : Int = 0
-
+    lateinit var spinnerItems : ArrayList<spinner_item>
+    lateinit var adapter : spinnerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recommendation)
 
         supportActionBar?.hide()
 
+
+
         recommendation_layout.isVisible = false
+
+
         val dialog = ProgressDialog(this)
         dialog.setMessage("Finding best projects")
         dialog.setCancelable(false)
@@ -83,6 +88,38 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         var username = intent.getStringExtra("username")
         var user_type = intent.getStringExtra("usertype")
+
+        /**
+         * initializing spinner
+         */
+        initList()
+        var spinner : Spinner =findViewById(R.id.search_filter)
+        adapter = spinnerAdapter(this,spinnerItems)
+        spinner.adapter = adapter
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?, position: Int, id: Long
+            ) {
+
+                // It returns the clicked item.
+                val clickedItem: spinner_item = parent.getItemAtPosition(position) as spinner_item
+                val name: String = clickedItem.getSpinnerItemName()
+                if (name == "Projects") {
+                    stype = "Projects"
+                }
+                else if (name == "Profile") {
+                    stype = "Profile"
+                }
+                if (view != null) {
+                    view.isVisible = false
+                }
+                Toast.makeText(this@RecommendationActivity, "$name selected", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
 
 
         if (username != null) {
@@ -637,18 +674,24 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         searchbtn.setOnQueryTextListener(
             object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
-                    val intent = Intent(this@RecommendationActivity,SearchActivity::class.java)
-                    intent.putExtra("keyword",searchbtn.query.toString())
-                    var interests = ArrayList<String>()
-                    for (x in 0 until user_interest.length()) {
-                        interests.add(user_interest.getString(x))
+                    if (stype == "Projects") {
+                        val intent = Intent(this@RecommendationActivity, SearchActivity::class.java)
+                        intent.putExtra("keyword", searchbtn.query.toString())
+                        var interests = ArrayList<String>()
+                        for (x in 0 until user_interest.length()) {
+                            interests.add(user_interest.getString(x))
+                        }
+                        intent.putExtra("user_interest", interests)
+                        intent.putExtra("github", user_github)
+                        intent.putExtra("linkedin", user_linkedin)
+                        intent.putExtra("username", username)
+                        startActivity(intent)
                     }
-                    intent.putExtra("user_interest", interests)
-                    intent.putExtra("github", user_github)
-                    intent.putExtra("linkedin", user_linkedin)
-                    intent.putExtra("username",username)
-                    startActivity(intent)
-
+                    else if (stype == "Profile") {
+                        val intent = Intent(this@RecommendationActivity,ShowProfileActivity::class.java)
+                        intent.putExtra("shown_user",searchbtn.query.toString())
+                        startActivity(intent)
+                    }
                     return false
                 }
 
@@ -755,6 +798,15 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         researcher_name.setOnClickListener{
             startActivity(Intent(this,ShowProfileActivity::class.java).putExtra("shown_user",researcher_name.text))
         }
+    }
+
+    /**
+     * function for initializing dropdown
+     */
+    fun initList() {
+        spinnerItems = ArrayList<spinner_item>()
+        spinnerItems.add(spinner_item("Projects"))
+        spinnerItems.add(spinner_item("Profile"))
     }
 
     /**

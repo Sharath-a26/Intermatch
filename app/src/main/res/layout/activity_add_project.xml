@@ -12,7 +12,7 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:layout_marginBottom="3dp"
         android:fontFamily="@font/lato_bold"
         android:text="Upload your Project"
@@ -25,31 +25,84 @@
 
     <EditText
         android:id="@+id/prjname_add"
-        android:layout_width="300dp"
+        android:layout_width="280dp"
         android:layout_height="40dp"
 
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="67dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="54dp"
         android:background="@color/white"
         android:fontFamily="@font/lato_bold"
         android:hint="name"
         android:inputType="textPersonName"
         android:padding="4dp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@+id/upload_domain_btn_add"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/textView18"
+        app:layout_constraintEnd_toStartOf="@+id/upload_domain_btn_add"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+
+    <TextView
+        android:id="@+id/prj_dept_add"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="115dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/white"
+        android:fontFamily="@font/lato_bold"
+        android:padding="5dp"
+        android:text="dept"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@+id/prjname_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
     <ImageView
         android:id="@+id/upload_domain_btn_add"
-        android:layout_width="67dp"
-        android:layout_height="95dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginBottom="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="21dp"
+        android:layout_marginBottom="157dp"
         android:src="@drawable/upload_outbox_svgrepo_com__1_"
         app:layout_constraintBottom_toTopOf="@+id/input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/prjname_add"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/new_domain_add"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="96dp"
+        android:layout_marginBottom="23dp"
+        android:background="@color/white"
+        android:hint="domain name"
+        app:layout_constraintBottom_toTopOf="@+id/input_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="31dp"
+        android:layout_marginEnd="76dp"
+        android:layout_marginBottom="18dp"
+        android:fontFamily="@font/lato_bold"
+        android:text="Not in list? Type your domain here"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/new_domain_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/prjname_add" />
@@ -59,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="43dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="6dp"
         android:layout_marginEnd="246dp"
         android:fontFamily="@font/lato_bold"
         android:text="Project Name"
@@ -88,6 +141,7 @@
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_desc_add" />
 
@@ -97,7 +151,7 @@
         android:layout_height="130dp"
         android:layout_marginStart="45dp"
         android:layout_marginEnd="46dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="15dp"
         android:background="@drawable/mail_bg"
         android:fontFamily="@font/lato_bold"
         android:maxLines="4"
@@ -107,24 +161,22 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/textView7"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/upload_domain_btn_add" />
+        app:layout_constraintTop_toBottomOf="@+id/new_domain_add" />
 
     <TextView
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="31dp"
         android:layout_marginEnd="115dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginBottom="11dp"
         android:fontFamily="@font/lato_bold"
         android:text="Description about the project"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/edit_desc_add"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/input_add" />
 
@@ -140,6 +192,7 @@
         android:lines="5"
         app:layout_constraintBottom_toTopOf="@+id/addprj_add"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
 

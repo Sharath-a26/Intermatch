@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="367dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            android:src="@drawable/android_back"
             app:layout_constraintBottom_toTopOf="@+id/search_prj_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,17 +70,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/navView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#D3D3D3"
-        android:elevation="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
 
-        />
 
     <LinearLayout
         android:id="@+id/linearLayout"

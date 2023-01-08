@@ -20,6 +20,7 @@ import org.json.JSONObject
 
 class UploadProjectActivity : AppCompatActivity() {
     var tags = emptyArray<String>()
+    var isclicked = BooleanArray(10000)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_project)
@@ -28,11 +29,8 @@ class UploadProjectActivity : AppCompatActivity() {
         val faculty_name = intent.getStringExtra("faculty_name") // getting fac_name from register page
         val alertbuilder = AlertDialog.Builder(this)
         var checkedIndex = ArrayList<String>()
-        val arr =resources.getStringArray(R.array.data_list)
-        var isclicked = BooleanArray(arr.size)
-        for (i in 0 until arr.size) {
-            isclicked[i] = false
-        }
+
+
         val volleyQueue = Volley.newRequestQueue(this)
         /**
          * get the tags from database
@@ -54,10 +52,13 @@ class UploadProjectActivity : AppCompatActivity() {
                     response ->
 
                 val temp_array = ArrayList<String>()
+                val temp_array2 = ArrayList<Boolean>()
                 for (i in 0 until response.getJSONArray("documents").length()) {
                     temp_array.add(response.getJSONArray("documents").getJSONObject(i).get("tag").toString())
+                    temp_array2.add(false)
                 }
                 tags = temp_array.toTypedArray()
+                isclicked = temp_array2.toBooleanArray()
                 Log.d(null,tags[0])
             },
             Response.ErrorListener { error ->
@@ -95,20 +96,39 @@ class UploadProjectActivity : AppCompatActivity() {
 
         volleyQueue.add(request_tag);
 
+
+        /**
+         * selecting dept for the project
+         */
+        var departments : Array<CharSequence> = arrayOf("AEE","AIE","ARE","CCE","CHE","CIE","CVI","CSE","CYS","EAC","ECE","EEE","EIE","ELC","MEE")
+        var alertbuilder2 = AlertDialog.Builder(this)
+        prj_dept.setOnClickListener {
+            lateinit var dept_selected : String
+            alertbuilder2.setTitle("Select Project Department")
+            alertbuilder2.setSingleChoiceItems(departments,0,DialogInterface.OnClickListener { dialog, which ->
+                dept_selected = departments[which] as String
+            })
+
+            alertbuilder2.setPositiveButton("OK",DialogInterface.OnClickListener { dialog, id ->
+                prj_dept.text = dept_selected
+            })
+            alertbuilder2.create().show()
+        }
+
         upload_domain_btn.setOnClickListener {
 
             alertbuilder.setTitle("Select an option")
-            alertbuilder.setMultiChoiceItems(R.array.data_list,isclicked, DialogInterface.OnMultiChoiceClickListener{
+            alertbuilder.setMultiChoiceItems(tags,isclicked, DialogInterface.OnMultiChoiceClickListener{
                     dialog,index,checked ->
                 if (checked) {
 
                     //input.text?.append("\n ${arr.get(index)}")
-                    checkedIndex.add(arr.get(index))
+                    checkedIndex.add(tags.get(index))
                     isclicked[index] = checked
                 }
-                else if (checkedIndex.contains(arr.get(index))) {
+                else if (checkedIndex.contains(tags.get(index))) {
 
-                    checkedIndex.remove(arr.get(index))
+                    checkedIndex.remove(tags.get(index))
                     isclicked[index] = false
                 }
             })
@@ -136,7 +156,7 @@ class UploadProjectActivity : AppCompatActivity() {
 
             val description = edit_desc.text
             val url =
-                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
+                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
             val project_name = prjname.text.toString()
 
             val info = """  
@@ -156,12 +176,9 @@ class UploadProjectActivity : AppCompatActivity() {
                 put("dataSource","Cluster0")
                 put("database","Intermatch")
                 put("collection","Project")
-                put("filter",JSONObject().apply {
-                    put("username",faculty_name)
 
-                })
-                put("update",JSONObject().apply {
-                    put("$"+"set",JSONObject().apply {
+                put("document",JSONObject().apply {
+
                         put("faculty_name",faculty_name)
                         put("name",project_name)
                         put("faculty_email",faculty_email)
@@ -169,12 +186,14 @@ class UploadProjectActivity : AppCompatActivity() {
                             for (i in 0..checkedIndex.size-1) {
                                 put(i,checkedIndex[i])
                             }
+                            put(checkedIndex.size,new_domain.text)
                         }
 
                         )
+                        put("dept",prj_dept.text)
                         put("desc",description)
                     })
-                })
+
 
             }
             Log.d(null,"helo")

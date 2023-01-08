@@ -96,6 +96,24 @@ class AddProjectActivity : AppCompatActivity() {
 
         volleyQueue.add(request_tag);
 
+        /**
+         * adding department for the project
+         */
+        var departments : Array<CharSequence> = arrayOf("AEE","AIE","ARE","CCE","CHE","CIE","CVI","CSE","CYS","EAC","ECE","EEE","EIE","ELC","MEE")
+        var alertbuilder2 = AlertDialog.Builder(this)
+        prj_dept_add.setOnClickListener {
+            lateinit var dept_selected : String
+            alertbuilder2.setTitle("Select Project Department")
+            alertbuilder2.setSingleChoiceItems(departments,0,DialogInterface.OnClickListener { dialog, which ->
+                dept_selected = departments[which] as String
+            })
+
+            alertbuilder2.setPositiveButton("OK",DialogInterface.OnClickListener { dialog, id ->
+                prj_dept_add.text = dept_selected
+            })
+            alertbuilder2.create().show()
+        }
+
 
         Log.d(null, "Tag size = " + tags.size)
         Log.d(null,"Tags = " + tags.toString())
@@ -125,7 +143,9 @@ class AddProjectActivity : AppCompatActivity() {
                 alertbuilder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
                     for (i in 0 until checkedIndex.size) {
                         if (i != checkedIndex.size - 1) {
-                            input_add.text?.append("${checkedIndex.get(i)} \n")
+                            if (!(checkedIndex.get(i) in input_add.text)) {
+                                input_add.text?.append("${checkedIndex.get(i)} \n")
+                            }
                         } else {
                             input_add.text?.append(checkedIndex.get(i))
                         }
@@ -138,6 +158,48 @@ class AddProjectActivity : AppCompatActivity() {
                 else{
                     Log.d(null,"tag size 0 ")
                 }
+        }
+
+        if (new_domain_add.text != null) {
+            input_add.append(new_domain_add.text)
+
+            val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+            val append_tag = JSONObject().apply {
+                put("dataSource", "Cluster0")
+                put("database", "Intermatch")
+                put("collection", "Tags")
+                put("document", JSONObject().apply {
+                    put("tag", new_domain_add.text)
+                })
+            }
+
+            val request_append_tag: JsonObjectRequest = object : JsonObjectRequest(
+                Request.Method.POST,
+                url_append_tag, append_tag,
+                Response.Listener<JSONObject> { response ->
+                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                },
+                Response.ErrorListener { error ->
+                    Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
+
+                }) {
+
+
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers.put("Content-Type", "application/json");
+                    headers.put(
+                        "api-key",
+                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                    );
+                    headers.put("Access-Control-Request-Headers", "*");
+
+                    return headers
+                }
+            }
+            volleyQueue.add(request_append_tag)
+
         }
 
         addprj_add.setOnClickListener {
@@ -183,9 +245,11 @@ class AddProjectActivity : AppCompatActivity() {
                                 for (i in 0..checkedIndex.size - 1) {
                                     put(i, checkedIndex[i])
                                 }
+                                put(checkedIndex.size,new_domain_add.text)
                             }
 
                             )
+                            put("dept",prj_dept_add.text)
                             put("desc", description)
                         })
 
