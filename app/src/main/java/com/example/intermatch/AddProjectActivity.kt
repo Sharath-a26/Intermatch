@@ -306,6 +306,48 @@ class AddProjectActivity : AppCompatActivity() {
             }
             volleyQueue.add(request1)
 
+            /**
+             * adding a new tag to Tags
+             */
+
+            input_add.append("\n"+new_domain_add.text)
+
+            val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+            val append_tag = JSONObject().apply {
+                put("dataSource", "Cluster0")
+                put("database", "Intermatch")
+                put("collection", "Tags")
+                put("document", JSONObject().apply {
+                    put("tag", new_domain_add.text)
+                })
+            }
+
+            val request_append_tag: JsonObjectRequest = object : JsonObjectRequest(
+                Request.Method.POST,
+                url_append_tag, append_tag,
+                Response.Listener<JSONObject> { response ->
+                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                },
+                Response.ErrorListener { error ->
+                    Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
+
+                }) {
+
+
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers.put("Content-Type", "application/json");
+                    headers.put(
+                        "api-key",
+                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                    );
+                    headers.put("Access-Control-Request-Headers", "*");
+
+                    return headers
+                }
+            }
+            volleyQueue.add(request_append_tag)
 
             Log.d(null,"faculty_email = " + fac_email)
             /**
