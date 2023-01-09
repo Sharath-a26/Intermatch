@@ -779,7 +779,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
 
         /**
-         * displaying an alert dialog which constains the info about the project
+         * displaying an alert dialog which contains the info about the project
          */
 
 
