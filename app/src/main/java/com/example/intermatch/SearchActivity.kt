@@ -69,21 +69,27 @@ class SearchActivity : AppCompatActivity() {
             url, jsonfile,
             Response.Listener<JSONObject> { response ->
 
-                search_prj_name.text = response.getJSONObject("document").get("name").toString()
-                search_dept_name.text = response.getJSONObject("document").get("dept").toString()
-                search_researcher_name.text =
-                    response.getJSONObject("document").get("faculty_name").toString()
-                domain_prj = response.getJSONObject("document").getJSONArray("domains")
+                if (response.get("document").equals(null)) {
+                    no_data_found.isVisible = true
+                }
+                else {
+                    search_prj_name.text = response.getJSONObject("document").get("name").toString()
+                    search_dept_name.text =
+                        response.getJSONObject("document").get("dept").toString()
+                    search_researcher_name.text =
+                        response.getJSONObject("document").get("faculty_name").toString()
+                    domain_prj = response.getJSONObject("document").getJSONArray("domains")
 
 
-                grid = findViewById<GridView>(R.id.search_grid_view)
-                arrayList = ArrayList()
-                arrayList = setDataList()
-                languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
-                grid?.adapter = languageAdapter
-                // grid?.onItemClickListener = this
+                    grid = findViewById<GridView>(R.id.search_grid_view)
+                    arrayList = ArrayList()
+                    arrayList = setDataList()
+                    languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
+                    grid?.adapter = languageAdapter
+                    // grid?.onItemClickListener = this
 
-                search_layout.isVisible = true
+                    search_layout.isVisible = true
+                }
 
             },
             Response.ErrorListener { error ->

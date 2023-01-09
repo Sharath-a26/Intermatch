@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".MainActivity"
+    tools:context=".ForgotPassActivity"
     android:background="@drawable/layout_deisgn">
 
 
@@ -56,7 +56,7 @@
 
 
         <TextView
-            android:id="@+id/signup_text"
+            android:id="@+id/signup_text_reset"
 
             android:layout_width="match_parent"
 
@@ -65,16 +65,16 @@
             android:elevation="10dp"
             android:fontFamily="@font/lato_bold"
             android:paddingStart="6dp"
-            android:text="Login"
+            android:text="Reset Password"
             android:textAlignment="viewStart"
             android:textColor="#023430"
             android:textSize="30sp" />
 
         <EditText
-            android:id="@+id/username"
+            android:id="@+id/off_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username/Email"
+            android:hint="Official Email Id"
             android:inputType="text"
             android:layout_marginTop="15dp"
             android:background="@drawable/custom_input"
@@ -88,13 +88,26 @@
 
 
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/new_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="7dp"
             android:background="@drawable/custom_input"
             android:drawableStart="@drawable/password_icon"
-            android:hint="@string/password"
+            android:hint="New password"
+            android:inputType="textPassword"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingStart="1dp" />
+        <EditText
+            android:id="@+id/conf_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/password_icon"
+            android:hint="Confirm password"
             android:inputType="textPassword"
             android:paddingRight="10dp"
             android:paddingBottom="10dp"
@@ -102,61 +115,25 @@
             android:paddingStart="1dp" />
 
         <Button
-            android:id="@+id/loginButton"
+            android:id="@+id/reset_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="30dp"
             android:textColor="@color/white"
-            android:text="login"
+            android:text="RESET PASSWORD"
             android:backgroundTint="#023430"
             android:textSize="18sp"
 
             />
 
-        <TextView
-            android:id="@+id/forgot_pass"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="3dp"
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Forgot Password?"
 
-            android:textSize="18sp"
-            android:textColor="@color/black"/>
 
-        <CheckBox
-            android:id="@+id/remember_me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Remember me"
-            android:textSize="18sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text= "@string/or"
-            android:layout_marginTop="20dp"
-            android:textSize="20sp"
-            android:textAlignment="center"
-            />
 
-        <Button
-            android:id="@+id/regButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:textColor="@color/white"
-            android:text="REGISTER"
-            android:textSize="18sp"
-            android:backgroundTint="#023430"
 
-            />
+
+
 
 
     </LinearLayout>

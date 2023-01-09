@@ -781,15 +781,21 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         /**
          * displaying an alert dialog which constains the info about the project
          */
-        val inflater: LayoutInflater = LayoutInflater.from(this)
-        info_btn.setOnClickListener {
-            alertbuilder.create()
-            val desc_layout = inflater.inflate(R.layout.activity_info_alert,null)
-            desc_layout.prj_desc.text = desc
-            Log.d(null,"Description = " + desc_layout.prj_desc.text)
 
-            alertbuilder.setView(R.layout.activity_info_alert)
-            alertbuilder.show()
+
+        info_btn.setOnClickListener {
+
+
+
+            val dialogBuilder = AlertDialog.Builder(this)
+// ...Irrelevant code for customizing the buttons and title
+            val dialogView = layoutInflater.inflate(R.layout.activity_info_alert, null)
+            dialogBuilder.setView(dialogView)
+
+            val editText =  dialogView.findViewById<TextView>(R.id.prj_desc)
+            editText.setText(desc)
+            val alertDialog = dialogBuilder.create()
+            alertDialog.show()
         }
 
         /**

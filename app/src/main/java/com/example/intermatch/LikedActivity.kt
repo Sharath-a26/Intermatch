@@ -154,19 +154,29 @@ class LikedActivity : AppCompatActivity() {
             url_liked, jsonfile_liked,
             Response.Listener<JSONObject> { response ->
 
-                for (i in 0 until response.getJSONArray("documents").length()) {
-                    liked_projects.add(response.getJSONArray("documents").getJSONObject(i).get("name").toString())
+                if (response.getJSONArray("documents").length() == 0) {
+                    customListView.isVisible = false
+                    no_liked_project.isVisible = true
                 }
-                for (i in 0 until liked_projects.size) {
-                    if (!(liked_projects.get(i) in likeList)) {
-                        likeList.add(liked_projects.get(i))
+                else {
+                    for (i in 0 until response.getJSONArray("documents").length()) {
+                        liked_projects.add(
+                            response.getJSONArray("documents").getJSONObject(i).get("name")
+                                .toString()
+                        )
                     }
-                }
-                if (position != -1) {
-                    likeList.removeAt(position)
-                }
 
-                Log.d(null,likeList.toString())
+
+                    for (i in 0 until liked_projects.size) {
+                        if (!(liked_projects.get(i) in likeList)) {
+                            likeList.add(liked_projects.get(i))
+                        }
+                    }
+                    if (position != -1) {
+                        likeList.removeAt(position)
+                    }
+
+                    Log.d(null, likeList.toString())
 
 
                     customBaseAdapter = username?.let {
@@ -177,9 +187,9 @@ class LikedActivity : AppCompatActivity() {
                     }!!
 
 
-                listview.adapter = customBaseAdapter
-                Log.d(null,"sdbdfbg")
-
+                    listview.adapter = customBaseAdapter
+                    Log.d(null, "sdbdfbg")
+                }
 
             },
             Response.ErrorListener { error ->

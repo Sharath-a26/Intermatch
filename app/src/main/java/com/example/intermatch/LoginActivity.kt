@@ -61,6 +61,15 @@ class LoginActivity : AppCompatActivity() {
             }
 
         })
+
+
+        /**
+         * forgot_pass
+         */
+        forgot_pass.setOnClickListener {
+
+        }
+
         loginButton.setOnClickListener {
 
             val dialog = ProgressDialog(this)

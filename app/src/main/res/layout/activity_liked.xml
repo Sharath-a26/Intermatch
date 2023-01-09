@@ -11,9 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/like_layout"
+        android:background="@drawable/layout_deisgn"
 
-        android:background="@drawable/layout_deisgn">
+        >
 
+
+        <ImageView
+            android:id="@+id/no_liked_project"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="6dp"
+            android:src="@mipmap/no_data"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
             android:layout_marginTop="40dp"
@@ -28,7 +42,10 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="1.0" >
+
+
+        </ListView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

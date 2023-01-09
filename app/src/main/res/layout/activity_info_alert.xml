@@ -60,7 +60,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="-10dp"
                 android:fontFamily="@font/lato_bold"
-                android:text="hello"
+
                 android:textColor="@color/black"
                 android:textSize="15sp"
                 tools:layout_editor_absoluteX="31dp"
