@@ -92,16 +92,30 @@ class LoginActivity : AppCompatActivity() {
                 "filter" : {"username" : $username, "password" : $password}
                 }
             """.trimIndent()
-
-            val jsonfile = JSONObject().apply {
-                put("dataSource","Cluster0")
-                put("database","Intermatch")
-                put("collection","User")
-                put("filter",
-                JSONObject().apply {
-                    put("username",username)
-                    put("password",password)
-                })
+            lateinit var jsonfile : JSONObject
+            if (!("amrita.edu" in username)) {
+                 jsonfile = JSONObject().apply {
+                    put("dataSource", "Cluster0")
+                    put("database", "Intermatch")
+                    put("collection", "User")
+                    put("filter",
+                        JSONObject().apply {
+                            put("username", username)
+                            put("password", password)
+                        })
+                }
+            }
+            else {
+                jsonfile = JSONObject().apply {
+                    put("dataSource", "Cluster0")
+                    put("database", "Intermatch")
+                    put("collection", "User")
+                    put("filter",
+                        JSONObject().apply {
+                            put("email", username)
+                            put("password", password)
+                        })
+                }
             }
             val request: JsonObjectRequest = object : JsonObjectRequest(
                 Request.Method.POST,
@@ -119,9 +133,9 @@ class LoginActivity : AppCompatActivity() {
 
                             val intent = Intent(this,WelcomeActivity::class.java)
                             val user_type = response.getJSONObject("document").get("Type").toString()
+                            val username2 = response.getJSONObject("document").get("username").toString()
 
-
-                            editor.putString("username",username)
+                            editor.putString("username",username2)
                             editor.putString("usertype",user_type)
                             editor.apply()
 
@@ -134,7 +148,7 @@ class LoginActivity : AppCompatActivity() {
 
 
                         Log.d(null,user_type)
-                            intent.putExtra("username",username)
+                            intent.putExtra("username",username2)
                             intent.putExtra("usertype",user_type)
                             startActivity(intent)
                             dialog.hide()
