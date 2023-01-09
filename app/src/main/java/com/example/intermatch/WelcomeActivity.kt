@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_welcome.*
@@ -18,6 +19,8 @@ class WelcomeActivity : AppCompatActivity() {
         val username = intent.getStringExtra("username")
         wel_name.text = "Welcome Back!" + username
         val user_type = intent.getStringExtra("usertype")
+        val user_dept = intent.getStringExtra("user_dept")
+        Log.d(null,"department = ")
         var intent1 = Intent()
 
         wel_name.startAnimation(AnimationUtils.loadAnimation(this,R.anim.fade_out))
@@ -27,6 +30,7 @@ class WelcomeActivity : AppCompatActivity() {
                 intent1 = Intent(this, RecommendationActivity::class.java)
                 intent1.putExtra("username",username)
                 intent1.putExtra("usertype",user_type)
+                intent1.putExtra("user_dept",user_dept)
                 startActivity(intent1)
 
             },2000

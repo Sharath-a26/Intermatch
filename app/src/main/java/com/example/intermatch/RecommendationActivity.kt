@@ -51,6 +51,7 @@ var desc = ""
 var user_github = ""
 var user_linkedin = ""
 var stype = "Projects"
+
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -88,6 +89,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         var username = intent.getStringExtra("username")
         var user_type = intent.getStringExtra("usertype")
+        var dept_of_user = intent.getStringExtra("user_dept")
 
         /**
          * initializing spinner
@@ -162,6 +164,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 user_interest = response.getJSONObject("document").getJSONArray("areas_of_interest")
                 user_github = response.getJSONObject("document").get("github").toString()
                 user_linkedin = response.getJSONObject("document").get("linkedin").toString()
+
 
             },
             Response.ErrorListener { error ->
@@ -309,12 +312,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
             lateinit var jsonfile : JSONObject
             if (recom_type == "dept") {
+                Log.d(null,"Department = " + dept_of_user)
                 jsonfile = JSONObject().apply {
                     put("dataSource", "Cluster0")
                     put("database", "Intermatch")
                     put("collection", "Project")
                     put("filter", JSONObject().apply {
-                        put("dept", "CSE")
+                        put("dept", dept_of_user)
                     })
                 }
             }

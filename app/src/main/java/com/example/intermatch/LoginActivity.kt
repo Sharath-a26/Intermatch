@@ -32,11 +32,13 @@ class LoginActivity : AppCompatActivity() {
         var checkbox : String? = preferences.getString("remember","")
         var rem_user : String? = preferences.getString("username","")
         var rem_type : String? = preferences.getString("usertype","")
+        var rem_dept : String? = preferences.getString("user_dept","")
         if (checkbox.equals("true")) {
             val intent = Intent(this,WelcomeActivity::class.java)
 
             intent.putExtra("username",rem_user)
             intent.putExtra("usertype",rem_type)
+            intent.putExtra("user_dept",rem_dept)
 
             startActivity(intent)
 
@@ -134,9 +136,11 @@ class LoginActivity : AppCompatActivity() {
                             val intent = Intent(this,WelcomeActivity::class.java)
                             val user_type = response.getJSONObject("document").get("Type").toString()
                             val username2 = response.getJSONObject("document").get("username").toString()
+                            val user_dept = response.getJSONObject("document").get("dept").toString()
 
                             editor.putString("username",username2)
                             editor.putString("usertype",user_type)
+                            editor.putString("user_dept",user_dept)
                             editor.apply()
 
 
@@ -150,6 +154,7 @@ class LoginActivity : AppCompatActivity() {
                         Log.d(null,user_type)
                             intent.putExtra("username",username2)
                             intent.putExtra("usertype",user_type)
+                            intent.putExtra("user_dept",user_dept)
                             startActivity(intent)
                             dialog.hide()
 
