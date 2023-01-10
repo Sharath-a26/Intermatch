@@ -27,75 +27,32 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         supportActionBar?.hide()
-        profile_layout.isVisible = false
+
         val username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
-        val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
-        val volleyQueue = Volley.newRequestQueue(this)
-        val jsonfile = JSONObject().apply {
-            put("dataSource","Cluster0")
-            put("database","Intermatch")
-            put("collection","User")
-            put("filter",JSONObject().apply {
-                put("username",intent.getStringExtra("username"))
-            })
-        }
 
-        val request : JsonObjectRequest = object : JsonObjectRequest(
-            Request.Method.POST,
-            url, jsonfile,
-            Response.Listener<JSONObject> { response ->
-
-                       profile_user.text = response.getJSONObject("document").get("username").toString()
-
-                        profile_email.text = response.getJSONObject("document").get("email").toString()
-                        profile_pass.text = response.getJSONObject("document").get("password").toString()
-                        profile_github.text = response.getJSONObject("document").get("github").toString()
-                        profile_linkedin.text = response.getJSONObject("document").get("linkedin").toString()
-                        user_dept.text = response.getJSONObject("document").get("dept").toString()
-                        val areas_of_inter = response.getJSONObject("document").getJSONArray("areas_of_interest")
-                        for (i in 0 until areas_of_inter.length()) {
-                            if (i != areas_of_inter.length()-1) {
-                                user_interests?.append("${areas_of_inter.get(i).toString()}\n\n")
-                            }
-                            else {
-                                user_interests?.append(areas_of_inter.get(i).toString())
-                            }
-                        }
-                        profile_layout.isVisible = true
-
-
-
-            },
-            Response.ErrorListener { error ->
-                profile_user.text = "error"
-            },
-
-            ) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val headers = HashMap<String, String>()
-                headers.put("Content-Type", "application/json");
-                headers.put(
-                    "api-key",
-                    "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                );
-                headers.put("Access-Control-Request-Headers","*");
-
-                return headers
+        profile_user.text = username
+        profile_email.text = user_off_email
+        profile_pass.text = user_pass
+        profile_github.text = user_github
+        profile_linkedin.text = user_linkedin
+        user_dept.text = user_department
+        val areas_of_inter = user_interest
+        for (i in 0 until areas_of_inter.length()) {
+            if (i != areas_of_inter.length()-1) {
+                user_interests?.append("${areas_of_inter.get(i).toString()}\n\n")
+            }
+            else {
+                user_interests?.append(areas_of_inter.get(i).toString())
             }
         }
 
+        val volleyQueue = Volley.newRequestQueue(this)
 
-        val MY_SOCKET_TIMEOUT_MS = 50000;
-        request.setRetryPolicy(
-            DefaultRetryPolicy(
-                MY_SOCKET_TIMEOUT_MS,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-            )
-        )
-        volleyQueue.add(request)
+
+
+
+
 
         //profile_layout.isVisible = true
         /**

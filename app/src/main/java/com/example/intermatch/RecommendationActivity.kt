@@ -51,7 +51,9 @@ var desc = ""
 var user_github = ""
 var user_linkedin = ""
 var stype = "Projects"
-
+var user_department = ""
+var user_pass = ""
+var user_off_email = ""
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -90,7 +92,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         var username = intent.getStringExtra("username")
         var user_type = intent.getStringExtra("usertype")
         var dept_of_user = intent.getStringExtra("user_dept")
-
+        if (dept_of_user != null) {
+            user_department = dept_of_user
+        }
         /**
          * initializing spinner
          */
@@ -164,8 +168,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 user_interest = response.getJSONObject("document").getJSONArray("areas_of_interest")
                 user_github = response.getJSONObject("document").get("github").toString()
                 user_linkedin = response.getJSONObject("document").get("linkedin").toString()
-
-
+                user_pass = response.getJSONObject("document").get("password").toString()
+                user_off_email = response.getJSONObject("document").get("email").toString()
             },
             Response.ErrorListener { error ->
                 prj_name.text = error.toString()
@@ -350,101 +354,113 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 url, jsonfile,
                 Response.Listener<JSONObject> { response ->
                     k = response.getJSONArray("documents")
-                    var indices : ArrayList<Int> = ArrayList<Int>()
-                    if (recom_type == "inter") {
-                        for (x in 0 until k.length()) {
-                            var count1  = 0
-                            var tempor = ArrayList<String>()
-                            for (y in 0 until k.getJSONObject(x).getJSONArray("domains").length()) {
-                                tempor.add(k.getJSONObject(x).getJSONArray("domains").getString(y))
-                            }
-                            for (y in 0 until user_interest.length()) {
-                                if (user_interest.getString(y) in tempor) {
-                                    count1++
+
+                    if (k.length() != 0) {
+                        var indices: ArrayList<Int> = ArrayList<Int>()
+                        if (recom_type == "inter") {
+                            for (x in 0 until k.length()) {
+                                var count1 = 0
+                                var tempor = ArrayList<String>()
+                                for (y in 0 until k.getJSONObject(x).getJSONArray("domains")
+                                    .length()) {
+                                    tempor.add(
+                                        k.getJSONObject(x).getJSONArray("domains").getString(y)
+                                    )
                                 }
+                                for (y in 0 until user_interest.length()) {
+                                    if (user_interest.getString(y) in tempor) {
+                                        count1++
+                                    }
+                                }
+                                if (count1 == 0) {
+                                    indices.add(x)
+                                }
+
                             }
-                            if (count1 == 0) {
-                                indices.add(x)
+
+                            for (x in 0 until indices.size) {
+                                k.remove(indices.get(x))
                             }
+
+                            Log.d(null, "Length = " + k.length())
+                        }
+
+                        if (recom_type == "all") {
+                            Log.d(null, "Length = " + k.length())
+                        }
+
+                        for (r in k.length() - 1 downTo 0) {
+                            var j = Random.nextInt(r + 1)
+                            var temp = k.getJSONObject(j)
+                            k.put(j, k.getJSONObject(r))
+                            k.put(r, temp)
 
                         }
 
-                        for (x in 0 until indices.size) {
-                            k.remove(indices.get(x))
-                        }
-
-                        Log.d(null,"Length = " + k.length())
-                    }
-
-                    if (recom_type == "all") {
-                        Log.d(null,"Length = " + k.length())
-                    }
-
-                    for (r in k.length()-1 downTo 0) {
-                        var j = Random.nextInt(r+1)
-                        var temp = k.getJSONObject(j)
-                        k.put(j,k.getJSONObject(r))
-                        k.put(r,temp)
-
-                    }
-
-                    Log.d(null,k.toString())
+                        Log.d(null, k.toString())
 
 
-                    val prj = k.getJSONObject(intent.getIntExtra("text",i))
-                        .get("name").toString()
+                        val prj = k.getJSONObject(intent.getIntExtra("text", i))
+                            .get("name").toString()
 
 
-                    val dept = k.getJSONObject(intent.getIntExtra("text",i))
-                        .get("dept").toString()
-                    val facname = k.getJSONObject(intent.getIntExtra("text",i))
-                        .get("faculty_name").toString()
+                        val dept = k.getJSONObject(intent.getIntExtra("text", i))
+                            .get("dept").toString()
+                        val facname = k.getJSONObject(intent.getIntExtra("text", i))
+                            .get("faculty_name").toString()
 
-                    domains = k.getJSONObject(intent.getIntExtra("text",i))
-                        .getJSONArray("domains")
-                    faculty_email = k.getJSONObject(intent.getIntExtra("text",i))
-                        .get("faculty_email").toString()
-                    prj_name.text = prj
-                    dept_name.text = dept
+                        domains = k.getJSONObject(intent.getIntExtra("text", i))
+                            .getJSONArray("domains")
+                        faculty_email = k.getJSONObject(intent.getIntExtra("text", i))
+                            .get("faculty_email").toString()
+                        prj_name.text = prj
+                        dept_name.text = dept
 
-                    desc = k.getJSONObject(intent.getIntExtra("text",i)).get("desc").toString()
+                        desc = k.getJSONObject(intent.getIntExtra("text", i)).get("desc").toString()
 
-                    val domain_array = k.getJSONObject(intent.getIntExtra("text",i))
-                        .getJSONArray("domains")
+                        val domain_array = k.getJSONObject(intent.getIntExtra("text", i))
+                            .getJSONArray("domains")
 
-                    //prj_desc.text = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
+                        //prj_desc.text = response.getJSONArray("documents").getJSONObject(intent.getIntExtra("text",i))
                         //.get("desc").toString()
 
-                    val temp : ArrayList<String> = ArrayList<String>()
-                    var count1 = 0
-                    for (i in 0 until domain_array.length()) {
-                        temp.add(domain_array.getString(i))
-                    }
-                    for (i in 0 until user_interest.length()) {
-                        if (user_interest.getString(i) in temp) {
-                            count1++
-
+                        val temp: ArrayList<String> = ArrayList<String>()
+                        var count1 = 0
+                        for (i in 0 until domain_array.length()) {
+                            temp.add(domain_array.getString(i))
                         }
+                        for (i in 0 until user_interest.length()) {
+                            if (user_interest.getString(i) in temp) {
+                                count1++
+
+                            }
+                        }
+                        Log.d(null, "count = " + count1.toString())
+                        researcher_name.text = facname
+                        progressBar.progress =
+                            ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
+                        match_percentage.text =
+                            ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
+                                .toString() + "%"
+
+
+                        gridView = findViewById(R.id.my_grid_view)
+                        arrayList = ArrayList()
+                        arrayList = setDataList()
+                        languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
+                        gridView?.adapter = languageAdapter
+                        gridView?.onItemClickListener = this
+
+
+                        recommendation_layout.isVisible = true
+
+                        dialog.hide()
+
                     }
-                    Log.d(null,"count = " + count1.toString())
-                    researcher_name.text = facname
-                    progressBar.progress = ((count1.toFloat()/domain_array.length())*100.0).roundToInt()
-                    match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString() + "%"
-
-
-                    gridView = findViewById(R.id.my_grid_view)
-                    arrayList = ArrayList()
-                    arrayList = setDataList()
-                    languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
-                    gridView?.adapter = languageAdapter
-                    gridView?.onItemClickListener = this
-
-
-                    recommendation_layout.isVisible = true
-
-                    dialog.hide()
-
-
+                    else {
+                        Toast.makeText(this,"You have no project in your recommendations",Toast.LENGTH_LONG).show()
+                        dialog.hide()
+                    }
 
 
                 },

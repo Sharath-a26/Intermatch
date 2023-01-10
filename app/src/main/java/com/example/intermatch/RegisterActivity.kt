@@ -1,8 +1,11 @@
 package com.example.intermatch
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -11,6 +14,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_upload_project.*
 
 
 import org.json.JSONObject
@@ -38,6 +42,26 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         /**
+         * showing an alert dialog for selecting department
+         */
+        sel_dept.setOnClickListener {
+            var departments : Array<CharSequence> = arrayOf("AEE","AIE","ARE","CCE","CHE","CIE","CVI","CSE","CYS","EAC","ECE","EEE","EIE","ELC","MEE")
+            var alertbuilder2 = AlertDialog.Builder(this)
+            lateinit var dept_selected : String
+            alertbuilder2.setTitle("Select Project Department")
+            alertbuilder2.setSingleChoiceItems(departments,0,
+                DialogInterface.OnClickListener { dialog, which ->
+                dept_selected = departments[which] as String
+            })
+
+            alertbuilder2.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+                sel_dept.text = dept_selected
+            })
+            alertbuilder2.create().show()
+        }
+
+
+        /**
          * adding new user to the Project Database when signed in
          */
         signButton.setOnClickListener {
@@ -49,11 +73,13 @@ class RegisterActivity : AppCompatActivity() {
             var user_email = email.text.toString()
             var password = password.text.toString()
 
+            var department = sel_dept.text.toString()
             val doc = """
                 {
         "username":$username,
         "email" : $user_email,
-        "password":$password
+        "password":$password,
+        "dept": $department
       }
         
             """.trimIndent()
