@@ -361,6 +361,16 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 url, jsonfile,
                 Response.Listener<JSONObject> { response ->
                     k = response.getJSONArray("documents")
+                    var you : ArrayList<Int> = ArrayList()
+                    for (x in 0 until k.length()) {
+                        if (k.getJSONObject(x).get("faculty_name") == username) {
+                            you.add(x)
+                        }
+                    }
+
+                    for (x in 0 until you.size) {
+                        k.remove(you.get(x))
+                    }
 
                     if (k.length() != 0) {
                         var indices: ArrayList<Int> = ArrayList<Int>()
@@ -374,6 +384,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                                         k.getJSONObject(x).getJSONArray("domains").getString(y)
                                     )
                                 }
+
                                 for (y in 0 until user_interest.length()) {
                                     if (user_interest.getString(y) in tempor) {
                                         count1++
@@ -395,6 +406,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         if (recom_type == "all") {
                             Log.d(null, "Length = " + k.length())
                         }
+
 
                         for (r in k.length() - 1 downTo 0) {
                             var j = Random.nextInt(r + 1)
@@ -508,6 +520,10 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          */
         else
         {
+
+
+
+
             val prj = k.getJSONObject(intent.getIntExtra("text",i))
                 .get("name").toString()
 
