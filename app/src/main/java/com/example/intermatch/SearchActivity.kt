@@ -21,7 +21,9 @@ import kotlinx.android.synthetic.main.activity_search.search_match_percentage
 import org.json.JSONArray
 import org.json.JSONObject
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
+import kotlin.math.roundToInt
 
 
 var domain_prj = JSONArray()
@@ -79,6 +81,24 @@ class SearchActivity : AppCompatActivity() {
                     search_researcher_name.text =
                         response.getJSONObject("document").get("faculty_name").toString()
                     domain_prj = response.getJSONObject("document").getJSONArray("domains")
+                    var temp = ArrayList<String>()
+                    var count1 = 0
+                    for (j in 0 until domain_prj.length()) {
+                        temp.add(domain_prj.getString(j))
+                    }
+
+                    if (user_inter != null) {
+                        for (y in 0 until user_inter.size) {
+                            if (user_inter.get(y) in temp) {
+                                count1++
+                            }
+                        }
+                    }
+
+
+                    search_progressBar.progress =  ((count1.toFloat() / domain_prj.length()) * 100.0).roundToInt()
+
+                    search_match_percentage.text = ((count1.toFloat() / domain_prj.length()) * 100.0).roundToInt().toString() + "%"
 
 
                     grid = findViewById<GridView>(R.id.search_grid_view)
