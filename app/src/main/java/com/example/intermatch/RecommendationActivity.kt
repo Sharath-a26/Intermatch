@@ -54,6 +54,7 @@ var stype = "Projects"
 var user_department = ""
 var user_pass = ""
 var user_off_email = ""
+var name_user = ""
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -95,6 +96,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         if (dept_of_user != null) {
             user_department = dept_of_user
         }
+        if (username != null) {
+            name_user = username
+        }
         /**
          * initializing spinner
          */
@@ -117,6 +121,9 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 }
                 else if (name == "Profile") {
                     stype = "Profile"
+                }
+                else if (name == "Tags") {
+                    stype = "Tags"
                 }
                 if (view != null) {
                     view.isVisible = false
@@ -712,6 +719,12 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         intent.putExtra("shown_user",searchbtn.query.toString())
                         startActivity(intent)
                     }
+
+                    else if (stype == "Tags") {
+                        val intent = Intent(this@RecommendationActivity,SearchTagActivity::class.java)
+                        intent.putExtra("tag_key",searchbtn.query.toString())
+                        startActivity(intent)
+                    }
                     return false
                 }
 
@@ -833,6 +846,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         spinnerItems = ArrayList<spinner_item>()
         spinnerItems.add(spinner_item("Projects"))
         spinnerItems.add(spinner_item("Profile"))
+        spinnerItems.add(spinner_item("Tags"))
     }
 
     /**

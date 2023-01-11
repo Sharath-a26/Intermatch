@@ -135,7 +135,7 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:layout_marginTop="81dp"
+        android:layout_marginTop="50dp"
         android:layout_marginBottom="428dp"
         android:background="@color/white"
 
@@ -158,7 +158,7 @@
         android:fontFamily="@font/lato_bold"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+        app:layout_constraintBottom_toTopOf="@+id/search_grid_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_progressBar" />
@@ -168,7 +168,7 @@
         android:layout_width="380dp"
         android:layout_height="310dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/box_layout_bg"
@@ -184,11 +184,10 @@
             android:id="@+id/search_grid_view"
             android:layout_width="350dp"
             android:layout_height="120dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="124dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="66dp"
 
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="14dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/grid_bg"
             android:columnWidth="160dp"
             android:elevation="200dp"
@@ -198,30 +197,53 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
         <TextView
             android:id="@+id/search_researcher_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
 
-            android:layout_marginBottom="49dp"
-            android:text=""
-            android:textSize="20sp"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="284dp"
+            android:background="@color/white"
+            android:elevation="20dp"
             android:fontFamily="@font/lato_bold"
+            android:padding="10dp"
+            android:text="hello"
             android:textColor="#001E2B"
-            app:layout_constraintBottom_toTopOf="@+id/my_grid_view"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/textView20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="34dp"
+            android:layout_marginEnd="284dp"
+            android:layout_marginBottom="17dp"
+            android:fontFamily="sans-serif-black"
+            android:text="Domains"
+            android:textColor="#023430"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/search_grid_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_researcher_name" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="75dp"
         android:layout_marginEnd="290dp"
         android:layout_marginBottom="326dp"

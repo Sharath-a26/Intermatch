@@ -1,5 +1,6 @@
 package com.example.intermatch
 
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
@@ -32,6 +34,7 @@ class SearchActivity : AppCompatActivity() {
     private var arrayList : ArrayList<LanguageItem>? = null
     private var languageAdapter : LanguageAdapter? = null
     var search_like_count : Int = 0
+    var prj_desc = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
@@ -80,6 +83,8 @@ class SearchActivity : AppCompatActivity() {
                         response.getJSONObject("document").get("dept").toString()
                     search_researcher_name.text =
                         response.getJSONObject("document").get("faculty_name").toString()
+
+                    prj_desc = response.getJSONObject("document").get("desc").toString()
                     domain_prj = response.getJSONObject("document").getJSONArray("domains")
                     var temp = ArrayList<String>()
                     var count1 = 0
@@ -275,6 +280,18 @@ class SearchActivity : AppCompatActivity() {
 
         search_back.setOnClickListener {
             startActivity(Intent(this,RecommendationActivity::class.java))
+        }
+
+        search_info_btn.setOnClickListener {
+            val dialogBuilder = AlertDialog.Builder(this)
+// ...Irrelevant code for customizing the buttons and title
+            val dialogView = layoutInflater.inflate(R.layout.activity_info_alert, null)
+            dialogBuilder.setView(dialogView)
+
+            val editText =  dialogView.findViewById<TextView>(R.id.prj_desc)
+            editText.setText(prj_desc)
+            val alertDialog = dialogBuilder.create()
+            alertDialog.show()
         }
 
     }
