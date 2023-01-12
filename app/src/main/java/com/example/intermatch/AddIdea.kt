@@ -179,6 +179,7 @@ class AddIdea : AppCompatActivity() {
                             }
 
                             )
+                            put("dept", user_department)
                             put("desc", description)
                         })
 

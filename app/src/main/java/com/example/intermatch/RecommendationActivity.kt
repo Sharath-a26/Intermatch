@@ -77,6 +77,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
         recommendation_layout.isVisible = false
 
 
+
         val dialog = ProgressDialog(this)
         dialog.setMessage("Finding best projects")
         dialog.setCancelable(false)
@@ -329,7 +330,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     put("database", "Intermatch")
                     put("collection", "Project")
                     put("filter", JSONObject().apply {
-                        put("dept", dept_of_user)
+                        put("dept", user_department)
                     })
                 }
             }
@@ -361,17 +362,20 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 url, jsonfile,
                 Response.Listener<JSONObject> { response ->
                     k = response.getJSONArray("documents")
+
+
+
                     var you : ArrayList<Int> = ArrayList()
                     for (x in 0 until k.length()) {
                         if (k.getJSONObject(x).get("faculty_name") == username) {
                             you.add(x)
                         }
                     }
-
+                    Log.d(null,"Length of k before removing = "+k.length())
                     for (x in 0 until you.size) {
                         k.remove(you.get(x))
                     }
-
+                    Log.d(null,"Length of k after removing = "+k.length())
                     if (k.length() != 0) {
                         var indices: ArrayList<Int> = ArrayList<Int>()
                         if (recom_type == "inter") {
@@ -479,6 +483,18 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     else {
                         Toast.makeText(this,"You have no project in your recommendations",Toast.LENGTH_LONG).show()
                         dialog.hide()
+                        recommendation_layout.isVisible = true
+                        constraintLayout.isVisible = false
+                        searchbtn.isVisible = false
+                        rel_layout.isVisible = false
+                        filter_btn.isVisible = false
+                        linearLayout.isVisible = false
+                        progressBar.isVisible = false
+                        box_layout.isVisible = false
+                        match_percentage.isVisible = false
+                        textView_researcher.isVisible = false
+                        dummy_text.isVisible = true
+
                     }
 
 

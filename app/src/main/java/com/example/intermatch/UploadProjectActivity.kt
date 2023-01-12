@@ -228,11 +228,22 @@ class UploadProjectActivity : AppCompatActivity() {
             volleyQueue.add(request)
 
 
+
+
+            addprj.setOnClickListener {
+                val intent = Intent(this@UploadProjectActivity,UploadInterestActivity::class.java)
+                intent.putExtra("username",faculty_name)
+                startActivity(intent)
+            }
+
+        }
+
+        new_prj_domain.setOnClickListener {
             /**
              * adding a new tag to Tags
              */
-
-            input_add.append("\n"+new_domain.text)
+            checkedIndex.add(new_domain.text.toString())
+            input.append("\n"+new_domain.text)
 
             val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
             val append_tag = JSONObject().apply {
@@ -270,13 +281,6 @@ class UploadProjectActivity : AppCompatActivity() {
                 }
             }
             volleyQueue.add(request_append_tag)
-
-            addprj.setOnClickListener {
-                val intent = Intent(this@UploadProjectActivity,UploadInterestActivity::class.java)
-                intent.putExtra("username",faculty_name)
-                startActivity(intent)
-            }
-
         }
 
 

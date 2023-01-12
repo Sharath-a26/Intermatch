@@ -12,7 +12,8 @@
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="26dp"
         android:fontFamily="@font/amiko_semibold"
         android:text="Select your areas of interests"
         android:textColor="@color/white"
@@ -24,39 +25,83 @@
 
     <ImageView
         android:id="@+id/select_inter_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="16dp"
         android:src="@drawable/upload_outbox_svgrepo_com__1_"
-        app:layout_constraintBottom_toTopOf="@+id/textInputEditText"
+        app:layout_constraintBottom_toTopOf="@+id/textView21"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.53"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="34dp"
+        android:layout_marginEnd="75dp"
+        android:text="Not in list? Type your interest here"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/edit_new_domain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/select_inter_btn" />
+
+
     <EditText
-        android:background="@drawable/mail_bg"
-        android:padding="15dp"
+        android:id="@+id/edit_new_domain"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginBottom="24dp"
+        android:background="@color/white"
+        android:padding="10dp"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/input_interests"
+        app:layout_constraintEnd_toStartOf="@+id/new_inter_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <ImageView
+        android:id="@+id/new_inter_btn"
+        android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/white"
+        android:src="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toTopOf="@+id/input_interests"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/edit_new_domain"
+        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+
+    <EditText
         android:id="@+id/input_interests"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="62dp"
-        android:layout_marginBottom="175dp"
-        android:maxLines="5"
-        android:textColor="@color/white"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="46dp"
+        android:background="@drawable/mail_bg"
         android:fontFamily="@font/lato_bold"
+        android:maxLines="5"
+        android:padding="15dp"
         android:scrollbars="vertical"
+        android:textColor="@color/white"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/add_inter_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/select_inter_btn" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_new_domain" />
 
     <Button
         android:id="@+id/add_inter_btn"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="118dp"
-        android:layout_marginBottom="95dp"
         android:background="@color/white"
         android:elevation="30dp"
         android:fontFamily="@font/lato_bold"
@@ -66,5 +111,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/input_interests" />
 </androidx.constraintlayout.widget.ConstraintLayout>

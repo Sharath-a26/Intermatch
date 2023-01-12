@@ -16,7 +16,7 @@ class ForgotPassActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_forgot_pass)
-
+        supportActionBar?.hide()
         reset_btn.setOnClickListener {
 
             if (new_password.text == conf_password.text) {

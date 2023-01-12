@@ -24,7 +24,7 @@ class UploadInterestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_upload_interest)
         supportActionBar?.hide()
 
-
+        val volleyQueue = Volley.newRequestQueue(this)
 
         val alertbuilder = AlertDialog.Builder(this)
         val user_name = intent.getStringExtra("username")
@@ -69,11 +69,12 @@ class UploadInterestActivity : AppCompatActivity() {
             })
             alertbuilder.create().show()
 
+
             add_inter_btn.setOnClickListener {
                 if (checkedIndex.size > 0) {
 
                     add_inter_btn.text = "NEXT"
-                    val volleyQueue = Volley.newRequestQueue(this)
+
                     val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
 
                     val a = JSONObject().apply {
@@ -135,6 +136,58 @@ class UploadInterestActivity : AppCompatActivity() {
             }
         }
 
+        /**
+         * adding new domains
+         */
+
+        new_inter_btn.setOnClickListener {
+            if (edit_new_domain.text.equals("")) {
+                Toast.makeText(this,"Please enter a valid domain",Toast.LENGTH_LONG).show()
+            }
+            else {
+                input_interests.append("\n" + edit_new_domain.text)
+
+                val url_new_tag =
+                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                val jsonfile_new_tag = JSONObject().apply {
+                    put("dataSource", "Cluster0")
+                    put("database", "Intermatch")
+                    put("collection", "Tags")
+                    put("document", JSONObject().apply {
+                        put("tag", edit_new_domain.text)
+                    })
+                }
+
+                val request_new_tag: JsonObjectRequest = object : JsonObjectRequest(
+                    Request.Method.POST,
+                    url_new_tag, jsonfile_new_tag,
+                    Response.Listener<JSONObject> { response ->
+                        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                    },
+                    Response.ErrorListener { error ->
+                        Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
+
+                    }) {
+
+
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers.put("Content-Type", "application/json");
+                        headers.put(
+                            "api-key",
+                            "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                        );
+                        headers.put("Access-Control-Request-Headers","*");
+
+                        return headers
+                    }
+                }
+                volleyQueue.add(request_new_tag)
+
+
+            }
+        }
 
     }
 }

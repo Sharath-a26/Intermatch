@@ -306,10 +306,27 @@ class AddProjectActivity : AppCompatActivity() {
             }
             volleyQueue.add(request1)
 
+
+
+
+            Log.d(null,"faculty_email = " + fac_email)
             /**
-             * adding a new tag to Tags
+             * navigating to the recommendation screen after the project is uploaded
              */
 
+            val intent1 = Intent(this@AddProjectActivity,RecommendationActivity::class.java)
+            intent1.putExtra("username",faculty_name)
+            intent1.putExtra("usertype","Faculty")
+            startActivity(intent1)
+
+        }
+
+        /**
+         * adding new tags
+         */
+
+        new_prj_domain_add.setOnClickListener {
+            checkedIndex.add(new_domain_add.text.toString())
             input_add.append("\n"+new_domain_add.text)
 
             val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
@@ -348,17 +365,6 @@ class AddProjectActivity : AppCompatActivity() {
                 }
             }
             volleyQueue.add(request_append_tag)
-
-            Log.d(null,"faculty_email = " + fac_email)
-            /**
-             * navigating to the recommendation screen after the project is uploaded
-             */
-
-            val intent1 = Intent(this@AddProjectActivity,RecommendationActivity::class.java)
-            intent1.putExtra("username",faculty_name)
-            intent1.putExtra("usertype","Faculty")
-            startActivity(intent1)
-
         }
 
 
