@@ -129,7 +129,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 if (view != null) {
                     view.isVisible = false
                 }
-                Toast.makeText(this@RecommendationActivity, "$name selected", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this@RecommendationActivity, "$name selected", Toast.LENGTH_SHORT).show()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -460,11 +460,17 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         }
                         Log.d(null, "count = " + count1.toString())
                         researcher_name.text = facname
-                        progressBar.progress =
-                            ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
-                        match_percentage.text =
-                            ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
-                                .toString() + "%"
+                        if (domain_array.length() != 0) {
+                            progressBar.progress =
+                                ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
+                            match_percentage.text =
+                                ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
+                                    .toString() + "%"
+                        }
+                        else {
+                            progressBar.progress = 0
+                            match_percentage.text = "0%"
+                        }
 
 
                         gridView = findViewById(R.id.my_grid_view)
@@ -579,8 +585,18 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                 }
             }
             Log.d(null,count1.toString())
-            progressBar.progress = ((count1.toFloat()/domain_array.length())*100.0).roundToInt()
-            match_percentage.text = ((count1.toFloat()/domain_array.length())*100.0).roundToInt().toString() + "%"
+
+            if (domain_array.length() != 0) {
+                progressBar.progress =
+                    ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
+                match_percentage.text =
+                    ((count1.toFloat() / domain_array.length()) * 100.0).roundToInt()
+                        .toString() + "%"
+            }
+            else {
+                progressBar.progress = 0
+                match_percentage.text = "0%"
+            }
 
             gridView = findViewById(R.id.my_grid_view)
             arrayList = ArrayList()
@@ -623,7 +639,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     url2, jsonfile2,
                     Response.Listener<JSONObject> { response2 ->
 
-                        Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
+                        //Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
                     },
                     Response.ErrorListener { error2 ->
                         Toast.makeText(this,error2.message, Toast.LENGTH_LONG).show()
@@ -682,7 +698,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         url2, jsonfile2,
                         Response.Listener<JSONObject> { response2 ->
 
-                            Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
+                            //Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
                         },
                         Response.ErrorListener { error2 ->
                             Toast.makeText(this,error2.message, Toast.LENGTH_LONG).show()
@@ -812,7 +828,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         intent1.putExtra("text",i)
                         startActivity(intent1)
                     }
-                    Toast.makeText(this, recom_type,Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, recom_type,Toast.LENGTH_LONG).show()
                 })
             alertbuilder.create().show()
 

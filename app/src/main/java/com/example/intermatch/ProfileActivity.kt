@@ -134,7 +134,7 @@ class ProfileActivity : AppCompatActivity() {
                     Request.Method.POST,
                     url_save, jsonfile_save,
                     Response.Listener<JSONObject> { response ->
-                        Toast.makeText(this@ProfileActivity,"success",Toast.LENGTH_LONG).show()
+                       // Toast.makeText(this@ProfileActivity,"success",Toast.LENGTH_LONG).show()
                     },
                     Response.ErrorListener { error ->
                         Toast.makeText(this@ProfileActivity,error.message,Toast.LENGTH_LONG).show()

@@ -9,6 +9,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -17,7 +18,8 @@ import kotlinx.android.synthetic.main.activity_upload_interest.*
 import kotlinx.android.synthetic.main.activity_upload_project.*
 import org.json.JSONArray
 import org.json.JSONObject
-
+var tag_inter = emptyArray<String>()
+var isclicked_inter = BooleanArray(10000)
 class UploadInterestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,14 +31,75 @@ class UploadInterestActivity : AppCompatActivity() {
         val alertbuilder = AlertDialog.Builder(this)
         val user_name = intent.getStringExtra("username")
         var checkedIndex = ArrayList<String>()
-        val arr =resources.getStringArray(R.array.data_list)
-        var isclicked = BooleanArray(arr.size)
-        for (i in 0 until arr.size) {
-            isclicked[i] = false
+
+        val url_tags = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/find"
+        val jsonfile_tags = JSONObject().apply {
+            put("dataSource","Cluster0")
+            put("database","Intermatch")
+            put("collection","Tags")
+            put("filter",JSONObject().apply {
+
+            })
+        }
+
+        val request_tag: JsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.POST,
+            url_tags, jsonfile_tags,
+            Response.Listener<JSONObject> {
+                    response ->
+
+                val temp_array = ArrayList<String>()
+                val temp_array2 = ArrayList<Boolean>()
+                for (i in 0 until response.getJSONArray("documents").length()) {
+                    temp_array.add(response.getJSONArray("documents").getJSONObject(i).get("tag").toString())
+                    temp_array2.add(false)
+                }
+                tag_inter = temp_array.toTypedArray()
+                isclicked_inter = temp_array2.toBooleanArray()
+                Log.d(null,tag_inter[0])
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
+
+            }
+        ) {
+
+
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers.put("Content-Type", "application/json");
+                headers.put(
+                    "api-key",
+                    "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                );
+                headers.put("Access-Control-Request-Headers","*");
+
+                return headers
+            }
+
+        }
+        val MY_SOCKET_TIMEOUT_MS = 50000;
+        request_tag.setRetryPolicy(
+            DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+        )
+
+
+
+        volleyQueue.add(request_tag);
+
+
+        for (i in 0 until tag_inter.size) {
+            isclicked_inter[i] = false
         }
         select_inter_btn.setOnClickListener {
-            Log.d(null,isclicked.toString())
-            alertbuilder.setMultiChoiceItems(R.array.data_list,isclicked, DialogInterface.OnMultiChoiceClickListener{
+            Log.d(null, isclicked_inter.toString())
+            alertbuilder.setMultiChoiceItems(tag_inter, isclicked_inter, DialogInterface.OnMultiChoiceClickListener{
                     dialog,index,checked ->
 
                 if (input_interests.isVisible == true) {
@@ -44,13 +107,13 @@ class UploadInterestActivity : AppCompatActivity() {
                 }
                 if (checked) {
                     //input.text?.append("\n ${arr.get(index)}")
-                    isclicked[index] = checked
-                    checkedIndex.add(arr.get(index))
+                    isclicked_inter[index] = checked
+                    checkedIndex.add(tag_inter.get(index))
 
                 }
-                else if (checkedIndex.contains(arr.get(index))) {
-                    checkedIndex.remove(arr.get(index))
-                    isclicked[index] = false
+                else if (checkedIndex.contains(tag_inter.get(index))) {
+                    checkedIndex.remove(tag_inter.get(index))
+                    isclicked_inter[index] = false
                 }
             })
             alertbuilder.setPositiveButton("OK", DialogInterface.OnClickListener{

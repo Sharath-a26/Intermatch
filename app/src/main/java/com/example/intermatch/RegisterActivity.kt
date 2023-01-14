@@ -65,16 +65,17 @@ class RegisterActivity : AppCompatActivity() {
          * adding new user to the Project Database when signed in
          */
         signButton.setOnClickListener {
-            val volleyQueue = Volley.newRequestQueue(this)
-            val url =
-                "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+            if ("amrita.edu" in email.text) {
+                val volleyQueue = Volley.newRequestQueue(this)
+                val url =
+                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
-            var username = username.text.toString()
-            var user_email = email.text.toString()
-            var password = password.text.toString()
+                var username = username.text.toString()
+                var user_email = email.text.toString()
+                var password = password.text.toString()
 
-            var department = sel_dept.text.toString()
-            val doc = """
+                var department = sel_dept.text.toString()
+                val doc = """
                 {
         "username":$username,
         "email" : $user_email,
@@ -83,69 +84,79 @@ class RegisterActivity : AppCompatActivity() {
       }
         
             """.trimIndent()
-            lateinit var user_type : String
-            val docfile = JSONObject(doc)
-            if ("students" in user_email) {
-                docfile.put("Type","Student")
-                user_type = "Student"
-            }
-            else {
-                docfile.put("Type","Faculty")
-                user_type = "Faculty"
-            }
-            val info = """
+                lateinit var user_type : String
+                val docfile = JSONObject(doc)
+                if ("students" in user_email) {
+                    docfile.put("Type","Student")
+                    user_type = "Student"
+                }
+                else {
+                    docfile.put("Type","Faculty")
+                    user_type = "Faculty"
+                }
+                val info = """
                 {
       "dataSource": "Cluster0",
       "database": "Intermatch",
       "collection": "User",
       "document": ${docfile.toString()}
   } """.trimIndent()
-            val jsonfile = JSONObject(info)
+                val jsonfile = JSONObject(info)
 
-            val request: JsonObjectRequest = object : JsonObjectRequest(
-                Request.Method.POST,
-                url, jsonfile,
-                Response.Listener<JSONObject> { response ->
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                },
-                Response.ErrorListener { error ->
-                    Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
+                val request: JsonObjectRequest = object : JsonObjectRequest(
+                    Request.Method.POST,
+                    url, jsonfile,
+                    Response.Listener<JSONObject> { response ->
+                        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                    },
+                    Response.ErrorListener { error ->
+                        Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
 
-                }) {
+                    }) {
 
 
 
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers.put("Content-Type", "application/json");
-                    headers.put(
-                        "api-key",
-                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                    );
-                    headers.put("Access-Control-Request-Headers","*");
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers.put("Content-Type", "application/json");
+                        headers.put(
+                            "api-key",
+                            "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                        );
+                        headers.put("Access-Control-Request-Headers","*");
 
-                    return headers
+                        return headers
+                    }
+
                 }
+                //changing the default timeout to be 50000ms in volley
+                val MY_SOCKET_TIMEOUT_MS = 50000;
+                request.setRetryPolicy(
+                    DefaultRetryPolicy(
+                        MY_SOCKET_TIMEOUT_MS,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                    )
+                )
+                volleyQueue.add(request)
+
+
+                val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
+                intent1.putExtra("username",username)
+                intent1.putExtra("user_email",user_email)
+                intent1.putExtra("usertype",user_type)
+                startActivity(intent1)
+
+
 
             }
-            //changing the default timeout to be 50000ms in volley
-            val MY_SOCKET_TIMEOUT_MS = 50000;
-            request.setRetryPolicy(
-                DefaultRetryPolicy(
-                    MY_SOCKET_TIMEOUT_MS,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                )
-            )
-            volleyQueue.add(request)
+
+            else {
+                Toast.makeText(this,"Please provide your amrita email id",Toast.LENGTH_LONG).show()
+            }
 
 
-            val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
-            intent1.putExtra("username",username)
-            intent1.putExtra("user_email",user_email)
-            intent1.putExtra("usertype",user_type)
-            startActivity(intent1)
 
 
 

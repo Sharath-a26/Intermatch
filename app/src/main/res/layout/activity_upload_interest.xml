@@ -23,12 +23,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
+    <TextView
         android:id="@+id/select_inter_btn"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/upload_outbox_svgrepo_com__1_"
+        android:text="Click here to add your interests"
+        android:background="@drawable/new_item_bg"
+        android:textSize="20sp"
+        android:textColor="#023430"
+        android:padding="20dp"
         app:layout_constraintBottom_toTopOf="@+id/textView21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.53"

@@ -3,6 +3,7 @@ package com.example.intermatch
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
@@ -19,7 +20,8 @@ class ForgotPassActivity : AppCompatActivity() {
         supportActionBar?.hide()
         reset_btn.setOnClickListener {
 
-            if (new_password.text == conf_password.text) {
+
+            if (new_password.text.toString().equals(conf_password.text.toString())) {
 
                 val volleyQueue = Volley.newRequestQueue(this)
                 val url_reset =
@@ -46,7 +48,7 @@ class ForgotPassActivity : AppCompatActivity() {
                     Request.Method.POST,
                     url_reset, json_reset,
                     Response.Listener<JSONObject> { response ->
-                        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
                     },
                     Response.ErrorListener { error ->
                         Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
