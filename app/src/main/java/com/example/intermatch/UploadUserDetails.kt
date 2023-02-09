@@ -3,6 +3,7 @@ package com.example.intermatch
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.android.volley.AuthFailureError
 import com.android.volley.Request
@@ -20,6 +21,8 @@ class UploadUserDetails : AppCompatActivity() {
         supportActionBar?.hide()
         val username = intent.getStringExtra("username")
         val user_email = intent.getStringExtra("user_email")
+        val user_pass = intent.getStringExtra("password")
+        val user_dept = intent.getStringExtra("sel_dept")
         val user_type = intent.getStringExtra("usertype")
 
 
@@ -29,16 +32,31 @@ class UploadUserDetails : AppCompatActivity() {
                 val intent : Intent = Intent(this@UploadUserDetails,UploadProjectActivity::class.java)
                 intent.putExtra("faculty_email",user_email)
                 intent.putExtra("faculty_name",username) //faculty's username
+                intent.putExtra("user_pass",user_pass)
+                intent.putExtra("sel_dept",user_dept)
+                intent.putExtra("usertype",user_type)
+                intent.putExtra("aboutme",aboutme.text.toString())
+                intent.putExtra("github",github.text.toString())
+                intent.putExtra("linkedin",linked_in.text.toString())
                 startActivity(intent)
+
+
             }
             else {
                 val intent : Intent = Intent(this@UploadUserDetails,UploadInterestActivity::class.java)
                 intent.putExtra("username",username)
-
+                intent.putExtra("user_email",user_email)
+                intent.putExtra("user_pass",user_pass)
+                intent.putExtra("sel_dept",user_dept)
+                intent.putExtra("usertype",user_type)
+                intent.putExtra("aboutme",aboutme.text.toString())
+                intent.putExtra("github",github.text.toString())
+                intent.putExtra("linkedin",linked_in.text.toString())
                 startActivity(intent)
+
             }
 
-            val volleyQueue = Volley.newRequestQueue(this)
+           /* val volleyQueue = Volley.newRequestQueue(this)
             val url1 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
             val a = JSONObject().apply {
                 put("dataSource", "Cluster0")
@@ -81,7 +99,7 @@ class UploadUserDetails : AppCompatActivity() {
                     return headers
                 }
             }
-            volleyQueue.add(request)
+            volleyQueue.add(request)*/
         }
     }
 }

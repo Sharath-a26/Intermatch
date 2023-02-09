@@ -29,7 +29,29 @@ class UploadInterestActivity : AppCompatActivity() {
         val volleyQueue = Volley.newRequestQueue(this)
 
         val alertbuilder = AlertDialog.Builder(this)
+
+        /**
+         * getting user details from upload user details activity
+         */
         val user_name = intent.getStringExtra("username")
+        val user_email = intent.getStringExtra("user_email")
+        val user_pass = intent.getStringExtra("user_pass")
+        val user_dept = intent.getStringExtra("sel_dept")
+        val user_type = intent.getStringExtra("usertype")
+        val aboutme = intent.getStringExtra("aboutme")
+        val github = intent.getStringExtra("github")
+        val linkedin = intent.getStringExtra("linkedin")
+
+
+        Log.d(null,"username = " + user_name)
+        Log.d(null,"email = "+user_email)
+        Log.d(null,"pass = "+user_pass)
+        Log.d(null,"aboutme = "+aboutme)
+        Log.d(null,"github = "+github)
+        Log.d(null,"linkedin = "+linkedin)
+
+
+
         var checkedIndex = ArrayList<String>()
 
         val url_tags = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/find"
@@ -138,16 +160,28 @@ class UploadInterestActivity : AppCompatActivity() {
 
                     add_inter_btn.text = "NEXT"
 
-                    val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/updateOne"
+                    val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
                     val a = JSONObject().apply {
                         put("dataSource","Cluster0")
                         put("database","Intermatch")
                         put("collection","User")
-                        put("filter",JSONObject().apply {
+                        put("document",JSONObject().apply {
                             put("username",user_name)
+                            put("email",user_email)
+                            put("password",user_pass)
+                            put("dept",user_dept)
+                            put("Type",user_type)
+                            put("aboutme",aboutme)
+                            put("github",github)
+                            put("linkedin",linkedin)
+                            put("areas_of_interest",JSONArray().apply {
+                                for (i in 0 until checkedIndex.size) {
+                                    put(i,checkedIndex[i])
+                                }
+                            })
                         })
-                        put("update",JSONObject().apply {
+                        /*put("update",JSONObject().apply {
                             put("$"+"set",JSONObject().apply {
                                 put("username",user_name)
                                 put("areas_of_interest",JSONArray().apply {
@@ -156,7 +190,7 @@ class UploadInterestActivity : AppCompatActivity() {
                                     }
                                 })
                             })
-                        })
+                        })*/
                     }
 
                     val request: JsonObjectRequest = object : JsonObjectRequest(

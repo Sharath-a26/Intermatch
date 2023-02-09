@@ -53,9 +53,9 @@
         android:layout_marginEnd="167dp"
         android:layout_marginBottom="13dp"
         android:background="#023430"
+        android:fontFamily="@font/lato_bold"
         android:padding="10dp"
         android:text="Click here to upload domains"
-        android:fontFamily="@font/lato_bold"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textView18"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,23 +151,37 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="40dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="42dp"
         android:background="@drawable/grid_bg"
         android:paddingLeft="2dp"
+
         android:paddingTop="10dp"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
         android:text="Add Project"
-
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintEnd_toStartOf="@+id/skip_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_desc"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/edit_desc" />
+
+    <TextView
+
+        android:id="@+id/skip_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="53dp"
+        android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
+        android:text="Skip"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/addprj"
+        app:layout_constraintTop_toBottomOf="@+id/edit_desc" />
 
     <EditText
         android:id="@+id/input"

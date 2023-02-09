@@ -66,16 +66,17 @@ class RegisterActivity : AppCompatActivity() {
          */
         signButton.setOnClickListener {
             if ("amrita.edu" in email.text) {
-                val volleyQueue = Volley.newRequestQueue(this)
-                val url =
-                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
-
                 var username = username.text.toString()
                 var user_email = email.text.toString()
                 var password = password.text.toString()
 
                 var department = sel_dept.text.toString()
-                val doc = """
+                /*val volleyQueue = Volley.newRequestQueue(this)
+                val url =
+                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"*/
+
+
+               /* val doc = """
                 {
         "username":$username,
         "email" : $user_email,
@@ -83,24 +84,26 @@ class RegisterActivity : AppCompatActivity() {
         "dept": $department
       }
         
-            """.trimIndent()
+            """.trimIndent()*/
                 lateinit var user_type : String
-                val docfile = JSONObject(doc)
+               // val docfile = JSONObject(doc)
                 if ("students" in user_email) {
-                    docfile.put("Type","Student")
+                    //docfile.put("Type","Student")
                     user_type = "Student"
                 }
                 else {
-                    docfile.put("Type","Faculty")
+                    //docfile.put("Type","Faculty")
                     user_type = "Faculty"
                 }
-                val info = """
+
+               /* val info = """
                 {
       "dataSource": "Cluster0",
       "database": "Intermatch",
       "collection": "User",
       "document": ${docfile.toString()}
-  } """.trimIndent()
+  } """.trimIndent()*/
+                /*
                 val jsonfile = JSONObject(info)
 
                 val request: JsonObjectRequest = object : JsonObjectRequest(
@@ -141,10 +144,12 @@ class RegisterActivity : AppCompatActivity() {
                 )
                 volleyQueue.add(request)
 
-
+                */
                 val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
                 intent1.putExtra("username",username)
                 intent1.putExtra("user_email",user_email)
+                intent1.putExtra("password",password)
+                intent1.putExtra("sel_dept",department)
                 intent1.putExtra("usertype",user_type)
                 startActivity(intent1)
 

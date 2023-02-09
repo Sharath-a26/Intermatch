@@ -26,8 +26,20 @@ class UploadProjectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_upload_project)
         supportActionBar?.hide()
+
+        /**
+         * receiving user details
+         */
         val faculty_email = intent.getStringExtra("faculty_email") //getting fac_email from register page
         val faculty_name = intent.getStringExtra("faculty_name") // getting fac_name from register page
+        val user_pass = intent.getStringExtra("user_pass")
+        val user_dept = intent.getStringExtra("sel_dept")
+        val user_type = intent.getStringExtra("usertype")
+        val aboutme = intent.getStringExtra("aboutme")
+        val github = intent.getStringExtra("github")
+        val linkedin = intent.getStringExtra("linkedin")
+
+
         val alertbuilder = AlertDialog.Builder(this)
         var checkedIndex = ArrayList<String>()
 
@@ -239,6 +251,13 @@ class UploadProjectActivity : AppCompatActivity() {
                     val intent =
                         Intent(this@UploadProjectActivity, UploadInterestActivity::class.java)
                     intent.putExtra("username", faculty_name)
+                    intent.putExtra("user_email",faculty_email)
+                    intent.putExtra("user_pass",user_pass)
+                    intent.putExtra("sel_dept",user_dept)
+                    intent.putExtra("usertype",user_type)
+                    intent.putExtra("aboutme",aboutme)
+                    intent.putExtra("github",github)
+                    intent.putExtra("linkedin",linkedin)
                     startActivity(intent)
                 }
 
@@ -291,6 +310,12 @@ class UploadProjectActivity : AppCompatActivity() {
             volleyQueue.add(request_append_tag)
         }
 
+        skip_btn.setOnClickListener {
+            val intent =
+                Intent(this@UploadProjectActivity, UploadInterestActivity::class.java)
+            intent.putExtra("username", faculty_name)
+            startActivity(intent)
+        }
 
     }
 }
