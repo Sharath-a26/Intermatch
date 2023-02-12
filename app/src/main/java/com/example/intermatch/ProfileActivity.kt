@@ -5,24 +5,27 @@ import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.GridView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
-import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login.username
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_register.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 class ProfileActivity : AppCompatActivity() {
+    private var gridView : GridView? = null
+    private var arrayList : ArrayList<LanguageItem>? = null
+    private var languageAdapter : LanguageAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -38,6 +41,14 @@ class ProfileActivity : AppCompatActivity() {
         profile_linkedin.text = user_linkedin
         user_dept.text = user_department
         val areas_of_inter = user_interest
+
+        gridView = findViewById(R.id.user_interests)
+        arrayList = ArrayList()
+        arrayList = setDataList(areas_of_inter)
+        languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
+        gridView?.adapter = languageAdapter
+
+        /*
         for (i in 0 until areas_of_inter.length()) {
             if (i != areas_of_inter.length()-1) {
                 user_interests?.append("${areas_of_inter.get(i).toString()}\n\n")
@@ -45,7 +56,7 @@ class ProfileActivity : AppCompatActivity() {
             else {
                 user_interests?.append(areas_of_inter.get(i).toString())
             }
-        }
+        }*/
 
         val volleyQueue = Volley.newRequestQueue(this)
 
@@ -330,4 +341,16 @@ class ProfileActivity : AppCompatActivity() {
 
 
     }
+
+    private fun setDataList(areas_of_inter: JSONArray) : ArrayList<LanguageItem> {
+        var arrayList:ArrayList<LanguageItem> = ArrayList()
+        for (i in 0 until areas_of_inter.length()) {
+            arrayList.add(LanguageItem(areas_of_inter.getString(i)))
+        }
+
+        return arrayList
+
+    }
+
+
 }

@@ -66,7 +66,7 @@
             android:layout_marginStart="35dp"
             android:layout_marginTop="80dp"
             android:layout_marginEnd="298dp"
-
+            android:textColor="@color/black"
             android:drawableStart="@drawable/outlook__1_"
             android:maxLines="2"
             android:text=""
@@ -86,6 +86,7 @@
             android:layout_marginBottom="23dp"
             android:drawableStart="@drawable/password_icon"
             android:text=""
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.043"
@@ -109,19 +110,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_pass" />
 
-        <TextView
+        <GridView
             android:id="@+id/user_interests"
             android:layout_width="300dp"
             android:layout_height="120dp"
             android:layout_marginBottom="141dp"
-            android:background="#D3D3D3"
+            android:background="@drawable/layout_deisgn"
             android:elevation="10dp"
             android:fontFamily="@font/lato_bold"
-            android:maxLines="5"
-            android:padding="5dp"
-            android:scrollbars="vertical"
-            android:textColor="@color/black"
-            android:textSize="15sp"
+
+            android:columnWidth="160dp"
+            android:horizontalSpacing="5dp"
+            android:numColumns="2"
+            android:verticalSpacing="5dp"
+
+
+
             app:layout_constraintBottom_toTopOf="@+id/update_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.56"
@@ -137,7 +141,7 @@
             android:layout_marginEnd="34dp"
             android:layout_marginBottom="92dp"
             android:drawableStart="@drawable/github_svgrepo_com__1_"
-
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/update_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -152,6 +156,7 @@
             android:layout_marginEnd="34dp"
             android:layout_marginBottom="36dp"
             android:drawableStart="@drawable/linkedin_svgrepo_com__1_"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/update_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
