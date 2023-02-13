@@ -269,51 +269,65 @@ class UploadProjectActivity : AppCompatActivity() {
             /**
              * adding a new tag to Tags
              */
-            checkedIndex.add(new_domain.text.toString())
-            input.append("\n"+new_domain.text)
+            input.isVisible = true
 
-            val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
-            val append_tag = JSONObject().apply {
-                put("dataSource", "Cluster0")
-                put("database", "Intermatch")
-                put("collection", "Tags")
-                put("document", JSONObject().apply {
-                    put("tag", new_domain.text)
-                })
-            }
+            if (checkedIndex.contains(new_domain.text.toString())) {
+                Toast.makeText(this, "Domain added to list", Toast.LENGTH_LONG).show()
+            } else {
+                checkedIndex.add(new_domain.text.toString())
+                input.append("\n" + new_domain.text)
 
-            val request_append_tag: JsonObjectRequest = object : JsonObjectRequest(
-                Request.Method.POST,
-                url_append_tag, append_tag,
-                Response.Listener<JSONObject> { response ->
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                },
-                Response.ErrorListener { error ->
-                    Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
-
-                }) {
-
-
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers.put("Content-Type", "application/json");
-                    headers.put(
-                        "api-key",
-                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                    );
-                    headers.put("Access-Control-Request-Headers", "*");
-
-                    return headers
+                val url_append_tag =
+                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                val append_tag = JSONObject().apply {
+                    put("dataSource", "Cluster0")
+                    put("database", "Intermatch")
+                    put("collection", "Tags")
+                    put("document", JSONObject().apply {
+                        put("tag", new_domain.text)
+                    })
                 }
+
+                val request_append_tag: JsonObjectRequest = object : JsonObjectRequest(
+                    Request.Method.POST,
+                    url_append_tag, append_tag,
+                    Response.Listener<JSONObject> { response ->
+                        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                    },
+                    Response.ErrorListener { error ->
+                        Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
+
+                    }) {
+
+
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers.put("Content-Type", "application/json");
+                        headers.put(
+                            "api-key",
+                            "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                        );
+                        headers.put("Access-Control-Request-Headers", "*");
+
+                        return headers
+                    }
+                }
+                volleyQueue.add(request_append_tag)
             }
-            volleyQueue.add(request_append_tag)
         }
 
         skip_btn.setOnClickListener {
             val intent =
                 Intent(this@UploadProjectActivity, UploadInterestActivity::class.java)
             intent.putExtra("username", faculty_name)
+            intent.putExtra("user_email",faculty_email)
+            intent.putExtra("user_pass",user_pass)
+            intent.putExtra("sel_dept",user_dept)
+            intent.putExtra("usertype",user_type)
+            intent.putExtra("aboutme",aboutme)
+            intent.putExtra("github",github)
+            intent.putExtra("linkedin",linkedin)
             startActivity(intent)
         }
 

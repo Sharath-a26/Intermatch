@@ -154,6 +154,8 @@ class AddProjectActivity : AppCompatActivity() {
 
                 })
                 alertbuilder.create().show()
+
+
             }
                 else{
                     Log.d(null,"tag size 0 ")
@@ -161,6 +163,7 @@ class AddProjectActivity : AppCompatActivity() {
         }
 
         if (new_domain_add.text != null) {
+
             input_add.append(new_domain_add.text)
 
             val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
@@ -332,47 +335,58 @@ class AddProjectActivity : AppCompatActivity() {
          */
 
         new_prj_domain_add.setOnClickListener {
-            checkedIndex.add(new_domain_add.text.toString())
-            input_add.append("\n"+new_domain_add.text)
+            input_add.isVisible = true
+            if (checkedIndex.contains(new_domain_add.text.toString())) {
+                Toast.makeText(this, "Domain added to list", Toast.LENGTH_LONG).show()
+            } else {
+                checkedIndex.add(new_domain_add.text.toString())
 
-            val url_append_tag = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
-            val append_tag = JSONObject().apply {
-                put("dataSource", "Cluster0")
-                put("database", "Intermatch")
-                put("collection", "Tags")
-                put("document", JSONObject().apply {
-                    put("tag", new_domain_add.text)
-                })
-            }
-
-            val request_append_tag: JsonObjectRequest = object : JsonObjectRequest(
-                Request.Method.POST,
-                url_append_tag, append_tag,
-                Response.Listener<JSONObject> { response ->
-                    Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                },
-                Response.ErrorListener { error ->
-                    Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
-
-                }) {
-
-
-                @Throws(AuthFailureError::class)
-                override fun getHeaders(): Map<String, String> {
-                    val headers = HashMap<String, String>()
-                    headers.put("Content-Type", "application/json");
-                    headers.put(
-                        "api-key",
-                        "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                    );
-                    headers.put("Access-Control-Request-Headers", "*");
-
-                    return headers
+                if (!input_add.text.equals("")) {
+                    input_add.append("\n" + new_domain_add.text)
                 }
-            }
-            volleyQueue.add(request_append_tag)
-        }
+                else{
+                    input_add.append(new_domain_add.text.toString() + "\n")
+                }
 
+                val url_append_tag =
+                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                val append_tag = JSONObject().apply {
+                    put("dataSource", "Cluster0")
+                    put("database", "Intermatch")
+                    put("collection", "Tags")
+                    put("document", JSONObject().apply {
+                        put("tag", new_domain_add.text)
+                    })
+                }
+
+                val request_append_tag: JsonObjectRequest = object : JsonObjectRequest(
+                    Request.Method.POST,
+                    url_append_tag, append_tag,
+                    Response.Listener<JSONObject> { response ->
+                        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                    },
+                    Response.ErrorListener { error ->
+                        Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
+
+                    }) {
+
+
+                    @Throws(AuthFailureError::class)
+                    override fun getHeaders(): Map<String, String> {
+                        val headers = HashMap<String, String>()
+                        headers.put("Content-Type", "application/json");
+                        headers.put(
+                            "api-key",
+                            "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                        );
+                        headers.put("Access-Control-Request-Headers", "*");
+
+                        return headers
+                    }
+                }
+                volleyQueue.add(request_append_tag)
+            }
+        }
 
 
     }

@@ -3,11 +3,12 @@ package com.example.intermatch
 import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
@@ -73,6 +74,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
+
+            try {
+                val imm: InputMethodManager =
+                    getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+            } catch (e: Exception) {
+
+            }
 
             val dialog = ProgressDialog(this)
             dialog.setMessage("Logging In...")
@@ -206,5 +215,11 @@ class LoginActivity : AppCompatActivity() {
             volleyQueue.add(request);
         }
 
+
+
+    }
+    override fun onBackPressed() {
+        finishAffinity()
+        finish()
     }
 }
