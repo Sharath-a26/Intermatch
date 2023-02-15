@@ -160,28 +160,30 @@ class UploadInterestActivity : AppCompatActivity() {
 
                     add_inter_btn.text = "NEXT"
 
-                    val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                        Log.d(null,"Adding user...")
+                        val url =
+                            "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
-                    val a = JSONObject().apply {
-                        put("dataSource","Cluster0")
-                        put("database","Intermatch")
-                        put("collection","User")
-                        put("document",JSONObject().apply {
-                            put("username",user_name)
-                            put("email",user_email)
-                            put("password",user_pass)
-                            put("dept",user_dept)
-                            put("Type",user_type)
-                            put("aboutme",aboutme)
-                            put("github",github)
-                            put("linkedin",linkedin)
-                            put("areas_of_interest",JSONArray().apply {
-                                for (i in 0 until checkedIndex.size) {
-                                    put(i,checkedIndex[i])
-                                }
+                        val a = JSONObject().apply {
+                            put("dataSource", "Cluster0")
+                            put("database", "Intermatch")
+                            put("collection", "User")
+                            put("document", JSONObject().apply {
+                                put("username", user_name)
+                                put("email", user_email)
+                                put("password", user_pass)
+                                put("dept", user_dept)
+                                put("Type", user_type)
+                                put("aboutme", aboutme)
+                                put("github", github)
+                                put("linkedin", linkedin)
+                                put("areas_of_interest", JSONArray().apply {
+                                    for (i in 0 until checkedIndex.size) {
+                                        put(i, checkedIndex[i])
+                                    }
+                                })
                             })
-                        })
-                        /*put("update",JSONObject().apply {
+                            /*put("update",JSONObject().apply {
                             put("$"+"set",JSONObject().apply {
                                 put("username",user_name)
                                 put("areas_of_interest",JSONArray().apply {
@@ -191,34 +193,36 @@ class UploadInterestActivity : AppCompatActivity() {
                                 })
                             })
                         })*/
-                    }
-
-                    val request: JsonObjectRequest = object : JsonObjectRequest(
-                        Request.Method.POST,
-                        url, a,
-                        Response.Listener<JSONObject> { response ->
-                            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                        },
-                        Response.ErrorListener { error ->
-                            Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
-
-                        }) {
-
-
-                        @Throws(AuthFailureError::class)
-                        override fun getHeaders(): Map<String, String> {
-                            val headers = HashMap<String, String>()
-                            headers.put("Content-Type", "application/json");
-                            headers.put(
-                                "api-key",
-                                "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                            );
-                            headers.put("Access-Control-Request-Headers","*");
-
-                            return headers
                         }
-                    }
-                    volleyQueue.add(request)
+
+                        val request: JsonObjectRequest = object : JsonObjectRequest(
+                            Request.Method.POST,
+                            url, a,
+                            Response.Listener<JSONObject> { response ->
+                                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                            },
+                            Response.ErrorListener { error ->
+                                Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG)
+                                    .show();
+
+                            }) {
+
+
+                            @Throws(AuthFailureError::class)
+                            override fun getHeaders(): Map<String, String> {
+                                val headers = HashMap<String, String>()
+                                headers.put("Content-Type", "application/json");
+                                headers.put(
+                                    "api-key",
+                                    "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                                );
+                                headers.put("Access-Control-Request-Headers", "*");
+
+                                return headers
+                            }
+                        }
+                        volleyQueue.add(request)
+
 
                     add_inter_btn.setOnClickListener {
 

@@ -28,7 +28,7 @@ class UploadUserDetails : AppCompatActivity() {
 
 
         next_btn.setOnClickListener{
-            if(user_type == "Faculty") {
+            if(user_type.equals("Faculty")) {
                 val intent : Intent = Intent(this@UploadUserDetails,UploadProjectActivity::class.java)
                 intent.putExtra("faculty_email",user_email)
                 intent.putExtra("faculty_name",username) //faculty's username
@@ -43,6 +43,7 @@ class UploadUserDetails : AppCompatActivity() {
 
             }
             else {
+                Log.d(null,"I am a student")
                 val intent : Intent = Intent(this@UploadUserDetails,UploadInterestActivity::class.java)
                 intent.putExtra("username",username)
                 intent.putExtra("user_email",user_email)
