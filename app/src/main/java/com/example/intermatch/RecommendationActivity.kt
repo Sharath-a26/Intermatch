@@ -379,6 +379,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                     if (k.length() != 0) {
                         var indices: ArrayList<Int> = ArrayList<Int>()
                         if (recom_type == "inter") {
+                            //Log.d(null,"Hello this is inter")
                             for (x in 0 until k.length()) {
                                 var count1 = 0
                                 var tempor = ArrayList<String>()
@@ -389,20 +390,37 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                                     )
                                 }
 
+
                                 for (y in 0 until user_interest.length()) {
-                                    if (user_interest.getString(y) in tempor) {
+                                    if (tempor.contains(user_interest.getString(y))) {
                                         count1++
                                     }
                                 }
                                 if (count1 == 0) {
+
+
                                     indices.add(x)
                                 }
 
                             }
-
-                            for (x in 0 until indices.size) {
-                                k.remove(indices.get(x))
+                            val temp_1 = ArrayList<String>()
+                            for (z in 0 until indices.size) {
+                                temp_1.add(k.getJSONObject(indices.get(z)).get("name").toString())
                             }
+                           //Log.d(null,temp_1.toString())
+                            //Log.d(null,indices.size.toString())
+
+
+                            for (z in 0 until indices.size) {
+                                for (x in 0 until k.length()) {
+                                    if (temp_1.get(z).equals(k.getJSONObject(x).get("name").toString())) {
+                                        k.remove(x)
+                                        break
+                                    }
+                                }
+                            }
+                            //Log.d(null,k.toString())
+
 
                             Log.d(null, "Length = " + k.length())
                         }

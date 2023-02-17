@@ -138,7 +138,8 @@ class StudentRequestActivity : AppCompatActivity() {
                         startActivity(intent2)
 
                 }*/
-                if (position != -1) {
+
+                if (!position.equals(-1)) {
                     prjList.removeAt(position)
                 }
                 var prjAdapter = username?.let { ProjectAdapter(applicationContext,prjList, it) }
