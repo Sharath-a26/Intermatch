@@ -16,10 +16,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_liked.*
 import org.json.JSONObject
 
-var liked_projects : ArrayList<String> = ArrayList()
+
 class LikedActivity : AppCompatActivity() {
 
     var likeList : ArrayList<String> = ArrayList()
+    var liked_projects : ArrayList<String> = ArrayList()
     lateinit var listview : ListView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +36,7 @@ class LikedActivity : AppCompatActivity() {
         var github_user = intent.getStringExtra("github")
         var linkedin_user = intent.getStringExtra("linkedin")
 
-        val position = intent.getIntExtra("position",-1)
+        val position = intent.getStringExtra("position_name")
         val like_view : BottomNavigationView = findViewById<BottomNavigationView>(R.id.navView)
 
 
@@ -166,14 +167,17 @@ class LikedActivity : AppCompatActivity() {
                         )
                     }
 
+                   // Log.d(null,"Liked prjs = "+ liked_projects.toString())
+
 
                     for (i in 0 until liked_projects.size) {
                         if (!(liked_projects.get(i) in likeList)) {
                             likeList.add(liked_projects.get(i))
                         }
                     }
-                    if (position != -1) {
-                        likeList.removeAt(position)
+                    if (position != null) {
+                        likeList.remove(position)
+                        like_prjs.remove(position)
                     }
 
                     Log.d(null, likeList.toString())

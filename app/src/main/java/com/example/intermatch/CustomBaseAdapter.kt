@@ -65,12 +65,14 @@ class CustomBaseAdapter : BaseAdapter {
         prj.setOnClickListener {
             val intent1 = Intent(bcontext,SearchActivity::class.java)
             intent1.putExtra("keyword",convertView.list_text.text)
-            intent1.putExtra("user_inter",this.user_inter)
+            intent1.putExtra("user_interest",this.user_inter)
             intent1.putExtra("github",this.user_github)
             intent1.putExtra("linkedin",this.user_linkedin)
             intent1.putExtra("username",user_name)
+            intent1.putStringArrayListExtra("listliked",listliked)
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(bcontext,intent1,null)
+
         }
         delete.setOnClickListener {
 
@@ -115,7 +117,7 @@ class CustomBaseAdapter : BaseAdapter {
             volleyQueue.add(request_del)
             val intent1 = Intent(bcontext,LikedActivity::class.java)
             intent1.putExtra("username",user_name)
-            intent1.putExtra("position",position)
+            intent1.putExtra("position_name",txt.text)
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(bcontext,intent1,null)
 

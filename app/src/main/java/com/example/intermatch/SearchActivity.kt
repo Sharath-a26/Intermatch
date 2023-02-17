@@ -48,6 +48,13 @@ class SearchActivity : AppCompatActivity() {
         var github_user = intent.getStringExtra("github")
         var linkedin_user = intent.getStringExtra("linkedin")
         val user_name = intent.getStringExtra("username")
+        val list_liked = intent.getStringArrayListExtra("listliked")
+
+       /* if (list_liked != null) {
+            search_like_btn.setImageResource(R.drawable.heart_pressed)
+            search_like_count = 1
+        }*/
+
         search_layout.isVisible = false
         val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
 
@@ -216,8 +223,11 @@ class SearchActivity : AppCompatActivity() {
             }
 
             else {
-                like_btn.setImageResource(R.drawable.heart__1_)
+                search_like_btn.setImageResource(R.drawable.heart__1_)
                 if (search_like_count > 0) {
+                    Log.d(null,"Deleting likes")
+
+
                     val url2 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/deleteMany"
 
                     val jsonfile2 = JSONObject().apply {
@@ -225,8 +235,9 @@ class SearchActivity : AppCompatActivity() {
                         put("database","Intermatch")
                         put("collection","Liked_projects")
                         put("filter", JSONObject().apply {
-                            put("name",prj_name.text)
-                            put("faculty_name",researcher_name.text)
+                            put("name",search_prj_name.text)
+                            put("faculty_name",search_researcher_name.text)
+                            put("username",user_name)
 
                         })
                     }

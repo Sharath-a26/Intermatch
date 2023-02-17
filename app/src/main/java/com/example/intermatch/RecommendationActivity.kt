@@ -55,6 +55,7 @@ var user_department = ""
 var user_pass = ""
 var user_off_email = ""
 var name_user = ""
+var like_prjs : ArrayList<String> = ArrayList()
 class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListener {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -365,6 +366,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
 
 
+
+
                     var you : ArrayList<Int> = ArrayList()
                     for (x in 0 until k.length()) {
                         if (k.getJSONObject(x).get("faculty_name") == username) {
@@ -443,6 +446,13 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
                         val prj = k.getJSONObject(intent.getIntExtra("text", i))
                             .get("name").toString()
+
+                        if (like_prjs.contains(prj)) {
+                            like_count = 1
+                            like_btn.setImageResource(R.drawable.heart_pressed)
+                        }
+
+
 
 
                         val dept = k.getJSONObject(intent.getIntExtra("text", i))
@@ -566,6 +576,10 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
             val prj = k.getJSONObject(intent.getIntExtra("text",i))
                 .get("name").toString()
+            if (like_prjs.contains(prj)) {
+                like_count = 1
+                like_btn.setImageResource(R.drawable.heart_pressed)
+            }
 
 
             val dept = k.getJSONObject(intent.getIntExtra("text",i))
@@ -637,64 +651,75 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
             if (like_count % 2 == 1) {
                 like_btn.setImageResource(R.drawable.heart_pressed)
 
-                val url2 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
-                val jsonfile2 = JSONObject().apply {
-                    put("dataSource","Cluster0")
-                    put("database","Intermatch")
-                    put("collection","Liked_projects")
-                    put("document", JSONObject().apply {
-                        put("name",k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())
-                        put("faculty_name",k.getJSONObject(intent.getIntExtra("text",i)).get("faculty_name").toString())
-                        put("username",username)
-                    })
-                }
+                if (!like_prjs.contains(k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())) {
 
+                    like_prjs.add(k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())
+                    val url2 =
+                        "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
 
-
-                val request2 : JsonObjectRequest = object : JsonObjectRequest(
-                    Request.Method.POST,
-                    url2, jsonfile2,
-                    Response.Listener<JSONObject> { response2 ->
-
-                        //Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
-                    },
-                    Response.ErrorListener { error2 ->
-                        Toast.makeText(this,error2.message, Toast.LENGTH_LONG).show()
-                    },
-
-                    ) {
-                    @Throws(AuthFailureError::class)
-                    override fun getHeaders(): Map<String, String> {
-                        val headers = HashMap<String, String>()
-                        headers.put("Content-Type", "application/json");
-                        headers.put(
-                            "api-key",
-                            "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                        );
-                        headers.put("Access-Control-Request-Headers","*");
-
-                        return headers
+                    val jsonfile2 = JSONObject().apply {
+                        put("dataSource", "Cluster0")
+                        put("database", "Intermatch")
+                        put("collection", "Liked_projects")
+                        put("document", JSONObject().apply {
+                            put("name",
+                                k.getJSONObject(intent.getIntExtra("text", i)).get("name")
+                                    .toString()
+                            )
+                            put("faculty_name",
+                                k.getJSONObject(intent.getIntExtra("text", i)).get("faculty_name")
+                                    .toString()
+                            )
+                            put("username", username)
+                        })
                     }
-                }
 
 
-                val MY_SOCKET_TIMEOUT_MS = 50000;
-                request2.setRetryPolicy(
-                    DefaultRetryPolicy(
-                        MY_SOCKET_TIMEOUT_MS,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                    val request2: JsonObjectRequest = object : JsonObjectRequest(
+                        Request.Method.POST,
+                        url2, jsonfile2,
+                        Response.Listener<JSONObject> { response2 ->
+
+                            //Toast.makeText(this,"Success", Toast.LENGTH_LONG).show()
+                        },
+                        Response.ErrorListener { error2 ->
+                            Toast.makeText(this, error2.message, Toast.LENGTH_LONG).show()
+                        },
+
+                        ) {
+                        @Throws(AuthFailureError::class)
+                        override fun getHeaders(): Map<String, String> {
+                            val headers = HashMap<String, String>()
+                            headers.put("Content-Type", "application/json");
+                            headers.put(
+                                "api-key",
+                                "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                            );
+                            headers.put("Access-Control-Request-Headers", "*");
+
+                            return headers
+                        }
+                    }
+
+
+                    val MY_SOCKET_TIMEOUT_MS = 50000;
+                    request2.setRetryPolicy(
+                        DefaultRetryPolicy(
+                            MY_SOCKET_TIMEOUT_MS,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                        )
                     )
-                )
 
-                volleyQueue.add(request2)
+                    volleyQueue.add(request2)
+                }
             }
             /**
              * if like button is pressed twice, remove the project from liked projects
              */
             else {
-
+                like_prjs.remove(k.getJSONObject(intent.getIntExtra("text",i)).get("name").toString())
                 like_btn.setImageResource(R.drawable.heart__1_)
                 if (like_count > 0) {
                     val url2 = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/deleteMany"
