@@ -77,7 +77,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
 
         recommendation_layout.isVisible = false
 
-
+        Log.d(null,"Liked_prjs = "+ like_prjs.toString())
 
         val dialog = ProgressDialog(this)
         dialog.setMessage("Finding best projects")

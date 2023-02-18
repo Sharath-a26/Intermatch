@@ -105,7 +105,7 @@ class ProjectAdapter : BaseAdapter{
 
             val intent1 = Intent(pcontext,StudentRequestActivity::class.java)
             intent1.putExtra("username",user_name)
-            intent1.putExtra("position",position)
+            intent1.putExtra("position_name",txt.text)
             intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             ContextCompat.startActivity(pcontext, intent1, null)
         }

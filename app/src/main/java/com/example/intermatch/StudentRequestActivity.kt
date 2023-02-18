@@ -32,7 +32,7 @@ class StudentRequestActivity : AppCompatActivity() {
         supportActionBar?.hide()
         val username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
-        val position = intent.getIntExtra("position",-1)
+        val position = intent.getStringExtra("position_name")
         val requested_view = findViewById<BottomNavigationView>(R.id.navView)
 
         /**
@@ -123,7 +123,7 @@ class StudentRequestActivity : AppCompatActivity() {
                     }
                 }
 
-                Log.d(null,prjList.toString())
+
 
                 /*var arrayAdapter = ArrayAdapter(applicationContext,R.layout.activity_custom_list_view,R.id.list_text,prjList)
                 Log.d(null,"sdbdfbg")
@@ -139,9 +139,12 @@ class StudentRequestActivity : AppCompatActivity() {
 
                 }*/
 
-                if (!position.equals(-1)) {
-                    prjList.removeAt(position)
+                if (position != null) {
+
+                    prjList.remove(position)
+                    req_projects.remove(position)
                 }
+                Log.d(null,prjList.toString())
                 var prjAdapter = username?.let { ProjectAdapter(applicationContext,prjList, it) }
                 listview.adapter = prjAdapter
             },

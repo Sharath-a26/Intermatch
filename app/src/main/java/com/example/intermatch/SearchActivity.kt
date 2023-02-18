@@ -50,10 +50,10 @@ class SearchActivity : AppCompatActivity() {
         val user_name = intent.getStringExtra("username")
         val list_liked = intent.getStringArrayListExtra("listliked")
 
-       /* if (list_liked != null) {
+        if (list_liked != null) {
             search_like_btn.setImageResource(R.drawable.heart_pressed)
             search_like_count = 1
-        }*/
+        }
 
         search_layout.isVisible = false
         val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
@@ -107,11 +107,20 @@ class SearchActivity : AppCompatActivity() {
                         }
                     }
 
+                    if (domain_prj.length() != 0) {
 
-                    search_progressBar.progress =  ((count1.toFloat() / domain_prj.length()) * 100.0).roundToInt()
 
-                    search_match_percentage.text = ((count1.toFloat() / domain_prj.length()) * 100.0).roundToInt().toString() + "%"
+                        search_progressBar.progress =
+                            ((count1.toFloat() / domain_prj.length()) * 100.0).roundToInt()
 
+                        search_match_percentage.text =
+                            ((count1.toFloat() / domain_prj.length()) * 100.0).roundToInt()
+                                .toString() + "%"
+                    }
+                    else {
+                        search_progressBar.progress = 0
+                        search_match_percentage.text = "0%"
+                    }
 
                     grid = findViewById<GridView>(R.id.search_grid_view)
                     arrayList = ArrayList()
