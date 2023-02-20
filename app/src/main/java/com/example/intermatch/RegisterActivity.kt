@@ -16,6 +16,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.activity_upload_project.*
+import org.json.JSONArray
 
 
 import org.json.JSONObject
@@ -71,14 +72,18 @@ class RegisterActivity : AppCompatActivity() {
             dialog.setCancelable(false)
             /* dialog.setInverseBackgroundForced(false)*/
             dialog.show()
-
+            val temp : JSONArray = JSONArray(
+                listOf(JSONObject().apply {  put("username",username.text.toString())},
+                JSONObject().apply {  put("email",email.text.toString())}))
             val url = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/findOne"
             val jsonfile_reg = JSONObject().apply {
                 put("dataSource","Cluster0")
                 put("database","Intermatch")
                 put("collection","User")
                 put("filter",JSONObject().apply {
-                    put("email",email.text.toString())
+
+                    put("$"+"or",temp)
+
                 })
             }
 
@@ -110,20 +115,40 @@ class RegisterActivity : AppCompatActivity() {
                                 user_type = "Faculty"
                             }
 
-                            dialog.hide()
-                            val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
-                            intent1.putExtra("username",username)
-                            intent1.putExtra("user_email",user_email)
-                            intent1.putExtra("password",password)
-                            intent1.putExtra("sel_dept",department)
-                            intent1.putExtra("usertype",user_type)
-                            startActivity(intent1)
+                            if (!(password.equals("")) && !(username.equals("")) && !(department.equals(""))) {
+                                dialog.hide()
+                            if (!password.contains(" ")) {
+                                if (password.length > 5) {
+
+                                    val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
+                                    intent1.putExtra("username",username)
+                                    intent1.putExtra("user_email",user_email)
+                                    intent1.putExtra("password",password)
+                                    intent1.putExtra("sel_dept",department)
+                                    intent1.putExtra("usertype",user_type)
+                                    startActivity(intent1)
+                                }
+                                else {
+                                    dialog.hide()
+                                    Toast.makeText(this,"Password length should be greater than 5",Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            else {
+                                dialog.hide()
+                                Toast.makeText(this,"Password should not contain any spaces",Toast.LENGTH_LONG).show()
+                            }
+                            }
+                            else {
+                                Toast.makeText(this,"Some fields are empty",Toast.LENGTH_LONG).show()
+                            }
+
 
 
 
                         }
 
                         else {
+                            dialog.hide()
                             Toast.makeText(this,"Please provide your amrita email id",Toast.LENGTH_LONG).show()
                         }
                     }

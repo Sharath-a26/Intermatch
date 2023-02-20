@@ -1,5 +1,6 @@
 package com.example.intermatch
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -31,7 +32,7 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         supportActionBar?.hide()
 
-        val username = intent.getStringExtra("username")
+        var username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
 
         profile_user.text = username
@@ -73,7 +74,7 @@ class ProfileActivity : AppCompatActivity() {
 
 
             if (update_btn.text == "update profile") {
-                Toast.makeText(this, "Update Profile", Toast.LENGTH_LONG).show()
+               // Toast.makeText(this, "Update Profile", Toast.LENGTH_LONG).show()
                 update_btn.text = "save profile"
                 profile_user.isVisible = false
                 profile_email.isVisible = false
@@ -99,6 +100,12 @@ class ProfileActivity : AppCompatActivity() {
              * after editing, if the user clicks save profile
              */
             else {
+
+                val dialog = ProgressDialog(this)
+                dialog.setMessage("Saving your profile...")
+                dialog.setCancelable(false)
+                dialog.setInverseBackgroundForced(false)
+                dialog.show()
                 edit_username.isVisible = false
                 edit_email.isVisible = false
                 edit_pass.isVisible = false
@@ -145,9 +152,17 @@ class ProfileActivity : AppCompatActivity() {
                     Request.Method.POST,
                     url_save, jsonfile_save,
                     Response.Listener<JSONObject> { response ->
+                        dialog.hide()
+                        Toast.makeText(this,"Saved Profile",Toast.LENGTH_LONG).show()
+                        username = profile_user.text.toString()
+                        user_off_email = profile_email.text.toString()
+                        user_pass = profile_pass.text.toString()
+                        user_github = profile_github.text.toString()
+                        user_linkedin = profile_linkedin.text.toString()
                        // Toast.makeText(this@ProfileActivity,"success",Toast.LENGTH_LONG).show()
                     },
                     Response.ErrorListener { error ->
+                        dialog.hide()
                         Toast.makeText(this@ProfileActivity,error.message,Toast.LENGTH_LONG).show()
                     },
 

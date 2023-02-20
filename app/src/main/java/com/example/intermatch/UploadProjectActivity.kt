@@ -165,19 +165,21 @@ class UploadProjectActivity : AppCompatActivity() {
 
         addprj.setOnClickListener {
 
-            if (prjname.text.toString().equals("")) {
-                Toast.makeText(this,"Please provide a name to your project",Toast.LENGTH_LONG).show()
+            if (prjname.text.toString().equals("") || input.text.toString().equals("") || edit_desc.text.toString().equals("")) {
+                Toast.makeText(this,"Please provide all the details",Toast.LENGTH_LONG).show()
             }
 
             else {
-                addprj.text = "NEXT"
 
-                val description = edit_desc.text
-                val url =
-                    "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
-                val project_name = prjname.text.toString()
+                if (!prj_dept.text.toString().equals("dept")) {
+                    addprj.text = "NEXT"
 
-                val info = """  
+                    val description = edit_desc.text
+                    val url =
+                        "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
+                    val project_name = prjname.text.toString()
+
+                    val info = """  
                 {
                 "dataSource" : "Cluster0",
                  "database":"Intermatch",
@@ -190,77 +192,82 @@ class UploadProjectActivity : AppCompatActivity() {
                  }
                 }
             """.trimIndent()
-                val a = JSONObject().apply {
-                    put("dataSource", "Cluster0")
-                    put("database", "Intermatch")
-                    put("collection", "Project")
+                    val a = JSONObject().apply {
+                        put("dataSource", "Cluster0")
+                        put("database", "Intermatch")
+                        put("collection", "Project")
 
-                    put("document", JSONObject().apply {
+                        put("document", JSONObject().apply {
 
-                        put("faculty_name", faculty_name)
-                        put("name", project_name)
-                        put("faculty_email", faculty_email)
-                        put("domains", JSONArray().apply {
-                            for (i in 0..checkedIndex.size - 1) {
-                                put(i, checkedIndex[i])
+                            put("faculty_name", faculty_name)
+                            put("name", project_name)
+                            put("faculty_email", faculty_email)
+                            put("domains", JSONArray().apply {
+                                for (i in 0..checkedIndex.size - 1) {
+                                    put(i, checkedIndex[i])
+                                }
+                                put(checkedIndex.size, new_domain.text)
                             }
-                            put(checkedIndex.size, new_domain.text)
-                        }
 
-                        )
-                        put("dept", prj_dept.text)
-                        put("desc", description)
-                    })
+                            )
+                            put("dept", prj_dept.text)
+                            put("desc", description)
+                        })
 
 
-                }
-                Log.d(null, "helo")
-                //val jsonfile = JSONObject(info)
-
-                val request: JsonObjectRequest = object : JsonObjectRequest(
-                    Request.Method.POST,
-                    url, a,
-                    Response.Listener<JSONObject> { response ->
-                        Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
-                    },
-                    Response.ErrorListener { error ->
-                        Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show();
-
-                    }) {
-
-
-                    @Throws(AuthFailureError::class)
-                    override fun getHeaders(): Map<String, String> {
-                        val headers = HashMap<String, String>()
-                        headers.put("Content-Type", "application/json");
-                        headers.put(
-                            "api-key",
-                            "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
-                        );
-                        headers.put("Access-Control-Request-Headers", "*");
-
-                        return headers
                     }
+                    Log.d(null, "helo")
+                    //val jsonfile = JSONObject(info)
+
+                    val request: JsonObjectRequest = object : JsonObjectRequest(
+                        Request.Method.POST,
+                        url, a,
+                        Response.Listener<JSONObject> { response ->
+                            Toast.makeText(this, "Success", Toast.LENGTH_LONG).show();
+                        },
+                        Response.ErrorListener { error ->
+                            Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG)
+                                .show();
+
+                        }) {
+
+
+                        @Throws(AuthFailureError::class)
+                        override fun getHeaders(): Map<String, String> {
+                            val headers = HashMap<String, String>()
+                            headers.put("Content-Type", "application/json");
+                            headers.put(
+                                "api-key",
+                                "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                            );
+                            headers.put("Access-Control-Request-Headers", "*");
+
+                            return headers
+                        }
+                    }
+                    volleyQueue.add(request)
+
+
+
+
+                    addprj.setOnClickListener {
+                        val intent =
+                            Intent(this@UploadProjectActivity, UploadInterestActivity::class.java)
+                        intent.putExtra("username", faculty_name)
+                        intent.putExtra("user_email", faculty_email)
+                        intent.putExtra("user_pass", user_pass)
+                        intent.putExtra("sel_dept", user_dept)
+                        intent.putExtra("usertype", user_type)
+                        intent.putExtra("aboutme", aboutme)
+                        intent.putExtra("github", github)
+                        intent.putExtra("linkedin", linkedin)
+                        startActivity(intent)
+                    }
+
                 }
-                volleyQueue.add(request)
-
-
-
-
-                addprj.setOnClickListener {
-                    val intent =
-                        Intent(this@UploadProjectActivity, UploadInterestActivity::class.java)
-                    intent.putExtra("username", faculty_name)
-                    intent.putExtra("user_email",faculty_email)
-                    intent.putExtra("user_pass",user_pass)
-                    intent.putExtra("sel_dept",user_dept)
-                    intent.putExtra("usertype",user_type)
-                    intent.putExtra("aboutme",aboutme)
-                    intent.putExtra("github",github)
-                    intent.putExtra("linkedin",linkedin)
-                    startActivity(intent)
+                else {
+                    Toast.makeText(this,"Provide a valid department",Toast.LENGTH_LONG).show()
                 }
-
             }
 
         }
