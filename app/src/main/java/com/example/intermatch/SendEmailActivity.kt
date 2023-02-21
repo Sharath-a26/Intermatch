@@ -49,6 +49,7 @@ class SendEmailActivity : AppCompatActivity() {
                     put("match_percent",percent)
                     put("req_github",user_github)
                     put("req_linkedin", user_linkedin)
+                    put("status","Received")
                 })
             }
 

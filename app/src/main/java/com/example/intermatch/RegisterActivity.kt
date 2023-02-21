@@ -38,6 +38,7 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         backbutton.setOnClickListener{
             val intent = Intent(this,LoginActivity::class.java)
             startActivity(intent)
@@ -118,6 +119,7 @@ class RegisterActivity : AppCompatActivity() {
                             if (!(password.equals("")) && !(username.equals("")) && !(department.equals(""))) {
                                 dialog.hide()
                             if (!password.contains(" ")) {
+                                dialog.hide()
                                 if (password.length > 5) {
 
                                     val intent1 = Intent(this@RegisterActivity,UploadUserDetails::class.java)
@@ -129,16 +131,17 @@ class RegisterActivity : AppCompatActivity() {
                                     startActivity(intent1)
                                 }
                                 else {
-                                    dialog.hide()
-                                    Toast.makeText(this,"Password length should be greater than 5",Toast.LENGTH_LONG).show()
+
+                                    Toast.makeText(this,"Password length must be greater than 5 characters",Toast.LENGTH_LONG).show()
                                 }
                             }
                             else {
                                 dialog.hide()
-                                Toast.makeText(this,"Password should not contain any spaces",Toast.LENGTH_LONG).show()
+                                Toast.makeText(this,"Password must not contain any spaces",Toast.LENGTH_LONG).show()
                             }
                             }
                             else {
+                                dialog.hide()
                                 Toast.makeText(this,"Some fields are empty",Toast.LENGTH_LONG).show()
                             }
 
@@ -154,6 +157,7 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 },
                 Response.ErrorListener { error ->
+                    dialog.hide()
                     Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
 
                 }) {
