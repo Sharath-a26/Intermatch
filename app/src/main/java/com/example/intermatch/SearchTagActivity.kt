@@ -1,5 +1,6 @@
 package com.example.intermatch
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.GridView
@@ -51,15 +52,23 @@ class SearchTagActivity : AppCompatActivity() {
             url_s_tag, jsonfile_s_tag,
             Response.Listener<JSONObject> { response ->
 
-                for (i in 0 until response.getJSONArray("documents").length()) {
-                    tagList.add(response.getJSONArray("documents").getJSONObject(i).get("name").toString())
+                if (!response.get("document").equals(null)) {
+                    for (i in 0 until response.getJSONArray("documents").length()) {
+                        tagList.add(
+                            response.getJSONArray("documents").getJSONObject(i).get("name")
+                                .toString()
+                        )
+                    }
+
+                    tagAdapter = TagAdapter(this, tagList, name_user)
+
+                    listview.adapter = tagAdapter
+
                 }
-
-                tagAdapter = TagAdapter(this,tagList, name_user)
-
-                listview.adapter = tagAdapter
-
-
+                else{
+                    startActivity(Intent(this,RecommendationActivity::class.java))
+                    Toast.makeText(this,"Tag not found",Toast.LENGTH_LONG).show()
+                }
             },
             Response.ErrorListener { error ->
                 Toast.makeText(this, error.message.toString(), Toast.LENGTH_LONG).show()

@@ -51,7 +51,7 @@ class UploadInterestActivity : AppCompatActivity() {
         Log.d(null,"linkedin = "+linkedin)
 
 
-
+        Log.d(null,"I am Sharath")
         var checkedIndex = ArrayList<String>()
 
         val url_tags = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/find"
@@ -221,6 +221,14 @@ class UploadInterestActivity : AppCompatActivity() {
                                 return headers
                             }
                         }
+                    val MY_SOCKET_TIMEOUT_MS = 30000;
+                    request_tag.setRetryPolicy(
+                        DefaultRetryPolicy(
+                            MY_SOCKET_TIMEOUT_MS,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                        )
+                    )
                         volleyQueue.add(request)
 
 

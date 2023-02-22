@@ -110,6 +110,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_pass" />
 
+
         <GridView
             android:id="@+id/user_interests"
             android:layout_width="300dp"
@@ -131,6 +132,24 @@
             app:layout_constraintHorizontal_bias="0.56"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/up_inter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginEnd="34dp"
+            android:layout_marginBottom="16dp"
+            android:text="Update Interests"
+            android:elevation="10dp"
+            android:background="#001E2B"
+            android:visibility="invisible"
+            android:textColor="@color/white"
+            android:padding = "3dp"
+            app:layout_constraintBottom_toTopOf="@+id/user_interests"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/edit_pass" />
 
         <TextView
             android:id="@+id/profile_github"

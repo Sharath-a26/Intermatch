@@ -49,6 +49,7 @@ class SearchActivity : AppCompatActivity() {
         var linkedin_user = intent.getStringExtra("linkedin")
         val user_name = intent.getStringExtra("username")
         val list_liked = intent.getStringArrayListExtra("listliked")
+        lateinit var fac_email : String
 
         if (list_liked != null) {
             search_like_btn.setImageResource(R.drawable.heart_pressed)
@@ -82,6 +83,8 @@ class SearchActivity : AppCompatActivity() {
             Response.Listener<JSONObject> { response ->
 
                 if (response.get("document").equals(null)) {
+                    startActivity(Intent(this,RecommendationActivity::class.java))
+                    Toast.makeText(this,"Project not found",Toast.LENGTH_LONG).show()
                     no_data_found.isVisible = true
                 }
                 else {
@@ -90,9 +93,14 @@ class SearchActivity : AppCompatActivity() {
                         response.getJSONObject("document").get("dept").toString()
                     search_researcher_name.text =
                         response.getJSONObject("document").get("faculty_name").toString()
+                    fac_email = response.getJSONObject("document").get("faculty_email").toString()
+
+
+
 
                     prj_desc = response.getJSONObject("document").get("desc").toString()
                     domain_prj = response.getJSONObject("document").getJSONArray("domains")
+
                     var temp = ArrayList<String>()
                     var count1 = 0
                     for (j in 0 until domain_prj.length()) {
@@ -170,7 +178,7 @@ class SearchActivity : AppCompatActivity() {
 
         search_outlook_btn.setOnClickListener {
             val intent1 = Intent(this, SendEmailActivity::class.java)
-            intent1.putExtra("faculty_email", faculty_email)
+            intent1.putExtra("faculty_email", fac_email)
             intent1.putExtra("project_name", search_prj_name.text)
             intent1.putExtra("faculty_name", search_researcher_name.text)
             intent1.putExtra("username", user_name)
@@ -178,6 +186,13 @@ class SearchActivity : AppCompatActivity() {
             intent1.putExtra("github", user_github)
             intent1.putExtra("linkedin", user_linkedin)
             startActivity(intent1)
+        }
+
+        /**
+         * show researcher profile one touching it
+         */
+        search_researcher_name.setOnClickListener {
+            startActivity(Intent(this,ShowProfileActivity::class.java).putExtra("shown_user",search_researcher_name.text.toString()))
         }
 
         search_like_btn.setOnClickListener {
@@ -301,6 +316,8 @@ class SearchActivity : AppCompatActivity() {
         search_back.setOnClickListener {
             startActivity(Intent(this,RecommendationActivity::class.java))
         }
+
+
 
         search_info_btn.setOnClickListener {
             val dialogBuilder = AlertDialog.Builder(this)

@@ -4,6 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.GridView
+import android.widget.Toast
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
@@ -15,9 +18,13 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.android.synthetic.main.activity_profile.profile_layout
 import kotlinx.android.synthetic.main.activity_profile.profile_pass
 import kotlinx.android.synthetic.main.activity_show_profile.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 class ShowProfileActivity : AppCompatActivity() {
+    private var gridView : GridView? = null
+    private var arrayList : ArrayList<LanguageItem>? = null
+    private var languageAdapter : LanguageAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_show_profile)
@@ -35,32 +42,50 @@ class ShowProfileActivity : AppCompatActivity() {
                 put("username",show_user)
             })
         }
+        gridView = findViewById(R.id.show_user_interests)
 
         val request : JsonObjectRequest = object : JsonObjectRequest(
             Request.Method.POST,
             url1, jsonfile_profile,
             Response.Listener<JSONObject> { response ->
 
-                show_profile_user.text = response.getJSONObject("document").get("username").toString()
+                if (!(response.get("document").equals(null))) {
 
-                show_profile_email.text = response.getJSONObject("document").get("email").toString()
+                    show_profile_user.text =
+                        response.getJSONObject("document").get("username").toString()
 
-                show_user_dept.text = response.getJSONObject("document").get("dept").toString()
-                show_aboutme.text = response.getJSONObject("document").get("aboutme").toString()
-                show_profile_github.text = response.getJSONObject("document").get("github").toString()
-                show_profile_linkedin.text = response.getJSONObject("document").get("linkedin").toString()
-                val areas_of_inter = response.getJSONObject("document").getJSONArray("areas_of_interest")
-                for (i in 0 until areas_of_inter.length()) {
-                    if (i != areas_of_inter.length()-1) {
-                        show_user_interests?.append("${areas_of_inter.get(i).toString()}\n\n")
-                    }
-                    else {
-                        show_user_interests?.append(areas_of_inter.get(i).toString())
-                    }
+                    show_profile_email.text =
+                        response.getJSONObject("document").get("email").toString()
+
+                    show_user_dept.text = response.getJSONObject("document").get("dept").toString()
+                    show_aboutme.text = response.getJSONObject("document").get("aboutme").toString()
+                    show_profile_github.text =
+                        response.getJSONObject("document").get("github").toString()
+                    show_profile_linkedin.text =
+                        response.getJSONObject("document").get("linkedin").toString()
+                    val areas_of_inter =
+                        response.getJSONObject("document").getJSONArray("areas_of_interest")
+
+                    arrayList = ArrayList()
+                    arrayList = setDataList(areas_of_inter)
+
+                    languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
+                    gridView?.adapter = languageAdapter
+                   /* for (i in 0 until areas_of_inter.length()) {
+                        if (i != areas_of_inter.length() - 1) {
+                            show_user_interests?.append("${areas_of_inter.get(i).toString()}\n\n")
+                        } else {
+                            show_user_interests?.append(areas_of_inter.get(i).toString())
+                        }
+                    }*/
+                    show_profile_layout.isVisible = true
+
                 }
-                show_profile_layout.isVisible = true
+                else {
 
-
+                    startActivity(Intent(this,RecommendationActivity::class.java))
+                    Toast.makeText(this,"Profile not found",Toast.LENGTH_LONG).show()
+                }
 
             },
             Response.ErrorListener { error ->
@@ -116,5 +141,14 @@ class ShowProfileActivity : AppCompatActivity() {
         pro_back_btn.setOnClickListener {
             startActivity(Intent(this,RecommendationActivity::class.java))
         }
+    }
+    private fun setDataList(areas_of_inter: JSONArray) : ArrayList<LanguageItem> {
+        var arrayList:ArrayList<LanguageItem> = ArrayList()
+        for (i in 0 until areas_of_inter.length()) {
+            arrayList.add(LanguageItem(areas_of_inter.getString(i)))
+        }
+
+        return arrayList
+
     }
 }

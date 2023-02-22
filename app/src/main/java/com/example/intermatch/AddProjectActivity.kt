@@ -240,6 +240,7 @@ class AddProjectActivity : AppCompatActivity() {
                         url1, jsonfile1,
                         Response.Listener<JSONObject> { response ->
                             fac_email = response.getJSONObject("document").get("email").toString()
+                            Log.d(null,"fac_email = "+ fac_email)
 
                             val url2 =
                                 "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/insertOne"
@@ -255,7 +256,7 @@ class AddProjectActivity : AppCompatActivity() {
                                 put("document", JSONObject().apply {
                                     put("faculty_name", faculty_name)
                                     put("name", project_name)
-                                    put("faculty_email", fac_email)
+                                    put("faculty_email", user_off_email)
                                     put("domains", JSONArray().apply {
                                         for (i in 0..checkedIndex.size - 1) {
                                             put(i, checkedIndex[i])

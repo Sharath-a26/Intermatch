@@ -262,7 +262,8 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                         true
                     }
                 )
-            } else {
+            }
+        else {
                 menuInflater.inflate(R.menu.bottom_menu_faculty, main_view.menu)
 
                 var intent1 = Intent()
@@ -464,6 +465,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
                             .getJSONArray("domains")
                         faculty_email = k.getJSONObject(intent.getIntExtra("text", i))
                             .get("faculty_email").toString()
+
                         prj_name.text = prj
                         dept_name.text = dept
 
@@ -890,6 +892,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          * 1. Takes user to send_email page
          */
         outlook_btn.setOnClickListener {
+            Log.d(null,"Faculty email"+ faculty_email)
             val intent : Intent = Intent(this,SendEmailActivity::class.java)
             intent.putExtra("faculty_email", faculty_email)
             intent.putExtra("project_name",prj_name.text)
@@ -926,7 +929,7 @@ class RecommendationActivity : AppCompatActivity(), AdapterView.OnItemClickListe
          * showing profile if the researcher name is clicked
          */
         researcher_name.setOnClickListener{
-            startActivity(Intent(this,ShowProfileActivity::class.java).putExtra("shown_user",researcher_name.text))
+            startActivity(Intent(this,ShowProfileActivity::class.java).putExtra("shown_user",researcher_name.text.toString()))
         }
     }
 

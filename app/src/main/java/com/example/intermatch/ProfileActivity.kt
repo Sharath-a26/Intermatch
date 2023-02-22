@@ -1,17 +1,21 @@
 package com.example.intermatch
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.GridView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -23,6 +27,8 @@ import kotlinx.android.synthetic.main.activity_register.*
 import org.json.JSONArray
 import org.json.JSONObject
 
+var tag_edit = emptyArray<String>()
+var isclicked_tag = BooleanArray(10000)
 class ProfileActivity : AppCompatActivity() {
     private var gridView : GridView? = null
     private var arrayList : ArrayList<LanguageItem>? = null
@@ -31,6 +37,9 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         supportActionBar?.hide()
+
+        val alertbuilder = AlertDialog.Builder(this)
+        var checkedIndex = ArrayList<String>()
 
         var username = intent.getStringExtra("username")
         val user_type = intent.getStringExtra("usertype")
@@ -41,7 +50,7 @@ class ProfileActivity : AppCompatActivity() {
         profile_github.text = user_github
         profile_linkedin.text = user_linkedin
         user_dept.text = user_department
-        val areas_of_inter = user_interest
+        var areas_of_inter = user_interest
 
         gridView = findViewById(R.id.user_interests)
         arrayList = ArrayList()
@@ -61,7 +70,81 @@ class ProfileActivity : AppCompatActivity() {
 
         val volleyQueue = Volley.newRequestQueue(this)
 
+        val url_tags = "https://data.mongodb-api.com/app/data-hpjly/endpoint/data/v1/action/find"
+        val jsonfile_tags = JSONObject().apply {
+            put("dataSource","Cluster0")
+            put("database","Intermatch")
+            put("collection","Tags")
+            put("filter",JSONObject().apply {
 
+            })
+        }
+
+        val request_tag: JsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.POST,
+            url_tags, jsonfile_tags,
+            Response.Listener<JSONObject> {
+                    response ->
+
+                val temp_array = ArrayList<String>()
+                val temp_array2 = ArrayList<Boolean>()
+                for (i in 0 until response.getJSONArray("documents").length()) {
+                    var temp_tag = response.getJSONArray("documents").getJSONObject(i).get("tag").toString()
+                    temp_array.add(temp_tag)
+                    var temp_arr : ArrayList<String> = ArrayList()
+                    for (k in 0 until areas_of_inter.length()) {
+                        temp_arr.add(areas_of_inter.getString(k))
+                    }
+
+                    if (temp_tag in temp_arr) {
+                        temp_array2.add(true)
+                        checkedIndex.add(temp_tag)
+                    }
+                    else {
+                        temp_array2.add(false)
+                    }
+
+
+
+                }
+                tag_edit = temp_array.toTypedArray()
+                isclicked_tag = temp_array2.toBooleanArray()
+                //Log.d(null,tag_idea[0])
+            },
+            Response.ErrorListener { error ->
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show();
+
+            }
+        ) {
+
+
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers.put("Content-Type", "application/json");
+                headers.put(
+                    "api-key",
+                    "52y3eVGzd6zZUik2FCunXVfxWCX4Olar386TTdangtvH1xP0Sunj52wOJxNFqr2K"
+                );
+                headers.put("Access-Control-Request-Headers","*");
+
+                return headers
+            }
+
+        }
+        val MY_SOCKET_TIMEOUT_MS = 50000;
+        request_tag.setRetryPolicy(
+            DefaultRetryPolicy(
+                MY_SOCKET_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+            )
+        )
+
+
+
+        volleyQueue.add(request_tag);
 
 
 
@@ -70,7 +153,45 @@ class ProfileActivity : AppCompatActivity() {
         /**
          * updating the profile when user clicks the update button
          */
+
+
         update_btn.setOnClickListener {
+
+
+            up_inter.isVisible = true
+
+
+            up_inter.setOnClickListener {
+                if (up_inter.isVisible) {
+                    if (tag_edit.size != 0) {
+                        Log.d(null, "upload_btn clicked")
+                        alertbuilder.setTitle("Select an option")
+                        alertbuilder.setMultiChoiceItems(
+                            tag_edit,
+                            isclicked_tag,
+                            DialogInterface.OnMultiChoiceClickListener { dialog, index, checked ->
+                                if (checked) {
+
+                                    //input.text?.append("\n ${arr.get(index)}")
+                                    checkedIndex.add(tag_edit.get(index))
+                                    isclicked_tag[index] = checked
+                                } else if (checkedIndex.contains(tag_edit.get(index))) {
+
+                                    checkedIndex.remove(tag_edit.get(index))
+                                    isclicked_tag[index] = false
+                                }
+                            })
+                        alertbuilder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, id ->
+
+
+                        })
+                        alertbuilder.create().show()
+                    }
+
+
+                }
+            }
+
 
 
             if (update_btn.text == "update profile") {
@@ -100,6 +221,19 @@ class ProfileActivity : AppCompatActivity() {
              * after editing, if the user clicks save profile
              */
             else {
+                up_inter.isVisible = false
+
+                areas_of_inter = JSONArray(checkedIndex)
+                user_interest = areas_of_inter
+
+                gridView = findViewById(R.id.user_interests)
+                arrayList = ArrayList()
+                arrayList = setDataList(areas_of_inter)
+                languageAdapter = LanguageAdapter(applicationContext, arrayList!!)
+                gridView?.adapter = languageAdapter
+
+
+
 
                 val dialog = ProgressDialog(this)
                 dialog.setMessage("Saving your profile...")
@@ -142,6 +276,11 @@ class ProfileActivity : AppCompatActivity() {
                             put("password",profile_pass.text)
                             put("github",profile_github.text)
                             put("linkedin",profile_linkedin.text)
+                            put("areas_of_interest",JSONArray().apply {
+                                for (i in 0..checkedIndex.size - 1) {
+                                    put(i, checkedIndex[i])
+                                }
+                            })
                         })
                     })
 
